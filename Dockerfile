@@ -1,3 +1,3 @@
 FROM jetty:latest
 
-ADD ./target/Assignment1-1.0-SNAPSHOT.war /var/lib/jetty/webapps/
+ADD ./target/root.war /var/lib/jetty/webapps/
