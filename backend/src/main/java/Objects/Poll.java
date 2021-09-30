@@ -1,10 +1,26 @@
-package objects;
+package Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
 public class Poll {
+
+    public enum POLL_STATUS{
+        CREATED("created"),
+        RUNNING("running"),
+        CLEARED("cleared");
+
+        private final String value;
+
+        POLL_STATUS(String value){
+            this.value = value;
+        }
+
+        public String getValue(){
+            return this.value;
+        }
+    }
 
     @JsonProperty
     private String pollTitle;
@@ -16,7 +32,7 @@ public class Poll {
     private List<String> choicesList;
 
     @JsonProperty
-    private String status;
+    private POLL_STATUS status;
 
     public String getPollTitle() {
         return pollTitle;
@@ -42,11 +58,4 @@ public class Poll {
         this.choicesList = choicesList;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

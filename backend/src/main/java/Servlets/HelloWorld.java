@@ -21,6 +21,6 @@ public class HelloWorld extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            response.getOutputStream().print("Hello World");
+        response.getOutputStream().print("Hello World");
     }
 }
