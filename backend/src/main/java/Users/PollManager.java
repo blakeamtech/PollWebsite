@@ -1,6 +1,5 @@
 package Users;
 
-import Objects.Poll;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.PrintWriter;
@@ -33,7 +32,7 @@ public class PollManager {
             this.choicesList = choices;
             this.pollTitle = name;
             this.questionText = question;
-            this.status = Objects.Poll.POLL_STATUS.CREATED;
+            this.status = POLL_STATUS.CREATED;
         }
 
         @JsonProperty
@@ -46,7 +45,7 @@ public class PollManager {
         private List<String> choicesList;
 
         @JsonProperty
-        private Objects.Poll.POLL_STATUS status;
+        private POLL_STATUS status;
 
         public String getPollTitle() {
             return pollTitle;
