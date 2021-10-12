@@ -74,7 +74,7 @@ public class PollManager {
     }
 
     // key would be unique identifier (sessionId, wtv) and value would be the vote choice
-    private static Map<String, String> submittedVotes = new HashMap<>();
+    private static final Map<String, String> submittedVotes = new HashMap<>();
     private static Poll pollInstance;
 
 

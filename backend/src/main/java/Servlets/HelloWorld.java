@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @WebServlet(
-        urlPatterns = {"/"},
+        urlPatterns = {"/hi"},
         name = "Servlets.HelloWorld",
         loadOnStartup = 1
 )

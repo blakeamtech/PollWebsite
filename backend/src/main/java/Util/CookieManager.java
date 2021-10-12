@@ -1,6 +1,5 @@
 package Util;
 
-import Users.Participant;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,12 +12,13 @@ public class CookieManager {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static class CookieUserObject{
+    public static class Session {
 
         public String sessionId;
         public String choice;
+        public boolean isPollManager;
 
-        public CookieUserObject(){
+        public Session(){
             validateCookieObject(this);
         }
     }
@@ -27,7 +27,7 @@ public class CookieManager {
         return request.getCookies().length > 0;
     }
 
-    private static void validateCookieObject(CookieUserObject readObject){
+    private static void validateCookieObject(Session readObject){
         if(readObject.sessionId.isBlank() || readObject.sessionId == null)
             readObject.sessionId = UUID.randomUUID().toString();
     }
@@ -35,7 +35,7 @@ public class CookieManager {
     public static boolean updateSession(HttpServletRequest request, HttpServletResponse response, String givenChoice) throws JsonProcessingException {
         if(hasSession(request)){
             Cookie cookie = request.getCookies()[0];
-            CookieUserObject readObject = mapper.readValue(cookie.getValue(), CookieUserObject.class);
+            Session readObject = mapper.readValue(cookie.getValue(), Session.class);
             readObject.choice = givenChoice;
             validateCookieObject(readObject);
             cookie.setValue(mapper.writeValueAsString(readObject));
@@ -43,7 +43,7 @@ public class CookieManager {
             return true;
         }
 
-        CookieUserObject cookieUserObject = new CookieUserObject();
+        Session cookieUserObject = new Session();
         cookieUserObject.choice = givenChoice;
         Cookie cookie = new Cookie("user", mapper.writeValueAsString(cookieUserObject));
         response.addCookie(cookie);
