@@ -2,9 +2,7 @@ package Requests;
 
 import Responses.Response;
 
-public class DetailsRequest implements IRequest{
-
-    private DetailsRequest(){};
+public class InvalidRequest implements IRequest{
 
     @Override
     public Response call() {
