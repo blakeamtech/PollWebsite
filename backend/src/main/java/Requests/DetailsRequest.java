@@ -4,7 +4,7 @@ import Responses.Response;
 
 public class DetailsRequest implements IRequest{
 
-    private DetailsRequest(){};
+    DetailsRequest(){};
 
     @Override
     public Response call() {

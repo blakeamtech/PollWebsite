@@ -4,7 +4,7 @@ import Responses.Response;
 
 public class CloseRequest implements IRequest{
 
-    private CloseRequest(){};
+    CloseRequest(){};
 
     @Override
     public Response call() {

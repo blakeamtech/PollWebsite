@@ -4,7 +4,7 @@ import Responses.Response;
 
 public class ClearRequest implements IRequest{
 
-    private ClearRequest(){};
+    ClearRequest(){};
 
     @Override
     public Response call() {

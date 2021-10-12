@@ -10,7 +10,7 @@ public class UpdateRequest implements IRequest{
     private HttpServletRequest request;
     private HttpServletResponse response;
 
-    public UpdateRequest(){};
+    UpdateRequest(){};
 
     public UpdateRequest setHttpRequestObject(HttpServletRequest request){
         this.request = request;
