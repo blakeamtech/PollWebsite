@@ -14,13 +14,41 @@ public class Response {
         this.body = body;
     }
 
-    public Response setStatusCode(int statusCode){
+    public void setStatusCode(int statusCode){
         this.statusCode = statusCode;
+    }
+
+    public void setBody(JSONObject body){
+        this.body = body;
+    }
+
+    public Response body(JSONObject body){
+        this.body = body;
         return this;
     }
 
-    public Response setBody(JSONObject body){
-        this.body = body;
+    public Response ok(){
+        this.statusCode = 200;
+        return this;
+    }
+
+    public Response badRequest(){
+        this.statusCode = 400;
+        return this;
+    }
+
+    public Response unauthorized(){
+        this.statusCode = 401;
+        return this;
+    }
+
+    public Response forbidden(){
+        this.statusCode = 403;
+        return this;
+    }
+
+    public Response notFound(){
+        this.statusCode = 404;
         return this;
     }
 

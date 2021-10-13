@@ -3,7 +3,7 @@ package Requests;
 import javax.servlet.http.HttpServletRequest;
 
 public class RequestFactory {
-    public enum REQUEST_TYPE{
+    public static enum REQUEST_TYPE{
         RESULTS,
         DETAILS,
         VOTE,
@@ -16,37 +16,55 @@ public class RequestFactory {
         RUN
     }
 
-    public static IRequest from(HttpServletRequest request){
-        REQUEST_TYPE requestType =  getRequestTypeFromServletRequest(request);
-
+    public static IRequest valueOfGetRequest(HttpServletRequest request){
+        REQUEST_TYPE requestType = getRequestTypeFromServletRequest(request);
         switch (requestType){
-            case RUN:
-                return new RunRequest();
+            case RESULTS:
+                return new ResultsRequest();
+            case DETAILS:
+                return new DetailsRequest();
+            default:
+                return new InvalidRequest();
+        }
+    }
+
+    public static IRequest valueOfPostRequest(HttpServletRequest request){
+        REQUEST_TYPE requestType = getRequestTypeFromServletRequest(request);
+        switch (requestType) {
             case VOTE:
                 return new VoteRequest();
+            case CREATE:
+                return new CreateRequest();
+            default:
+                return new InvalidRequest();
+        }
+    }
+
+    public static IRequest valueOfPutRequest(HttpServletRequest request){
+        REQUEST_TYPE requestType = getRequestTypeFromServletRequest(request);
+        switch (requestType){
+            case RELEASE:
+                return new ReleaseRequest();
+            case UNRELEASE:
+                return new UnreleaseRequest();
             case CLEAR:
                 return new ClearRequest();
             case CLOSE:
                 return new CloseRequest();
-            case CREATE:
-                return new CreateRequest();
-            case DETAILS:
-                return new DetailsRequest();
             case UPDATE:
                 return new UpdateRequest();
-            case RELEASE:
-                return new ReleaseRequest();
-            case RESULTS:
-                return new ResultsRequest();
-            case UNRELEASE:
-                return new UnreleaseRequest();
+            case RUN:
+                return new RunRequest();
             default:
                 return new InvalidRequest();
         }
-
     }
 
-    private static REQUEST_TYPE getRequestTypeFromServletRequest(HttpServletRequest request){
+    public static IRequest valueOfDeleteRequest(HttpServletRequest request){
+        return new InvalidRequest(400);
+    }
+
+    public static REQUEST_TYPE getRequestTypeFromServletRequest(HttpServletRequest request){
         return REQUEST_TYPE.valueOf(request.getServletPath().replace("/", "").strip().trim().toUpperCase());
     }
 }
