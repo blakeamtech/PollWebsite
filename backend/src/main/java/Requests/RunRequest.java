@@ -1,6 +1,7 @@
 package Requests;
 
 import Responses.Response;
+import Users.PollManager;
 
 public class RunRequest implements IRequest{
 
@@ -8,7 +9,8 @@ public class RunRequest implements IRequest{
 
     @Override
     public Response call() {
-        return null;
+        PollManager.runPoll();
+        return new Response().ok();
     }
 
 }

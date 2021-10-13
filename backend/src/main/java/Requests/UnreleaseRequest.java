@@ -1,6 +1,7 @@
 package Requests;
 
 import Responses.Response;
+import Users.PollManager;
 
 public class UnreleaseRequest implements IRequest{
 
@@ -8,6 +9,7 @@ public class UnreleaseRequest implements IRequest{
 
     @Override
     public Response call() {
-        return null;
+        PollManager.unreleasePoll();
+        return new Response().ok();
     }
 }
