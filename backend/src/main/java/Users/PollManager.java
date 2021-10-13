@@ -115,6 +115,8 @@ public class PollManager {
                 }
         );
 
+        toReturn.put("yomama",232);
+
         return toReturn;
     }
 

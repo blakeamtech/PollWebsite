@@ -8,6 +8,9 @@ public class DetailsRequest implements IRequest{
 
     @Override
     public Response call() {
+        /**
+         * Return details
+         */
         return null;
     }
 }

@@ -9,6 +9,8 @@ public class Response {
     private int statusCode;
     private JSONObject body;
 
+    public Response(){};
+
     public Response(int statusCode, JSONObject body){
         this.statusCode = statusCode;
         this.body = body;

@@ -1,6 +1,10 @@
 package Requests;
 
 import Responses.Response;
+import Users.PollManager;
+import org.json.JSONObject;
+
+import java.util.Hashtable;
 
 public class ResultsRequest implements IRequest{
 
@@ -8,6 +12,11 @@ public class ResultsRequest implements IRequest{
 
     @Override
     public Response call() {
-        return null;
+        Hashtable<String, Integer> results = PollManager.getPollResults();
+        JSONObject object = new JSONObject(results);
+        return new Response()
+                .body(object)
+                .ok();
     }
 }
+

@@ -8,6 +8,9 @@ public class CreateRequest implements IRequest{
 
     @Override
     public Response call() {
+        /**
+         * Create poll
+         */
         return null;
     }
 }

@@ -3,7 +3,7 @@ package Requests;
 import javax.servlet.http.HttpServletRequest;
 
 public class RequestFactory {
-    public static enum REQUEST_TYPE{
+    public enum REQUEST_TYPE{
         RESULTS,
         DETAILS,
         VOTE,
