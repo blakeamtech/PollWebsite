@@ -34,7 +34,7 @@ public class RequestFactory {
             case VOTE:
                 return new VoteRequest();
             case CREATE:
-                return new CreateRequest();
+                return new CreateRequest(request);
             default:
                 return new InvalidRequest();
         }

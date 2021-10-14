@@ -1,5 +1,10 @@
 package Users;
 
+import Exceptions.InvalidPollCreationInput;
+import Exceptions.PollAlreadyInSystemException;
+import Polls.Poll;
+import Requests.CreateRequest;
+import Requests.UpdateRequest;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.PrintWriter;
@@ -10,79 +15,38 @@ import java.util.Map;
 
 public class PollManager {
 
-    private static class Poll{
+    public static enum POLL_STATUS{
+        CREATED("created"),
+        RUNNING("running"),
+        CLEARED("cleared");
 
-        public enum POLL_STATUS{
-            CREATED("created"),
-            RUNNING("running"),
-            CLEARED("cleared");
+        private final String value;
 
-            private final String value;
-
-            POLL_STATUS(String value){
-                this.value = value;
-            }
-
-            public String getValue(){
-                return this.value;
-            }
+        POLL_STATUS(String value){
+            this.value = value;
         }
 
-        public Poll(String name, String question, List<String> choices) {
-            this.choicesList = choices;
-            this.pollTitle = name;
-            this.questionText = question;
-            this.status = POLL_STATUS.CREATED;
+        public String getValue(){
+            return this.value;
         }
-
-        @JsonProperty
-        private String pollTitle;
-
-        @JsonProperty
-        private String questionText;
-
-        @JsonProperty
-        private List<String> choicesList;
-
-        @JsonProperty
-        private POLL_STATUS status;
-
-        public String getPollTitle() {
-            return pollTitle;
-        }
-
-        public void setPollTitle(String pollTitle) {
-            this.pollTitle = pollTitle;
-        }
-
-        public String getQuestionText() {
-            return questionText;
-        }
-
-        public void setQuestionText(String questionText) {
-            this.questionText = questionText;
-        }
-
-        public List<String> getChoicesList() {
-            return choicesList;
-        }
-
-        public void setChoicesList(List<String> choicesList) {
-            this.choicesList = choicesList;
-        }
-
     }
 
     // key would be unique identifier (sessionId, wtv) and value would be the vote choice
     private static final Map<String, String> submittedVotes = new HashMap<>();
     private static Poll pollInstance;
+    private static POLL_STATUS currentStatus;
 
+    public synchronized static void createPoll(CreateRequest givenCreateRequest)
+            throws PollAlreadyInSystemException, InvalidPollCreationInput {
+        if(pollInstance != null){
+            throw new PollAlreadyInSystemException();
+        }
 
-    public synchronized static void createPoll(String name, String question, List<String> choices){
-        pollInstance = new Poll(name, question, choices);
+        pollInstance = givenCreateRequest.getPoll().orElseThrow(InvalidPollCreationInput::new);
+        currentStatus = POLL_STATUS.CREATED;
     }
 
-    public synchronized static void updatePoll(String name, String question, List<String> choices){
+    public synchronized static void updatePoll(UpdateRequest request){
 
     }
 

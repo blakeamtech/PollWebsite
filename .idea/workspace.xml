@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fe3584c3-c396-4e22-8637-f3423370fc6c" name="Changes" comment="" />
+    <list default="true" id="fe3584c3-c396-4e22-8637-f3423370fc6c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/Requests/RequestFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/Requests/RequestFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/Requests/RequestHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/Requests/RequestHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/Requests/ResultsRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/Requests/ResultsRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/Responses/Response.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/Responses/Response.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/Responses/ResponseWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/Responses/ResponseWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/Servlets/PollManagerServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/Servlets/PollManagerServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/Users/PollManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/Users/PollManager.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -54,6 +62,7 @@
       <option name="presentableId" value="Default" />
       <updated>1632881787980</updated>
       <workItem from="1632881789561" duration="4172000" />
+      <workItem from="1634164469910" duration="12000" />
     </task>
     <servers />
   </component>
@@ -70,5 +79,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

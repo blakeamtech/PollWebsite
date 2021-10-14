@@ -11,7 +11,7 @@ public class ResponseWriter {
 
     public static void writeResponse(Future<Response> potentialResponse, HttpServletResponse httpServletResponse) {
         try {
-            httpServletResponse.getOutputStream().println(potentialResponse.get(2, TimeUnit.SECONDS).getBody().orElseGet(()->""));
+            httpServletResponse.getOutputStream().println(potentialResponse.get(5, TimeUnit.SECONDS).getBody().orElseGet(()->""));
         } catch (IOException | InterruptedException | ExecutionException | TimeoutException e) {
             httpServletResponse.setStatus(500);
         }
