@@ -1,3 +1,14 @@
 .App {
   text-align: center;
 }
+
+#poll{
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+}
+
+#nav{
+  margin-left: 300px;
+  text-align: left;
+}

@@ -1,6 +1,16 @@
 import './App.css';
 import axios from 'axios';
 import React, {Component} from "react";
+import Poll from 'react-polls';
+
+// Declaring poll question and answers
+const pollQuestion = 'What grade will we get?'
+const pollAnswers = [
+    { option: 'A', votes: 20 },
+    { option: 'B', votes: 2 },
+    { option: 'C', votes: 3 },
+    { option: 'D', votes: 0 }
+]
 
 /**
  * Class responsible for displaying and handling user poll requests.
@@ -14,6 +24,28 @@ class App extends Component {
         super(props);
         this.handleDownloadPoll = this.handleDownloadPoll.bind(this);
         this.handleViewPoll = this.handleViewPoll.bind(this);
+    }
+
+    /***
+     * PROVIDED BY SITE, NEEDS BIG CHANGES
+     * @type {{pollAnswers}}
+     */
+    // Setting answers to state to reload the component with each vote
+    state = {
+        pollAnswers: [...pollAnswers]
+    }
+
+    // Handling user vote
+    // Increments the votes count of answer when the user votes
+    handleVote = voteAnswer => {
+        const { pollAnswers } = this.state
+        const newPollAnswers = pollAnswers.map(answer => {
+            if (answer.option === voteAnswer) answer.votes++
+            return answer
+        })
+        this.setState({
+            pollAnswers: newPollAnswers
+        })
     }
 
     /***
@@ -64,7 +96,10 @@ class App extends Component {
         return (
             <div className="App">
                 <header>
-                    <a href="pollmanager.xhtml">Go To Poll Manager</a><br/>
+                    <h1 id="name">Name of the Poll!</h1>
+                    <div id="poll">
+                        <Poll question={pollQuestion} answers={pollAnswers} onVote={this.handleVote}/>
+                    </div><br/>
                     <button type="button" onClick={this.handleViewPoll}>View Poll Results</button><br/>
                     <button type="button" onClick={this.handleDownloadPoll}>Download Poll Results</button>
                 </header>
