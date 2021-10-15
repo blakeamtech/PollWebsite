@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import './PollManager.css';
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 /**
  * Class responsible for displaying and handling Poll Manager requests.
@@ -122,13 +123,13 @@ class PollManager extends Component {
         return (
             <div className="Manager">
                 <header>
-                    <button type="button" onClick={this.handleCreate}>Create Poll</button><br/>
-                    <button type="button" onClick={this.handleUpdate}>Update Poll</button><br/>
-                    <button type="button" onClick={this.handleClear}>Clear Poll</button><br/>
-                    <button type="button" onClick={this.handleClose}>Close Poll</button><br/>
-                    <button type="button" onClick={this.handleRun}>Run Poll</button><br/>
-                    <button type="button" onClick={this.handleRelease}>Release Poll</button><br/>
-                    <button type="button" onClick={this.handleUnrelease}>Unrelease Poll</button>
+                    <Link className="button-pollmanager" to="/createpoll">Create Poll</Link>
+                    <Link className="button-pollmanager" to="/createpoll">Update Poll</Link>
+                    <button type="button" className="button-pollmanager" onClick={this.handleClear}>Clear Poll</button><br/>
+                    <button type="button" className="button-pollmanager" onClick={this.handleClose}>Close Poll</button>
+                    <button type="button" className="button-pollmanager" onClick={this.handleRun}>Run Poll</button>
+                    <button type="button" className="button-pollmanager" onClick={this.handleRelease}>Release Poll</button><br/>
+                    <button type="button" className="button-pollmanager" onClick={this.handleUnrelease}>Unrelease Poll</button>
                 </header>
             </div>
         );

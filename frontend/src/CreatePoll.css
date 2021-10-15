@@ -1,8 +1,4 @@
-.Manager {
-    text-align: left;
-}
-                                                       /* CSS */
-.button-pollmanager {
+.button-create{
     background-color: #FFFFFF;
     border: 1px solid #222222;
     border-radius: 8px;
@@ -17,6 +13,5 @@
     margin-bottom: 10px;
     padding: 13px 23px;
     text-align: center;
-    text-decoration: none;
     width: 200px;
 }

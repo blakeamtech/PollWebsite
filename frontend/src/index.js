@@ -7,13 +7,14 @@ import reportWebVitals from './reportWebVitals';
 import history from "./history";
 import {Route, Router, Switch} from "react-router";
 import PollManager from "./PollManager";
+import CreatePoll from "./CreatePoll";
 
 ReactDOM.render(
   <React.StrictMode>
       <Router history={history}>
           <div id="nav">
               <Link to="/">Home</Link><br/>
-              <Link to="/pollmanager">Poll Manager</Link>
+              <Link to="/pollmanager">Poll Manager</Link><br/>
           </div>
           <hr />
           <Switch>
@@ -22,6 +23,9 @@ ReactDOM.render(
               </Route>
               <Route path="/pollmanager">
                   <PollManager />
+              </Route>
+              <Route path="/createpoll">
+                  <CreatePoll />
               </Route>
           </Switch>
       </Router>

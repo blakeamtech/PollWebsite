@@ -9,6 +9,24 @@
 }
 
 #nav{
-  margin-left: 300px;
+  margin-left: 50px;
   text-align: left;
+}
+
+.button-home{
+  background-color: #FFFFFF;
+  border: 1px solid #222222;
+  border-radius: 8px;
+  box-sizing: border-box;
+  color: #222222;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  padding: 13px 23px;
+  text-align: center;
+  width: 200px;
 }

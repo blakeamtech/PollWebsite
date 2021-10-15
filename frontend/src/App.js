@@ -100,8 +100,8 @@ class App extends Component {
                     <div id="poll">
                         <Poll question={pollQuestion} answers={pollAnswers} onVote={this.handleVote}/>
                     </div><br/>
-                    <button type="button" onClick={this.handleViewPoll}>View Poll Results</button><br/>
-                    <button type="button" onClick={this.handleDownloadPoll}>Download Poll Results</button>
+                    <button type="button" className="button-home" onClick={this.handleViewPoll}>View Poll Results</button><br/>
+                    <button type="button" className="button-home" onClick={this.handleDownloadPoll}>Download Poll Results</button>
                 </header>
             </div>
         );
