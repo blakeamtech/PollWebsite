@@ -2,7 +2,7 @@ package Requests;
 
 import Responses.Response;
 
-public class ReleaseRequest implements IRequest{
+public class ReleaseRequest implements Request {
 
     ReleaseRequest(){};
 

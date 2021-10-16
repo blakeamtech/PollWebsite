@@ -2,7 +2,7 @@ package Requests;
 
 import Responses.Response;
 
-public class CloseRequest implements IRequest{
+public class CloseRequest implements Request {
 
     CloseRequest(){};
 

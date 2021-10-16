@@ -1,6 +1,6 @@
 package Util;
 
-import Requests.IRequest;
+import Requests.Request;
 import Responses.Response;
 
 import java.util.concurrent.Executors;
@@ -17,7 +17,7 @@ public class RequestExecutor {
 
     private static final ThreadPoolExecutor requestExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
 
-    public static Future<Response> executeRequest(IRequest request){
+    public static Future<Response> executeRequest(Request request){
         return requestExecutor.submit(request);
     }
 

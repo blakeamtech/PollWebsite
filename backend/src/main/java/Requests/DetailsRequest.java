@@ -2,7 +2,7 @@ package Requests;
 
 import Responses.Response;
 
-public class DetailsRequest implements IRequest{
+public class DetailsRequest implements Request {
 
     DetailsRequest(){};
 

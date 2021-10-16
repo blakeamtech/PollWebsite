@@ -2,7 +2,7 @@ package Requests;
 
 import Responses.Response;
 
-public class VoteRequest implements IRequest{
+public class VoteRequest implements Request {
 
     VoteRequest(){};
 

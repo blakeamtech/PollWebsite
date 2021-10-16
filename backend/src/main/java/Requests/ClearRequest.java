@@ -2,9 +2,20 @@ package Requests;
 
 import Responses.Response;
 
-public class ClearRequest implements IRequest{
+import javax.servlet.http.HttpSession;
 
-    ClearRequest(){};
+public class ClearRequest extends PollManagerRequest implements Request {
+    
+    ClearRequest(HttpSession session){
+        super(session);
+   }
+
+    @Override
+    public HttpSession getHttpSession() {
+        return null;
+    }
+
+    ;
 
     @Override
     public Response call() {

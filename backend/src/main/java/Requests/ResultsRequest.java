@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 import java.util.Hashtable;
 
-public class ResultsRequest implements IRequest{
+public class ResultsRequest implements Request {
 
     ResultsRequest(){};
 

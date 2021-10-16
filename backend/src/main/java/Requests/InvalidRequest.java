@@ -2,7 +2,7 @@ package Requests;
 
 import Responses.Response;
 
-public class InvalidRequest implements IRequest{
+public class InvalidRequest implements Request {
 
     private int statusCode;
 

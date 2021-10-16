@@ -5,7 +5,7 @@ import Responses.Response;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class UpdateRequest implements IRequest{
+public class UpdateRequest implements Request {
 
     private HttpServletRequest request;
     private HttpServletResponse response;

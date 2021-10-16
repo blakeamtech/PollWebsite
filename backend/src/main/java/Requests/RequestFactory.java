@@ -16,7 +16,7 @@ public class RequestFactory {
         RUN
     }
 
-    public static IRequest valueOfGetRequest(HttpServletRequest request){
+    public static Request valueOfGetRequest(HttpServletRequest request){
         REQUEST_TYPE requestType = getRequestTypeFromServletRequest(request);
         switch (requestType){
             case RESULTS:
@@ -28,7 +28,7 @@ public class RequestFactory {
         }
     }
 
-    public static IRequest valueOfPostRequest(HttpServletRequest request){
+    public static Request valueOfPostRequest(HttpServletRequest request){
         REQUEST_TYPE requestType = getRequestTypeFromServletRequest(request);
         switch (requestType) {
             case VOTE:
@@ -40,7 +40,7 @@ public class RequestFactory {
         }
     }
 
-    public static IRequest valueOfPutRequest(HttpServletRequest request){
+    public static Request valueOfPutRequest(HttpServletRequest request){
         REQUEST_TYPE requestType = getRequestTypeFromServletRequest(request);
         switch (requestType){
             case RELEASE:
@@ -48,7 +48,7 @@ public class RequestFactory {
             case UNRELEASE:
                 return new UnreleaseRequest();
             case CLEAR:
-                return new ClearRequest();
+                return new ClearRequest(request.getSession());
             case CLOSE:
                 return new CloseRequest();
             case UPDATE:
@@ -60,7 +60,7 @@ public class RequestFactory {
         }
     }
 
-    public static IRequest valueOfDeleteRequest(HttpServletRequest request){
+    public static Request valueOfDeleteRequest(HttpServletRequest request){
         return new InvalidRequest(400);
     }
 

@@ -13,21 +13,21 @@ public class RequestHandler {
     private RequestHandler(){};
 
     public static void handleGet(HttpServletRequest request, HttpServletResponse response){
-        IRequest requestToProcess = RequestFactory.valueOfGetRequest(request);
+        Request requestToProcess = RequestFactory.valueOfGetRequest(request);
         writeResponse(response, requestToProcess);
     }
 
     public static void handlePost(HttpServletRequest request, HttpServletResponse response){
-        IRequest requestToProcess = RequestFactory.valueOfPostRequest(request);
+        Request requestToProcess = RequestFactory.valueOfPostRequest(request);
         writeResponse(response, requestToProcess);
     }
 
     public static void handlePut(HttpServletRequest request, HttpServletResponse response){
-        IRequest requestToProcess = RequestFactory.valueOfPutRequest(request);
+        Request requestToProcess = RequestFactory.valueOfPutRequest(request);
         writeResponse(response, requestToProcess);
     }
 
-    private synchronized static void writeResponse(HttpServletResponse response, IRequest requestToProcess){
+    private synchronized static void writeResponse(HttpServletResponse response, Request requestToProcess){
         Future<Response> potentialResponse = RequestExecutor.executeRequest(requestToProcess);
         ResponseWriter.writeResponse(potentialResponse, response);
     }

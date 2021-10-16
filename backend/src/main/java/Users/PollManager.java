@@ -1,17 +1,23 @@
 package Users;
 
+import Exceptions.AssignmentException;
+import Exceptions.InvalidPermissionException;
 import Exceptions.InvalidPollCreationInput;
 import Exceptions.PollAlreadyInSystemException;
 import Polls.Poll;
 import Requests.CreateRequest;
 import Requests.UpdateRequest;
+import Util.SessionManager;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.jdi.request.EventRequestManager;
 
+import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PollManager {
 
@@ -37,7 +43,14 @@ public class PollManager {
     private static POLL_STATUS currentStatus;
 
     public synchronized static void createPoll(CreateRequest givenCreateRequest)
-            throws PollAlreadyInSystemException, InvalidPollCreationInput {
+            throws AssignmentException {
+
+        // if the session doesn't belong to a poll manager, we can't create a poll
+        if(!SessionManager.isPollManager(session)){
+            throw new InvalidPermissionException();
+        }
+
+        // if there exists a poll, can't create a new one
         if(pollInstance != null){
             throw new PollAlreadyInSystemException();
         }
@@ -60,13 +73,9 @@ public class PollManager {
 
     public synchronized static void unreleasePoll(){}
 
-    /**
-     * Participant submits vote. Should check if participant already voted, in that case update their choice
-     * @param participant
-     * @param choice
-     */
-    public synchronized static void vote(Participant participant, String choice){
-        submittedVotes.put(participant.getSessionId(), choice);
+    public synchronized static void vote(HttpSession httpSession, String choice){
+        submittedVotes.put(httpSession.getId(), choice);
+        SessionManager.vote(httpSession, choice);
     }
 
     public synchronized static Hashtable<String, Integer> getPollResults(){

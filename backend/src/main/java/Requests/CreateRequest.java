@@ -3,15 +3,12 @@ package Requests;
 import Polls.Poll;
 import Responses.Response;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationConfig;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.io.StringReader;
-import java.util.List;
 import java.util.Optional;
 
-public class CreateRequest implements IRequest{
+public class CreateRequest implements Request {
 
     private static final ObjectMapper mapper = new ObjectMapper();
     private Poll poll;

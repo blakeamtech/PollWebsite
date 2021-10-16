@@ -3,7 +3,7 @@ package Requests;
 import Responses.Response;
 import Users.PollManager;
 
-public class UnreleaseRequest implements IRequest{
+public class UnreleaseRequest implements Request {
 
     UnreleaseRequest(){};
 

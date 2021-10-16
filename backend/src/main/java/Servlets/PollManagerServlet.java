@@ -7,7 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Optional;
 
 @WebServlet(
         urlPatterns = {
@@ -26,7 +28,15 @@ import java.io.IOException;
 public class PollManagerServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        HttpSession session = req.getSession();
+        try{
+            Object obj = session.getAttribute("test");
+            resp.getOutputStream().println(obj.toString());
+        }catch (NullPointerException e){
+            session.setAttribute("test", "got it");
+        }
+        resp.getOutputStream().println(session.hashCode());
         RequestHandler.handleGet(req, resp);
     }
 

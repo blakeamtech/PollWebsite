@@ -3,7 +3,7 @@ package Requests;
 import Responses.Response;
 import Users.PollManager;
 
-public class RunRequest implements IRequest{
+public class RunRequest implements Request {
 
     RunRequest(){};
 
