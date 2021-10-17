@@ -9,6 +9,7 @@ import {Route, Router, Switch} from "react-router";
 import PollManager from "./PollManager";
 import CreatePoll from "./CreatePoll";
 import ManagerLogin from "./ManagerLogin";
+import ViewPollResults from "./ViewPollResults";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -30,6 +31,9 @@ ReactDOM.render(
               </Route>
               <Route path="/createpoll">
                   <CreatePoll />
+              </Route>
+              <Route path="/viewpollresults">
+                  <ViewPollResults />
               </Route>
           </Switch>
       </Router>
