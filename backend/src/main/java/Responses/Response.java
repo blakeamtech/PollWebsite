@@ -24,12 +24,17 @@ public class Response {
         return this;
     }
 
-    public void setBody(JSONObject body){
+    public void setBody(Object body){
         this.body = body.toString();
     }
 
     public Response body(JSONObject body){
         this.body = body.toString();
+        return this;
+    }
+
+    public Response body(String givenString){
+        this.body = new JSONObject().put("body", givenString).toString();
         return this;
     }
 

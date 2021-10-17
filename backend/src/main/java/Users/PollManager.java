@@ -1,9 +1,12 @@
 package Users;
 
 import Exceptions.AssignmentException;
+import Exceptions.InvalidPollStateException;
 import Exceptions.PollAlreadyInSystemException;
+import Exceptions.PollIsNotReleasedException;
 import Polls.Poll;
 import Util.SessionManager;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
@@ -14,9 +17,10 @@ import java.util.Map;
 
 public class PollManager {
 
-   public static enum POLL_STATUS{
+    public static enum POLL_STATUS{
         CREATED("created"),
         RUNNING("running"),
+        RELEASED("released"),
         CLEARED("cleared");
 
         private final String value;
@@ -33,6 +37,7 @@ public class PollManager {
     // key would be unique identifier (sessionId, wtv) and value would be the vote choice
     private static final Map<String, String> submittedVotes = new HashMap<>();
     private static Poll pollInstance;
+    private static long pollReleasedTimestamp;
     private static POLL_STATUS currentStatus;
 
     public synchronized static void createPoll(String name, String question, List<String> choices)
@@ -47,29 +52,30 @@ public class PollManager {
         currentStatus = POLL_STATUS.CREATED;
     }
 
-    public synchronized static boolean updatePoll(){
+    public synchronized static void updatePoll(){
 
-        return false;
     }
 
-    public synchronized static boolean clearPoll(){
+    public synchronized static void clearPoll(){
 
-        return false;
     }
 
-    public synchronized static boolean closePoll(){
+    public synchronized static void closePoll(){
 
-        return false;
     }
 
-    public synchronized static boolean runPoll(){
+    public synchronized static void runPoll(){
 
-        return false;
     }
 
-    public synchronized static boolean releasePoll(){
+    public synchronized static void releasePoll() throws InvalidPollStateException {
+        pollReleasedTimestamp = System.nanoTime();
 
-        return false;
+        if(pollInstance == null || currentStatus != POLL_STATUS.RUNNING){
+            throw new InvalidPollStateException(currentStatus.value, "release");
+        }
+
+
     }
 
     public synchronized static boolean unreleasePoll(){
@@ -98,16 +104,26 @@ public class PollManager {
         return toReturn;
     }
 
-    public synchronized static void downloadPollDetails(PrintWriter output, String fileName){
+    public synchronized static void downloadPollDetails(PrintWriter output, String fileName) throws PollIsNotReleasedException {
+        if(currentStatus == POLL_STATUS.RELEASED){
+            output.println(new JSONObject(getPollResults()));
+        }
 
+        throw new PollIsNotReleasedException();
     }
 
+    public static String getPollTitle(){
+        return pollInstance.getPollTitle();
+    }
 
 
     public synchronized static boolean validateChoice(String choice) {
         return pollInstance.getChoicesList().contains(choice);
     }
 
+    public static long getPollReleasedTimestamp(){
+        return pollReleasedTimestamp;
+    }
 
 
 }

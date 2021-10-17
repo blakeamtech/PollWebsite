@@ -22,7 +22,7 @@ public class RequestFactory {
             case RESULTS:
                 return new ResultsRequest();
             case DETAILS:
-                return new DetailsRequest();
+                return new DetailsRequest(request);
             default:
                 return new InvalidRequest();
         }
@@ -33,6 +33,8 @@ public class RequestFactory {
         switch (requestType) {
             case VOTE:
                 return new VoteRequest(request);
+            case DETAILS:
+                return new DetailsRequest(request);
             case CREATE:
                 return new CreateRequest(request);
             default:
