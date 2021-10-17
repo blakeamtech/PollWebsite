@@ -3,7 +3,6 @@ package Requests;
 import Responses.Response;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 public class CloseRequest extends AbstractRequest implements Request {
 
