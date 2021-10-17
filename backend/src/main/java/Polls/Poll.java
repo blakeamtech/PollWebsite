@@ -12,13 +12,13 @@ public class Poll{
         this.questionText = question;
     }
 
-    @JsonProperty
+    @JsonProperty("name")
     private String pollTitle;
 
-    @JsonProperty
+    @JsonProperty("question")
     private String questionText;
 
-    @JsonProperty
+    @JsonProperty("choices")
     private List<String> choicesList;
 
     public String getPollTitle() {
