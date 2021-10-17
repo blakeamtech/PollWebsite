@@ -28,14 +28,6 @@ public class PollManagerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        HttpSession session = req.getSession();
-        try{
-            Object obj = session.getAttribute("test");
-            resp.getOutputStream().println(obj.toString());
-        }catch (NullPointerException e){
-            session.setAttribute("test", "got it");
-        }
-        resp.getOutputStream().println(session.hashCode());
         RequestHandler.handleGet(req, resp);
     }
 
