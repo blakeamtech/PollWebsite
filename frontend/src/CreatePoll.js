@@ -9,9 +9,6 @@ import { useLocation } from 'react-router-dom'
  * Functional component responsible for displaying and handling Poll Manager requests.
  */
 const CreatePoll = () => {
-    const location = useLocation()
-    const create = location.state
-    
     const [newQty, setNewQty] = useState(3);
 
     // Updates quantity of choices for the poll to be created.
@@ -28,13 +25,7 @@ const CreatePoll = () => {
      * Function responsible for making a request to create a new poll.
      */
     const handleCreate = (obj) => {
-        let axiosConfig = {
-            headers: {
-                'Content-Type': 'application/json;charset=UTF-8',
-                "Access-Control-Allow-Origin": "*",
-            }
-          };
-            axios.post('http://localhost:8080/create', obj, axiosConfig)
+            axios.post('http://localhost:8080/create', obj)
                 .then(function (response) {
                     console.log(response);
                 })
@@ -45,7 +36,6 @@ const CreatePoll = () => {
 
     const createPoll = (e) => {
         e.preventDefault();
-        console.log(create);
         let elements = e.target.elements;
         let obj = {};
         obj["choices"] = [];
