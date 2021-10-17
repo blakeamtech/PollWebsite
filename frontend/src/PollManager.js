@@ -13,7 +13,6 @@ class PollManager extends Component {
      */
     constructor(props) {
         super(props);
-        this.handleCreate = this.handleCreate.bind(this);
         this.handleUpdate = this.handleUpdate.bind(this);
         this.handleClear = this.handleClear.bind(this);
         this.handleClose = this.handleClose.bind(this);

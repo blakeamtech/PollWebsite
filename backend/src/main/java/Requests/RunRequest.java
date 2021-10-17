@@ -1,5 +1,6 @@
 package Requests;
 
+import Exceptions.InvalidPollStateException;
 import Responses.Response;
 import Users.PollManager;
 
@@ -13,8 +14,12 @@ public class RunRequest extends AbstractRequest implements Request {
 
     @Override
     public Response call() {
-        PollManager.runPoll();
-        return new Response().badRequest();
+        try {
+            PollManager.runPoll();
+            return new Response().ok();
+        } catch (InvalidPollStateException e) {
+            return new Response().badRequest();
+        }
     }
 
 }

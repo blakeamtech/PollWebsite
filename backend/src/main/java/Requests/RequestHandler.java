@@ -31,5 +31,7 @@ public class RequestHandler {
         Future<Response> potentialResponse = RequestExecutor.executeRequest(requestToProcess);
         ResponseWriter.writeResponse(potentialResponse, response);
         response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Methods", "*");
+        response.addHeader("Access-Control-Allow-Headers", "*");
     }
 }

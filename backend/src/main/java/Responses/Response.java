@@ -9,7 +9,7 @@ import java.util.Optional;
 public class Response {
 
     private int statusCode;
-    private String body;
+    private String body = "";
     private final Map<String, String> headers = new HashMap<>();
 
     public Response(){};
@@ -68,8 +68,9 @@ public class Response {
         return this;
     }
 
-    public void addHeader(String header, String headerValue){
+    public Response addHeader(String header, String headerValue){
         this.headers.put(header, headerValue);
+        return this;
     }
 
     public Map<String, String> getHeaders(){

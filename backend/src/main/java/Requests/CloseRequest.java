@@ -1,6 +1,8 @@
 package Requests;
 
+import Exceptions.InvalidPollStateException;
 import Responses.Response;
+import Users.PollManager;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +14,17 @@ public class CloseRequest extends AbstractRequest implements Request {
 
     @Override
     public Response call() {
-        return null;
+
+        try {
+
+            PollManager.closePoll();
+
+            return new Response().ok();
+
+        } catch (InvalidPollStateException e) {
+
+            return new Response().serverError();
+        }
+
     }
 }
