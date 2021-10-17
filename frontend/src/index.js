@@ -8,18 +8,22 @@ import history from "./history";
 import {Route, Router, Switch} from "react-router";
 import PollManager from "./PollManager";
 import CreatePoll from "./CreatePoll";
+import ManagerLogin from "./ManagerLogin";
 
 ReactDOM.render(
   <React.StrictMode>
       <Router history={history}>
           <div id="nav">
               <Link to="/">Home</Link><br/>
-              <Link to="/pollmanager">Poll Manager</Link><br/>
+              <Link to="/pollmanagerlogin">Poll Manager</Link><br/>
           </div>
           <hr />
           <Switch>
             <Route exact path="/">
                   <App />
+              </Route>
+              <Route path="/pollmanagerlogin">
+                  <ManagerLogin />
               </Route>
               <Route path="/pollmanager">
                   <PollManager />
