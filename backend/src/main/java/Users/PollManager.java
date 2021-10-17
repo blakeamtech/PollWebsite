@@ -19,6 +19,7 @@ public class PollManager {
         RUNNING("running"),
         RELEASED("released"),
         CLOSED("closed"),
+        NONE("none"),
         CLEARED("cleared");
 
         private final String value;
@@ -36,7 +37,7 @@ public class PollManager {
     private static final Map<String, String> submittedVotes = new HashMap<>();
     private static Poll pollInstance;
     private static long pollReleasedTimestamp;
-    private static POLL_STATUS currentStatus;
+    private static POLL_STATUS currentStatus = POLL_STATUS.NONE;
 
     public synchronized static void createPoll(String name, String question, List<String> choices)
             throws AssignmentException {
@@ -52,19 +53,15 @@ public class PollManager {
 
     public synchronized static void updatePoll(String name, String question, List<String> choices) throws InvalidPollStateException {
         // can only update a poll if it's already running
-        if(pollInstance == null || (currentStatus != POLL_STATUS.RUNNING && currentStatus != POLL_STATUS.CREATED))
+        if(pollInstance == null || (currentStatus != POLL_STATUS.CREATED && currentStatus != POLL_STATUS.RUNNING))
             throw new InvalidPollStateException(currentStatus.value, "update");
 
         pollInstance = new Poll(name, question, choices);
-        clearChoices();
         currentStatus = POLL_STATUS.CREATED;
+        clearChoices();
+
     }
 
-    private static void clearChoices() {
-        synchronized (submittedVotes){
-            submittedVotes.clear();
-        }
-    }
 
     public synchronized static void clearPoll() throws InvalidPollStateException {
         if(pollInstance == null)
@@ -81,8 +78,11 @@ public class PollManager {
         currentStatus = POLL_STATUS.CLOSED;
     }
 
-    public synchronized static void runPoll(){
+    public synchronized static void runPoll() throws InvalidPollStateException {
+        if(pollInstance == null || currentStatus != POLL_STATUS.CREATED)
+            throw new InvalidPollStateException(currentStatus.value, "run");
 
+        currentStatus = POLL_STATUS.RUNNING;
     }
 
     public synchronized static void releasePoll() throws InvalidPollStateException {
@@ -146,6 +146,12 @@ public class PollManager {
 
     public static long getPollReleasedTimestamp(){
         return pollReleasedTimestamp;
+    }
+
+    private static void clearChoices() {
+        synchronized (submittedVotes){
+            submittedVotes.clear();
+        }
     }
 
 
