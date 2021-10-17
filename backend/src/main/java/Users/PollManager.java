@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +60,7 @@ public class PollManager {
         pollInstance = new Poll(name, question, choices);
         currentStatus = POLL_STATUS.CREATED;
         clearChoices();
+        addChoices(choices);
     }
 
 
@@ -110,17 +110,17 @@ public class PollManager {
 
         if(submittedVotes.containsKey(httpSession.getId()))
             changeVote(httpSession ,choice);
-        
+
         submittedVotes.put(httpSession.getId(), choice);
         SessionManager.vote(httpSession, choice);
 
     }
 
-    public static Hashtable<String, Integer> getPollResults(){
-        Hashtable<String, Integer> toReturn = new Hashtable<>();
+    public static Map<String, Integer> getPollResults(){
+        Map<String, Integer> toReturn = new HashMap<>();
 
         synchronized (voteCount){
-            voteCount.keySet().stream().sequential().forEach(
+            pollInstance.getChoicesList().stream().sequential().forEach(
                     item->{
                         toReturn.put(item, voteCount.get(item));
                     }
