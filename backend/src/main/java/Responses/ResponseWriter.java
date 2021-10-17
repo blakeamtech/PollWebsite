@@ -11,11 +11,20 @@ public class ResponseWriter {
 
     public static void writeResponse(Future<Response> potentialResponse, HttpServletResponse httpServletResponse) {
         try {
-            httpServletResponse.getOutputStream().println(potentialResponse.get(5, TimeUnit.SECONDS).getBody().orElseGet(()->""));
+            Response res = potentialResponse.get(5, TimeUnit.SECONDS);
+            httpServletResponse.getOutputStream().println(res.getBody().orElseGet(()->""));
+            addHeaders(res, httpServletResponse);
         } catch (IOException | InterruptedException | ExecutionException | TimeoutException e) {
             httpServletResponse.setStatus(500);
         }
     }
 
+    public static void addHeaders(Response response, HttpServletResponse httpServletResponse){
+        response.getHeaders().keySet().forEach(
+                key ->{
+                    httpServletResponse.addHeader(key, response.getHeaders().get(key));
+                }
+        );
+    }
 
 }
