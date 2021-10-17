@@ -22,20 +22,6 @@ class PollManager extends Component {
         this.handleUnrelease = this.handleUnrelease.bind(this);
     }
 
-    /***
-     * Function responsible for making a request to create a new poll.
-     */
-    handleCreate() {
-        var getData = null; //Need to implement
-        axios.post('http://localhost:8080/create', getData)
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
     /**
      * Function responsible for sending a request to update a poll.
      */
