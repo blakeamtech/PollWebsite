@@ -2,11 +2,15 @@ import React, {Component, useState} from "react";
 import './CreatePoll.css';
 import axios from "axios";
 import {Link} from "react-router-dom";
+import PollManager from "./PollManager.js";
+import { useLocation } from 'react-router-dom'
 
 /**
  * Functional component responsible for displaying and handling Poll Manager requests.
  */
 const CreatePoll = () => {
+    const location = useLocation()
+    const create = location.state
     
     const [newQty, setNewQty] = useState(3);
 
@@ -18,7 +22,45 @@ const CreatePoll = () => {
             qty = 3     
         }
         setNewQty(parseInt(qty));
-        console.log(newQty);
+    }
+
+    /***
+     * Function responsible for making a request to create a new poll.
+     */
+    const handleCreate = (obj) => {
+        let axiosConfig = {
+            headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+                "Access-Control-Allow-Origin": "*",
+            }
+          };
+            axios.post('http://localhost:8080/create', obj, axiosConfig)
+                .then(function (response) {
+                    console.log(response);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+    const createPoll = (e) => {
+        e.preventDefault();
+        console.log(create);
+        let elements = e.target.elements;
+        let obj = {};
+        obj["choices"] = [];
+
+        for(var i = 0 ; i < elements.length ; i++){
+            var item = elements.item(i);
+            if (item.name === "choice" && item.value) {
+                obj["choices"].push(item.value)
+            }
+            else if (item.name === "name" || item.name === "question") {
+                obj[item.name] = item.value;
+            }
+        }
+        handleCreate(obj);
+        console.log(obj);
     }
 
     /***
@@ -34,15 +76,15 @@ const CreatePoll = () => {
             </form>
             <br/>
 
-            <form method="post" action="http://localhost:8080/create">
+            <form onSubmit={createPoll}>
                 <label htmlFor="name">Name of the Poll:</label><br/>
                 <input type="text" id="name" name="name"/><br/><br/>
                 <label htmlFor="question">Poll Question:</label><br/>
                 <input type="text" id="question" name="question"/><br/><br/>
                 {
                     [...Array(newQty)].map((e, i) => 
-                            <label htmlFor="choice1">Choice {i+1}:<br/>
-                            <input type="text" id={"choice" + (i+1)} name={"choice" + (i+1)}/><br/><br/>
+                            <label key={i} htmlFor="choice1">Choice {i+1}:<br/>
+                            <input type="text" id={"choice" + (i+1)} name="choice"/><br/><br/>
                             </label>
                     )
                 }
