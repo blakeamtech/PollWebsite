@@ -13,9 +13,7 @@ public class RunRequest extends AbstractRequest implements Request {
 
     @Override
     public Response call() {
-        if(PollManager.runPoll()){
-            return new Response().ok();
-        }
+        PollManager.runPoll();
         return new Response().badRequest();
     }
 

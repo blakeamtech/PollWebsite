@@ -30,5 +30,6 @@ public class RequestHandler {
     private synchronized static void writeResponse(HttpServletResponse response, Request requestToProcess){
         Future<Response> potentialResponse = RequestExecutor.executeRequest(requestToProcess);
         ResponseWriter.writeResponse(potentialResponse, response);
+        response.addHeader("Access-Control-Allow-Origin", "*");
     }
 }
