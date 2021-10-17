@@ -77,7 +77,7 @@ public class Response {
     }
 
     public Optional<String> getBody(){
-        return Optional.of(this.body.toString());
+        return Optional.of(this.body);
     }
 
     public Optional<Integer> getStatusCode(){
