@@ -35,6 +35,7 @@ public class PollManager {
 
     // key would be unique identifier (sessionId, wtv) and value would be the vote choice
     private static final Map<String, String> submittedVotes = new HashMap<>();
+    private static final Map<String, Integer> voteCount = new HashMap<>();
     private static Poll pollInstance;
     private static long pollReleasedTimestamp;
     private static POLL_STATUS currentStatus = POLL_STATUS.NONE;
@@ -49,6 +50,7 @@ public class PollManager {
 
         pollInstance = new Poll(name, question, choices);
         currentStatus = POLL_STATUS.CREATED;
+        addChoices(choices);
     }
 
     public synchronized static void updatePoll(String name, String question, List<String> choices) throws InvalidPollStateException {
@@ -59,7 +61,6 @@ public class PollManager {
         pollInstance = new Poll(name, question, choices);
         currentStatus = POLL_STATUS.CREATED;
         clearChoices();
-
     }
 
 
@@ -108,6 +109,7 @@ public class PollManager {
             throw new InvalidChoiceException();
 
         submittedVotes.put(httpSession.getId(), choice);
+        voteCount.put(choice, (voteCount.get(choice)+1));
         SessionManager.vote(httpSession, choice);
     }
 
@@ -148,10 +150,18 @@ public class PollManager {
         return pollReleasedTimestamp;
     }
 
-    private static void clearChoices() {
-        synchronized (submittedVotes){
-            submittedVotes.clear();
+    private synchronized static void clearChoices() {
+        submittedVotes.clear();
+        voteCount.clear();
+    }
+
+    private static void addChoices(List<String> choices) {
+        synchronized (voteCount){
+            choices.forEach(item ->{
+                voteCount.put(item, 0);
+            });
         }
+
     }
 
 

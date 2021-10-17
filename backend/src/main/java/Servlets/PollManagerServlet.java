@@ -31,8 +31,8 @@ public class PollManagerServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
-        RequestHandler.handlePost(req, resp);
+    protected void doPost(HttpServletRequest req, HttpServletResponse response) {
+        RequestHandler.handlePost(req, response);
     }
 
     @Override
@@ -43,5 +43,12 @@ public class PollManagerServlet extends HttpServlet {
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doDelete(req, resp);
+    }
+
+    @Override
+    protected void doOptions(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Methods", "*");
+        response.addHeader("Access-Control-Allow-Headers", "*");
     }
 }
