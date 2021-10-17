@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import javax.servlet.http.HttpSession;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +60,7 @@ public class PollManager {
         pollInstance = new Poll(name, question, choices);
         currentStatus = POLL_STATUS.CREATED;
         clearChoices();
+        addChoices(choices);
     }
 
 
@@ -108,19 +108,21 @@ public class PollManager {
         if(choice.isBlank() || choice.isEmpty() || !PollManager.validateChoice(choice))
             throw new InvalidChoiceException();
 
+        if(submittedVotes.containsKey(httpSession.getId()))
+            changeVote(httpSession ,choice);
+
         submittedVotes.put(httpSession.getId(), choice);
-        voteCount.put(choice, (voteCount.get(choice)+1));
         SessionManager.vote(httpSession, choice);
+
     }
 
-    public static Hashtable<String, Integer> getPollResults(){
-        Hashtable<String, Integer> toReturn = new Hashtable<>();
+    public static Map<String, Integer> getPollResults(){
+        Map<String, Integer> toReturn = new HashMap<>();
 
-        synchronized (submittedVotes){
-            submittedVotes.values().stream().sequential().forEach(
+        synchronized (voteCount){
+            pollInstance.getChoicesList().stream().sequential().forEach(
                     item->{
-                        int val = (toReturn.contains(item)) ? toReturn.get(item) : 0;
-                        toReturn.put(item, val+1);
+                        toReturn.put(item, voteCount.get(item));
                     }
             );
 
@@ -153,6 +155,13 @@ public class PollManager {
     private synchronized static void clearChoices() {
         submittedVotes.clear();
         voteCount.clear();
+    }
+
+
+    private static void changeVote(HttpSession httpSession, String choice) {
+        String oldChoice = httpSession.getAttribute("choice").toString();
+        voteCount.put(oldChoice, voteCount.get(oldChoice)-1);
+        voteCount.put(choice, voteCount.get(choice) + 1);
     }
 
     private static void addChoices(List<String> choices) {

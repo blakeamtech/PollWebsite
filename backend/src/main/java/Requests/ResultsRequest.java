@@ -4,7 +4,7 @@ import Responses.Response;
 import Users.PollManager;
 import org.json.JSONObject;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 
 /**
@@ -16,7 +16,7 @@ public class ResultsRequest implements Request {
 
     @Override
     public Response call() {
-        Hashtable<String, Integer> results = PollManager.getPollResults();
+        Map<String, Integer> results = PollManager.getPollResults();
 
         JSONObject object = new JSONObject(results);
         return new Response()
