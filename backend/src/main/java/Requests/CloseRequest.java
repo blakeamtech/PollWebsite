@@ -2,9 +2,14 @@ package Requests;
 
 import Responses.Response;
 
-public class CloseRequest implements Request {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
-    CloseRequest(){};
+public class CloseRequest extends AbstractRequest implements Request {
+
+    CloseRequest(HttpServletRequest request){
+        super(request);
+    };
 
     @Override
     public Response call() {

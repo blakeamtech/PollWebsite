@@ -15,6 +15,7 @@ public class InvalidRequest implements Request {
 
     @Override
     public Response call() {
-        return null;
+        return new Response()
+                .setStatusCode(this.statusCode);
     }
 }

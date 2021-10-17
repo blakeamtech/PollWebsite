@@ -32,7 +32,7 @@ public class RequestFactory {
         REQUEST_TYPE requestType = getRequestTypeFromServletRequest(request);
         switch (requestType) {
             case VOTE:
-                return new VoteRequest();
+                return new VoteRequest(request);
             case CREATE:
                 return new CreateRequest(request);
             default:
@@ -48,13 +48,13 @@ public class RequestFactory {
             case UNRELEASE:
                 return new UnreleaseRequest();
             case CLEAR:
-                return new ClearRequest(request.getSession());
+                return new ClearRequest(request);
             case CLOSE:
-                return new CloseRequest();
+                return new CloseRequest(request);
             case UPDATE:
                 return new UpdateRequest();
             case RUN:
-                return new RunRequest();
+                return new RunRequest(request);
             default:
                 return new InvalidRequest();
         }

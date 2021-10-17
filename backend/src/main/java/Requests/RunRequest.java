@@ -3,14 +3,20 @@ package Requests;
 import Responses.Response;
 import Users.PollManager;
 
-public class RunRequest implements Request {
+import javax.servlet.http.HttpServletRequest;
 
-    RunRequest(){};
+public class RunRequest extends AbstractRequest implements Request {
+
+    RunRequest(HttpServletRequest request){
+        super(request);
+    };
 
     @Override
     public Response call() {
-        PollManager.runPoll();
-        return new Response().ok();
+        if(PollManager.runPoll()){
+            return new Response().ok();
+        }
+        return new Response().badRequest();
     }
 
 }

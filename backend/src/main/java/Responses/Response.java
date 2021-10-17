@@ -2,30 +2,34 @@ package Responses;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 public class Response {
 
     private int statusCode;
-    private JSONObject body;
+    private String body;
+    private final Map<String, String> headers = new HashMap<>();
 
     public Response(){};
 
     public Response(int statusCode, JSONObject body){
         this.statusCode = statusCode;
-        this.body = body;
+        this.body = body.toString();
     }
 
-    public void setStatusCode(int statusCode){
+    public Response setStatusCode(int statusCode){
         this.statusCode = statusCode;
+        return this;
     }
 
     public void setBody(JSONObject body){
-        this.body = body;
+        this.body = body.toString();
     }
 
     public Response body(JSONObject body){
-        this.body = body;
+        this.body = body.toString();
         return this;
     }
 
@@ -52,6 +56,19 @@ public class Response {
     public Response notFound(){
         this.statusCode = 404;
         return this;
+    }
+
+    public Response serverError(){
+        this.statusCode = 500;
+        return this;
+    }
+
+    public void addHeader(String header, String headerValue){
+        this.headers.put(header, headerValue);
+    }
+
+    public Map<String, String> getHeaders(){
+        return this.headers;
     }
 
     public Optional<String> getBody(){

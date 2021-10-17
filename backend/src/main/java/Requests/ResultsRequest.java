@@ -6,6 +6,10 @@ import org.json.JSONObject;
 
 import java.util.Hashtable;
 
+
+/**
+ * The results request can be called by everyone, therefore it doesn't need to check for permissions
+ */
 public class ResultsRequest implements Request {
 
     ResultsRequest(){};

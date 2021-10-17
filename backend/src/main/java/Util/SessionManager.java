@@ -8,18 +8,21 @@ public class SessionManager {
 
     private SessionManager(){};
 
-    private static Map<Integer, HttpSession> sessionMap = new HashMap<>();
+    private final static Map<Integer, HttpSession> sessionMap = new HashMap<>();
     private static final String POLL_MANAGER_PASSWORD = "poll_manager_yolo";
     private static Integer pollManagerHash;
 
     public static void vote(HttpSession session, String givenChoice){
-        if(sessionMap.containsKey(session.hashCode())){
-            sessionMap.get(session.hashCode()).setAttribute("choice", givenChoice);
-            return;
+        synchronized (sessionMap){
+            if(sessionMap.containsKey(session.hashCode())){
+                sessionMap.get(session.hashCode()).setAttribute("choice", givenChoice);
+                return;
+            }
+
+            session.setAttribute("choice", givenChoice);
+            sessionMap.put(session.hashCode(), session);
         }
 
-        session.setAttribute("choice", givenChoice);
-        sessionMap.put(session.hashCode(), session);
     }
 
 
