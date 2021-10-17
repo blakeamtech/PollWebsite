@@ -1,46 +1,55 @@
-import React, {Component} from "react";
+import React, {Component, useState} from "react";
 import './CreatePoll.css';
 import axios from "axios";
 import {Link} from "react-router-dom";
 
 /**
- * Class responsible for displaying and handling Poll Manager requests.
+ * Functional component responsible for displaying and handling Poll Manager requests.
  */
-class CreatePoll extends Component {
-    /**
-     * Constructor which allows functions to use the "this" keyword.     *
-     * @param props
-     */
-    constructor(props) {
-        super(props);
+const CreatePoll = () => {
+    
+    const [newQty, setNewQty] = useState(3);
+
+    // Updates quantity of choices for the poll to be created.
+    const updateQty = (e) => {
+        e.preventDefault();
+        let qty = parseInt(e.target.choiceQty.value);
+        if (!Number.isInteger(qty) || qty > 15 || qty < 1){
+            qty = 3     
+        }
+        setNewQty(parseInt(qty));
+        console.log(newQty);
     }
 
     /***
      * Function responsible for rendering tags for use in react methods.
      * @returns {JSX.Element}
      */
-    render() {
-        return (
-            <div className="CreatePoll">
-                <form method="post" action="http://localhost:8080/create">
-                    <label htmlFor="name">Name of the Poll:</label><br/>
-                    <input type="text" id="name" name="name"/><br/><br/>
-                    <label htmlFor="question">Poll Question:</label><br/>
-                    <input type="text" id="question" name="question"/><br/><br/>
+    return (
+        <div className="CreatePoll">
+            <form onSubmit={updateQty}>
+                <label htmlFor="choice-qty">Input number of choices: </label>
+                <input type="number" min="1" step="1" name="choiceQty" id="choiceQty"/>
+                <button type="submit">Update</button>
+            </form>
+            <br/>
 
-                    <label htmlFor="choice1">Choice 1:</label><br/>
-                    <input type="text" id="choice1" name="choice1"/><br/><br/>
-                    <label htmlFor="choice2">Choice 2:</label><br/>
-                    <input type="text" id="choice2" name="choice2"/><br/><br/>
-                    <label htmlFor="choice3">Choice 3:</label><br/>
-                    <input type="text" id="choice3" name="choice3"/><br/><br/>
-                    <label htmlFor="choice4">Choice 4:</label><br/>
-                    <input type="text" id="choice4" name="choice4"/><br/><br/>
-                    <input type="submit" className="button-create" value="Submit"/>
-                </form>
-            </div>
-        );
-    }
+            <form method="post" action="http://localhost:8080/create">
+                <label htmlFor="name">Name of the Poll:</label><br/>
+                <input type="text" id="name" name="name"/><br/><br/>
+                <label htmlFor="question">Poll Question:</label><br/>
+                <input type="text" id="question" name="question"/><br/><br/>
+                {
+                    [...Array(newQty)].map((e, i) => 
+                            <label htmlFor="choice1">Choice {i+1}:<br/>
+                            <input type="text" id={"choice" + (i+1)} name={"choice" + (i+1)}/><br/><br/>
+                            </label>
+                    )
+                }
+                <input type="submit" className="button-create" value="Submit"/>
+            </form>
+        </div>
+    );
 }
 
 export default CreatePoll;
