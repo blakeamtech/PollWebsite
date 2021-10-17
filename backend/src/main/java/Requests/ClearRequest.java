@@ -1,9 +1,10 @@
 package Requests;
 
+import Exceptions.InvalidPollStateException;
 import Responses.Response;
+import Users.PollManager;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 public class ClearRequest extends AbstractRequest implements Request {
 
@@ -13,6 +14,12 @@ public class ClearRequest extends AbstractRequest implements Request {
 
     @Override
     public Response call() {
-        return null;
+        try {
+            PollManager.clearPoll();
+            return new Response().ok();
+        } catch (InvalidPollStateException e) {
+
+            return new Response().badRequest();
+        }
     }
 }

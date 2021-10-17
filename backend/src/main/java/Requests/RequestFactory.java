@@ -54,7 +54,7 @@ public class RequestFactory {
             case CLOSE:
                 return new CloseRequest(request);
             case UPDATE:
-                return new UpdateRequest();
+                return new UpdateRequest(request);
             case RUN:
                 return new RunRequest(request);
             default:
