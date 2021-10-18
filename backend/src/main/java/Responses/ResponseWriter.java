@@ -11,10 +11,10 @@ public class ResponseWriter {
 
     public static void writeResponse(Future<Response> potentialResponse, HttpServletResponse httpServletResponse) {
         try {
-            Response res = potentialResponse.get(5, TimeUnit.SECONDS);
+            Response res = potentialResponse.get();
             httpServletResponse.getOutputStream().println(res.getBody().orElseGet(()->""));
             addHeaders(res, httpServletResponse);
-        } catch (IOException | InterruptedException | ExecutionException | TimeoutException e) {
+        } catch (IOException | InterruptedException | ExecutionException e) {
             httpServletResponse.setStatus(500);
         }
     }

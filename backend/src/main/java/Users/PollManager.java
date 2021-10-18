@@ -10,16 +10,15 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class PollManager {
 
-    public static enum POLL_STATUS{
+    public enum POLL_STATUS{
         CREATED("created"),
         RUNNING("running"),
         RELEASED("released"),
-        CLOSED("closed"),
-        NONE("none"),
-        CLEARED("cleared");
+        CLOSED("closed");
 
         private final String value;
 
@@ -37,7 +36,7 @@ public class PollManager {
     private static final Map<String, Integer> voteCount = new HashMap<>();
     private static Poll pollInstance;
     private static long pollReleasedTimestamp;
-    private static POLL_STATUS currentStatus = POLL_STATUS.NONE;
+    private static POLL_STATUS currentStatus = POLL_STATUS.CLOSED;
 
     public synchronized static void createPoll(String name, String question, List<String> choices)
             throws AssignmentException {
@@ -104,6 +103,20 @@ public class PollManager {
         currentStatus = POLL_STATUS.RUNNING;
     }
 
+    public static Map<String, Object> getState(){
+        Map<String, Object> mapToReturn = new HashMap<>();
+
+        if(pollInstance != null) {
+            mapToReturn.put("choices", pollInstance.getChoicesList());
+            mapToReturn.put("question", pollInstance.getQuestionText());
+            mapToReturn.put("title", pollInstance.getPollTitle());
+        }
+
+        mapToReturn.put("state", currentStatus.value);
+
+        return mapToReturn;
+    }
+
     public synchronized static void vote(HttpSession httpSession, String choice) throws InvalidChoiceException {
         if(choice.isBlank() || choice.isEmpty() || !PollManager.validateChoice(choice))
             throw new InvalidChoiceException();
@@ -117,8 +130,8 @@ public class PollManager {
         SessionManager.vote(httpSession, choice);
     }
 
-    public static Map<String, Integer> getPollResults(){
-        Map<String, Integer> toReturn = new HashMap<>();
+    public static Map<String, String> getPollResults(){
+        Map<String, String> toReturn = new HashMap<>();
 
         synchronized (voteCount){
 
@@ -128,7 +141,7 @@ public class PollManager {
 
             pollInstance.getChoicesList().stream().sequential().forEach(
                     item->{
-                        toReturn.put(item, voteCount.get(item));
+                        toReturn.put(item, voteCount.get(item).toString());
                     }
             );
 

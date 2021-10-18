@@ -20,7 +20,8 @@ import java.io.IOException;
                 "/close",       //put, status update
                 "/create",      //put, status update
                 "/update",      //put... update
-                "/run"          //put, update
+                "/run",          //put, update
+                "/state"
         }
 )
 public class PollManagerServlet extends HttpServlet {

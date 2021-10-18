@@ -33,6 +33,11 @@ public class Response {
         return this;
     }
 
+    public Response exceptionBody(Exception givenException){
+        this.body = new JSONObject().put("exception", givenException.getMessage()).toString();
+        return this;
+    }
+
     public Response body(String givenString){
         this.body = new JSONObject(givenString).toString();
         return this;

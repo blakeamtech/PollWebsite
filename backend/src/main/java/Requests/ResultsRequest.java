@@ -16,7 +16,7 @@ public class ResultsRequest implements Request {
 
     @Override
     public Response call() {
-        Map<String, Integer> results = PollManager.getPollResults();
+        Map<String, String> results = PollManager.getPollResults();
 
         JSONObject object = new JSONObject(results);
         return new Response()

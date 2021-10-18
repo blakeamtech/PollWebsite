@@ -23,7 +23,7 @@ public class CloseRequest extends AbstractRequest implements Request {
 
         } catch (InvalidPollStateException e) {
 
-            return new Response().serverError();
+            return new Response().serverError().exceptionBody(e);
         }
 
     }

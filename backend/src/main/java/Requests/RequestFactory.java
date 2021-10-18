@@ -13,7 +13,8 @@ public class RequestFactory {
         CLOSE,
         CREATE,
         UPDATE,
-        RUN
+        RUN,
+        STATE
     }
 
     public static Request valueOfGetRequest(HttpServletRequest request){
@@ -23,6 +24,8 @@ public class RequestFactory {
                 return new ResultsRequest();
             case DETAILS:
                 return new DetailsRequest(request);
+            case STATE:
+                return new GetStateRequest();
             default:
                 return new InvalidRequest();
         }

@@ -33,7 +33,7 @@ public class CreateRequest extends AbstractRequest implements Request {
 
             return new Response().ok();
         } catch (IOException | AssignmentException e) {
-            return new Response().badRequest();
+            return new Response().badRequest().exceptionBody(e);
         }
     }
 }

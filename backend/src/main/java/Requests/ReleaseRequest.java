@@ -14,7 +14,7 @@ public class ReleaseRequest implements Request {
             PollManager.releasePoll();
             return new Response().ok();
         } catch (InvalidPollStateException e) {
-            return new Response().serverError().body(e.getMessage());
+            return new Response().serverError().exceptionBody(e);
         }
     }
 }

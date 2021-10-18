@@ -18,7 +18,7 @@ public class RunRequest extends AbstractRequest implements Request {
             PollManager.runPoll();
             return new Response().ok();
         } catch (InvalidPollStateException e) {
-            return new Response().badRequest();
+            return new Response().badRequest().exceptionBody(e);
         }
     }
 

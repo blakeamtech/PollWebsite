@@ -41,7 +41,7 @@ public class DetailsRequest extends AbstractRequest implements Request {
             return toReturn;
         } catch (AssignmentException | IOException e) {
 
-            return new Response().serverError().body(e.getMessage());
+            return new Response().serverError().exceptionBody(e);
         }
 
     }

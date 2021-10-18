@@ -19,7 +19,7 @@ public class ClearRequest extends AbstractRequest implements Request {
             return new Response().ok();
         } catch (InvalidPollStateException e) {
 
-            return new Response().badRequest();
+            return new Response().badRequest().exceptionBody(e);
         }
     }
 }

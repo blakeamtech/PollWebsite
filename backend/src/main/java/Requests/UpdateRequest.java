@@ -27,7 +27,7 @@ public class UpdateRequest extends AbstractRequest implements Request {
 
             return new Response().ok();
         } catch (IOException | InvalidPollStateException e) {
-            return new Response().badRequest();
+            return new Response().badRequest().exceptionBody(e);
         }
 
     }

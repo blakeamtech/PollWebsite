@@ -14,7 +14,7 @@ public class UnreleaseRequest implements Request {
             PollManager.unreleasePoll();
             return new Response().ok();
         } catch (InvalidPollStateException e) {
-            return new Response().badRequest();
+            return new Response().badRequest().exceptionBody(e);
         }
     }
 }
