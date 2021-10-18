@@ -8,8 +8,8 @@ const Home = () => {
     const [question, setQuestion] = useState("No active poll.");
     const [choices, setChoices] = useState([]);
     // stores index of currently chosen answer to avoid repeated increments
-    const [chosenAnswer, setChosenAnswer] = useState();
-    const [showMessage, setShowMessage] = useState("");
+    const [chosenAnswer, setChosenAnswer] = useState("");
+    const [showMessage, setShowMessage] = useState(false);
 
     // MOCK - format: Choice, nbVotes
     const pollAnswers = [
@@ -24,7 +24,7 @@ const Home = () => {
         // need a function to query from back-end for first display
         // set quesiton and choices
 
-        setShowMessage(`You voted for: ${chosenAnswer}.`);
+        setShowMessage(chosenAnswer);
 
         //mock
         setQuestion("What grade we gon get kekw");
@@ -58,11 +58,7 @@ const Home = () => {
      * Function responsible for sending a request when user votes in the poll.
      */
      const handleVotePoll = (answer) => {
-        let obj = {
-            choice: answer
-        }
-
-        axios.post('http://localhost:8080/vote', obj)
+        axios.post(`http://localhost:8080/vote&choice=${answer}`)
             .then(function (response) {
                 console.log(response);
             })
@@ -95,7 +91,7 @@ const Home = () => {
                 displayChoices()
             }
             {
-                showMessage && <h2 className="chosen">{showMessage}</h2>
+                showMessage && <h2 className="chosen">{"You voted for: " + showMessage}</h2>
             }
             <button type="button" className="results-button">View Results</button> <br/>
             <button type="button" className="results-button">Download Results</button>
