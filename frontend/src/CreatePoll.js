@@ -31,9 +31,11 @@ const CreatePoll = () => {
             axios.post('http://localhost:8080/create', obj, headers)
                 .then(function (response) {
                     console.log(response);
+                    alert("Poll Created Successfully.");
                 })
                 .catch(function (error) {
                     console.log(error);
+                    alert("Poll Creation Failed.");
                 });
         }
 

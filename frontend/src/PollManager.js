@@ -29,9 +29,12 @@ class PollManager extends Component {
         axios.post('http://localhost:8080/update', getData)
             .then(function (response) {
                 console.log(response);
+
+                alert("Update Successful.");
             })
             .catch(function (error) {
                 console.log(error);
+                alert("Update Failed.");
             });
     }
 
@@ -42,9 +45,12 @@ class PollManager extends Component {
         axios.put('http://localhost:8080/clear')
             .then(function (response) {
                 console.log(response);
+
+                alert("Clear Successful.");
             })
             .catch(function (error) {
                 console.log(error);
+                alert("Clear Failed.");
             });
     }
 
@@ -55,9 +61,13 @@ class PollManager extends Component {
         axios.put('http://localhost:8080/close')
             .then(function (response) {
                 console.log(response);
+
+                alert("Close Successful.");
             })
             .catch(function (error) {
                 console.log(error);
+
+                alert("Close Failed.");
             });
     }
 
@@ -68,9 +78,13 @@ class PollManager extends Component {
         axios.put('http://localhost:8080/run')
             .then(function (response) {
                 console.log(response);
+
+                alert("Run Successful.");
             })
             .catch(function (error) {
                 console.log(error);
+
+                alert("Run Failed.");
             });
     }
 
@@ -81,9 +95,13 @@ class PollManager extends Component {
         axios.put('http://localhost:8080/release')
             .then(function (response) {
                 console.log(response);
+
+                alert("Release Successful.");
             })
             .catch(function (error) {
                 console.log(error);
+
+                alert("Release Failed.");
             });
     }
 
@@ -94,9 +112,12 @@ class PollManager extends Component {
         axios.put('http://localhost:8080/unrelease')
             .then(function (response) {
                 console.log(response);
+
+                alert("Unrelease Successful.");
             })
             .catch(function (error) {
                 console.log(error);
+                alert("Unrelease Failed.");
             });
     }
 
