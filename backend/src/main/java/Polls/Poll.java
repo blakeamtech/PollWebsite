@@ -6,6 +6,10 @@ import java.util.List;
 
 public class Poll{
 
+    public Poll(){
+
+    }
+
     public Poll(String name, String question, List<String> choices) {
         this.choicesList = choices;
         this.pollTitle = name;

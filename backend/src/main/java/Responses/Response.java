@@ -34,7 +34,7 @@ public class Response {
     }
 
     public Response body(String givenString){
-        this.body = new JSONObject().put("body", givenString).toString();
+        this.body = new JSONObject(givenString).toString();
         return this;
     }
 

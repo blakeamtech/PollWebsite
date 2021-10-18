@@ -110,16 +110,22 @@ public class PollManager {
 
         if(submittedVotes.containsKey(httpSession.getId()))
             changeVote(httpSession ,choice);
+        else
+            voteCount.put(choice, voteCount.get(choice) + 1);
 
         submittedVotes.put(httpSession.getId(), choice);
         SessionManager.vote(httpSession, choice);
-
     }
 
     public static Map<String, Integer> getPollResults(){
         Map<String, Integer> toReturn = new HashMap<>();
 
         synchronized (voteCount){
+
+            if(pollInstance == null){
+                return toReturn;
+            }
+
             pollInstance.getChoicesList().stream().sequential().forEach(
                     item->{
                         toReturn.put(item, voteCount.get(item));

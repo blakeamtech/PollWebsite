@@ -16,7 +16,7 @@ const CreatePoll = () => {
         e.preventDefault();
         let qty = parseInt(e.target.choiceQty.value);
         if (!Number.isInteger(qty) || qty > 15 || qty < 1){
-            qty = 3     
+            qty = 3
         }
         setNewQty(parseInt(qty));
     }
@@ -25,7 +25,10 @@ const CreatePoll = () => {
      * Function responsible for making a request to create a new poll.
      */
     const handleCreate = (obj) => {
-            axios.post('http://localhost:8080/create', obj)
+        let headers = {
+            'Access-Control-Allow-Origin' : '*',
+        }
+            axios.post('http://localhost:8080/create', obj, headers)
                 .then(function (response) {
                     console.log(response);
                 })
@@ -72,7 +75,7 @@ const CreatePoll = () => {
                 <label htmlFor="question">Poll Question:</label><br/>
                 <input type="text" id="question" name="question"/><br/><br/>
                 {
-                    [...Array(newQty)].map((e, i) => 
+                    [...Array(newQty)].map((e, i) =>
                             <label key={i} htmlFor="choice1">Choice {i+1}:<br/>
                             <input type="text" id={"choice" + (i+1)} name="choice"/><br/><br/>
                             </label>
