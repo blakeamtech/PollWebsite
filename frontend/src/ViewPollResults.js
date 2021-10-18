@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import './ViewPollResults.css';
 import Chart from "react-google-charts";
 import axios from "axios";
@@ -6,17 +6,26 @@ import axios from "axios";
 /**
  * Functional component responsible for displaying the poll results in a PieChart from google charts.
  */
-const ViewPollResults = () => {
-    let results = null;
-
+const ViewPollResults = (props) => {
+    const [results, setResults] = useState([]);
+    const [choices, setChoices] = useState([]);
+    
+    useEffect(() => {
+        handleResults();   
+    })
     /***
      * Function responsible for getting the poll result data needed for the PieChart.
      */
-    const handleResults = (obj) => {
+    const handleResults = () => {
         axios.get('http://localhost:8080/results')
             .then(function (response) {
                 console.log(response);
-                results = response;
+
+                let res = response.data;
+                setResults(res);
+                // convert object into array
+                let choiceList = Object.keys(res).map((key) => [key, res[key]]);
+                setChoices(choiceList);
             })
             .catch(function (error) {
                 console.log(error);
@@ -35,15 +44,11 @@ const ViewPollResults = () => {
                 chartType="PieChart"
                 loader={<div>Loading Chart</div>}
                 data={[
-                    ['Task', 'Hours per Day'],
-                    ['Work', 11],
-                    ['Eat', 2],
-                    ['Commute', 2],
-                    ['Watch TV', 2],
-                    ['Sleep', 7],
+                    ['Choices', 'Number of votes'],
+                    ...choices
                 ]}
                 options={{
-                    title: 'My Daily Activities',
+                    title: props.title,
                     width: 1500,
                     height: 850,
                     is3D: true
