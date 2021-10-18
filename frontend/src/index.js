@@ -9,8 +9,9 @@ import {Route, Router, Switch} from "react-router";
 import PollManager from "./PollManager";
 import CreatePoll from "./CreatePoll";
 import ManagerLogin from "./ManagerLogin";
-import Home from "./Home";
+import VotingPage from "./VotingPage";
 import ViewPollResults from "./ViewPollResults";
+import Home from "./Home";
 
 
 ReactDOM.render(

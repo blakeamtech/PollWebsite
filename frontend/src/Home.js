@@ -1,100 +1,87 @@
-import React, {useState, useEffect} from "react";
-import './Home.css';
+import React, {useState, useEffect, useRef} from "react";
+import VotingPage from './VotingPage';
+import ViewPollResults from "./ViewPollResults";
 import axios from "axios";
 
 
 const Home = () => {
-    const [name, setName] = useState("The Greatest Poll Ever");
-    const [question, setQuestion] = useState("No active poll.");
+    const [pollState, setPollState] = useState("released");
+    const [pollUpdate, setPollUpdate] = useState(0);
+    const [poll, setPoll] = useState();
     const [choices, setChoices] = useState([]);
-    // stores index of currently chosen answer to avoid repeated increments
-    const [chosenAnswer, setChosenAnswer] = useState("");
-    const [showMessage, setShowMessage] = useState(false);
+    const [title, setTitle] = useState("");
+    const [question, setQuestion] = useState("");
 
-    // MOCK - format: Choice, nbVotes
-    const pollAnswers = [
-        [ 'A', 20 ],
-        [ 'B', 2 ],
-        [ 'C', 3 ],
-        [ 'D', 0 ]
-    ]
+    // useEffect(() => {
+    //     // retrieve latest state from backend
+    //     setInterval(() => getPollState(), pollUpdate)
+    // }, []);
 
-    // only activates on first load
-    useEffect(() => {
-        // need a function to query from back-end for first display
-        // set quesiton and choices
-
-        setShowMessage(chosenAnswer);
-
-        //mock
-        setQuestion("What grade we gon get kekw");
-        setChoices(pollAnswers);
-    }, [chosenAnswer]);
-
-
-    // updates vote on front-end then sends to back-end.
-    const handleVote = (e, index) => {
-        let voteAnswer = e.target.innerHTML;
-        let changed = false;
-
-        // increments the count of input choice
-        const newPollAnswers = choices.map(choice => {
-            if (choice[0] === voteAnswer && chosenAnswer != voteAnswer) {
-                choice[1]++;
-                changed = true;
-            }
-            return choice
+    // interval to poll backend for poll status update every X seconds
+    const getPollState = () => {
+        // retrieve backend poll state and set pollState
+        axios.get('http://localhost:8080/state')
+        .then(function (response) {
+            setPoll(response.data);
+            setPollState(response.data.state);
+            setChoices(response.data.choices);
+            setTitle(response.data.title);
+            setQuestion(response.data.question);
+            console.log(response.data);
         })
+        .catch(function (error) {
+            console.log(error);
+        });
+        //
+        //setPollUpdate(20);
+    }
 
-        // no need continue if user clicked on an answer he had already chosen
-        if (changed) {
-            setChosenAnswer(voteAnswer);
-            setChoices(newPollAnswers);
-            handleVotePoll(voteAnswer);
+    // interval to poll backend for poll status update every X seconds
+    // https://stackoverflow.com/questions/46140764/polling-api-every-x-seconds-with-react
+    const useInterval = (callback, delay) => {
+
+        const savedCallback = useRef();
+      
+        useEffect(() => {
+          savedCallback.current = callback;
+        }, [callback]);
+      
+      
+        useEffect(() => {
+          function tick() {
+            savedCallback.current();
+          }
+          if (delay !== null) {
+            const id = setInterval(tick, delay);
+            return () => clearInterval(id);
+          }
+        }, [delay]);
+      }
+
+      useInterval(() => {
+        getPollState();
+        }, 1000 * 30);
+
+    const renderBody = () => {
+        switch (pollState) {
+            case "running":
+                return <VotingPage question={question} title={title} choices={choices} poll={poll} pollState={pollState}/>
+            case "released":
+                return <ViewPollResults question={question} title={title} choices={choices} poll={poll} pollState={pollState}/>
+            case "created":
+                // return waiting page
+            default:
+                // return waiting page
         }
-    }
-
-    /**
-     * Function responsible for sending a request when user votes in the poll.
-     */
-     const handleVotePoll = (answer) => {
-        axios.post(`http://localhost:8080/vote&choice=${answer}`)
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-    const displayChoices = () => {
-        return (
-            <ul>
-                {
-                    choices.map((choice,i) => 
-                        <a href="javascript:void(0);">
-                            <li tabindex={i} key={i} onClick={e => handleVote(e)}>
-                                { choice[0] }
-                            </li>
-                        </a>
-                    )
-                }
-            </ul>
-        )
     }
 
     return (
         <div>
-            <h1>{name}</h1>
-            <h2>{question}</h2>
+            <h1>THE GREATEST POLL OF ALL TIME.</h1>
+            <h2>{title}</h2>
             {
-                displayChoices()
+                renderBody()
             }
-            {
-                showMessage && <h2 className="chosen">{"You voted for: " + showMessage}</h2>
-            }
-            <button type="button" className="results-button">View Results</button> <br/>
-            <button type="button" className="results-button">Download Results</button>
         </div>
     )
 }
