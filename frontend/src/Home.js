@@ -69,7 +69,6 @@ const Home = () => {
             .catch(function (error) {
                 console.log(error);
             });
-        console.log(choices)
     }
 
     const displayChoices = () => {
