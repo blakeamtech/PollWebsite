@@ -17,7 +17,7 @@ const ViewPollResults = (props) => {
      * Function responsible for getting the poll result data needed for the PieChart.
      */
     const handleResults = () => {
-        axios.get('http://localhost:8080/Assignment1_war/results')
+        axios.get('http://localhost:8080/results')
             .then(function (response) {
                 console.log(response);
 

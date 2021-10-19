@@ -26,7 +26,7 @@ const CreatePoll = () => {
      */
     const handleCreate = (obj) => {
 
-            axios.post('http://localhost:8080/Assignment1_war/create', obj)
+            axios.post('http://localhost:8080/create', obj)
                 .then(function (response) {
                     console.log(response);
                     alert("Poll Created Successfully.");
