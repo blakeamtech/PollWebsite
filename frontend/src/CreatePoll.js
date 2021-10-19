@@ -25,10 +25,8 @@ const CreatePoll = () => {
      * Function responsible for making a request to create a new poll.
      */
     const handleCreate = (obj) => {
-        let headers = {
-            'Access-Control-Allow-Origin' : '*',
-        }
-            axios.post('http://localhost:8080/create', obj, headers)
+
+            axios.post('http://localhost:8080/Assignment1_war/create', obj)
                 .then(function (response) {
                     console.log(response);
                     alert("Poll Created Successfully.");

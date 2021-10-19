@@ -60,7 +60,7 @@ const VotingPage = (props) => {
      * Function responsible for sending a request when user votes in the poll.
      */
      const handleVotePoll = (answer) => {
-        axios.post(`http://localhost:8080/vote&choice=${answer}`)
+        axios.post(`http://localhost:8080/Assignment1_war/vote&choice=${answer}`)
             .then(function (response) {
                 console.log(response);
             })
@@ -73,7 +73,7 @@ const VotingPage = (props) => {
         return (
             <ul>
                 {
-                    props.choices.map((choice,i) => 
+                    props.choices.map((choice,i) =>
                         <a href="javascript:void(0);">
                             <li tabindex={i} key={i} onClick={e => handleVote(e)}>
                                 { choice }

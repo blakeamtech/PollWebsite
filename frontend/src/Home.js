@@ -20,7 +20,7 @@ const Home = () => {
     // interval to poll backend for poll status update every X seconds
     const getPollState = () => {
         // retrieve backend poll state and set pollState
-        axios.get('http://localhost:8080/state')
+        axios.get('http://localhost:8080/Assignment1_war/state')
         .then(function (response) {
             setPoll(response.data);
             setPollState(response.data.state);
@@ -41,12 +41,12 @@ const Home = () => {
     const useInterval = (callback, delay) => {
 
         const savedCallback = useRef();
-      
+
         useEffect(() => {
           savedCallback.current = callback;
         }, [callback]);
-      
-      
+
+
         useEffect(() => {
           function tick() {
             savedCallback.current();

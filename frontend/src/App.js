@@ -53,7 +53,7 @@ class App extends Component {
      * Function responsible for making a request to download the poll results to a text file.
      */
     handleDownloadPoll() {
-        axios.get('http://localhost:8080/details')
+        axios.get('http://localhost:8080/Assignment1_war/details')
             .then(function (response) {
                 console.log(response);
             })
@@ -66,7 +66,7 @@ class App extends Component {
      * Function responsible for sending a request for poll results.
      */
     handleViewPoll() {
-        axios.get('http://localhost:8080/results')
+        axios.get('http://localhost:8080/Assignment1_war/results')
             .then(function (response) {
                 console.log(response);
             })
@@ -80,7 +80,7 @@ class App extends Component {
      */
     handleVotePoll() {
         var getData = null // Needs to be implemented
-        axios.post('http://localhost:8080/vote', getData)
+        axios.post('http://localhost:8080/Assignment1_war/vote', getData)
             .then(function (response) {
                 console.log(response);
             })

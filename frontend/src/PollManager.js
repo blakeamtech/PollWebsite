@@ -26,7 +26,7 @@ class PollManager extends Component {
      */
     handleUpdate() {
         var getData = null; //Need to implement
-        axios.post('http://localhost:8080/update', getData)
+        axios.post('http://localhost:8080/Assignment1_war/update', getData)
             .then(function (response) {
                 console.log(response);
 
@@ -42,7 +42,7 @@ class PollManager extends Component {
      * Function responsible for sending a request to clear the poll.
      */
     handleClear() {
-        axios.put('http://localhost:8080/clear')
+        axios.put('http://localhost:8080/Assignment1_war/clear')
             .then(function (response) {
                 console.log(response);
 
@@ -58,7 +58,7 @@ class PollManager extends Component {
      * Function responsible for sending a request to close the poll.
      */
     handleClose() {
-        axios.put('http://localhost:8080/close')
+        axios.put('http://localhost:8080/Assignment1_war/close')
             .then(function (response) {
                 console.log(response);
 
@@ -75,7 +75,7 @@ class PollManager extends Component {
      * Function responsible for sending a request to run the poll.
      */
     handleRun() {
-        axios.put('http://localhost:8080/run')
+        axios.put('http://localhost:8080/Assignment1_war/run')
             .then(function (response) {
                 console.log(response);
 
@@ -92,7 +92,7 @@ class PollManager extends Component {
      * Function responsible for sending a request to release the poll.
      */
     handleRelease() {
-        axios.put('http://localhost:8080/release')
+        axios.put('http://localhost:8080/Assignment1_war/release')
             .then(function (response) {
                 console.log(response);
 
@@ -109,7 +109,7 @@ class PollManager extends Component {
      * Function responsible for sending a request to unrelease the poll.
      */
     handleUnrelease() {
-        axios.put('http://localhost:8080/unrelease')
+        axios.put('http://localhost:8080/Assignment1_war/unrelease')
             .then(function (response) {
                 console.log(response);
 

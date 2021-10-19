@@ -9,15 +9,15 @@ import axios from "axios";
 const ViewPollResults = (props) => {
     const [results, setResults] = useState([]);
     const [choices, setChoices] = useState([]);
-    
+
     useEffect(() => {
-        handleResults();   
+        handleResults();
     })
     /***
      * Function responsible for getting the poll result data needed for the PieChart.
      */
     const handleResults = () => {
-        axios.get('http://localhost:8080/results')
+        axios.get('http://localhost:8080/Assignment1_war/results')
             .then(function (response) {
                 console.log(response);
 
