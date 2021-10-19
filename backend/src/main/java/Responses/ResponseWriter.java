@@ -21,9 +21,7 @@ public class ResponseWriter {
 
     public static void addHeaders(Response response, HttpServletResponse httpServletResponse){
         response.getHeaders().keySet().forEach(
-                key ->{
-                    httpServletResponse.addHeader(key, response.getHeaders().get(key));
-                }
+                key -> httpServletResponse.addHeader(key, response.getHeaders().get(key))
         );
     }
 

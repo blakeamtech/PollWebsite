@@ -1,5 +1,6 @@
 package Requests;
 
+import Exceptions.AssignmentException;
 import Exceptions.InvalidPollStateException;
 import Responses.Response;
 import Users.PollManager;
@@ -13,7 +14,7 @@ public class ReleaseRequest implements Request {
         try {
             PollManager.releasePoll();
             return new Response().ok();
-        } catch (InvalidPollStateException e) {
+        } catch (AssignmentException e) {
             return new Response().serverError().exceptionBody(e);
         }
     }

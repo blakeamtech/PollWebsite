@@ -1,5 +1,6 @@
 package Requests;
 
+import Exceptions.AssignmentException;
 import Exceptions.InvalidChoiceException;
 import Exceptions.InvalidSessionException;
 import Responses.Response;
@@ -25,7 +26,7 @@ public class VoteRequest extends AbstractRequest implements Request {
 
             return new Response().ok();
 
-        } catch (InvalidSessionException | InvalidChoiceException  e) {
+        } catch (AssignmentException e) {
             return new Response().serverError().exceptionBody(e);
         }
     }
