@@ -2,3 +2,7 @@ body {
   margin: 0;
   text-align: center;
 }
+
+#waiting-page {
+  margin-top: 10%;
+}

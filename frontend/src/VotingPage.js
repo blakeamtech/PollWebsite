@@ -75,7 +75,7 @@ const VotingPage = (props) => {
                 {
                     props.choices.map((choice,i) => 
                         <a href="javascript:void(0);">
-                            <li tabindex={i} key={i} onClick={e => handleVote(e)}>
+                            <li tabIndex={i} key={i} onClick={e => handleVote(e)}>
                                 { choice }
                             </li>
                         </a>
@@ -87,7 +87,7 @@ const VotingPage = (props) => {
 
     return (
         <div>
-
+            <h2>{props.title}</h2>
             {
                 displayChoices()
             }
