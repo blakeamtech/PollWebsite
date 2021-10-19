@@ -1,5 +1,6 @@
 package Requests;
 
+import Exceptions.AssignmentException;
 import Exceptions.InvalidPollStateException;
 import Responses.Response;
 import Users.PollManager;
@@ -13,7 +14,7 @@ public class UnreleaseRequest implements Request {
         try {
             PollManager.unreleasePoll();
             return new Response().ok();
-        } catch (InvalidPollStateException e) {
+        } catch (AssignmentException e) {
             return new Response().badRequest().exceptionBody(e);
         }
     }

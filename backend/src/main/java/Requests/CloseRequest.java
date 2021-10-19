@@ -1,5 +1,6 @@
 package Requests;
 
+import Exceptions.AssignmentException;
 import Exceptions.InvalidPollStateException;
 import Responses.Response;
 import Users.PollManager;
@@ -21,7 +22,7 @@ public class CloseRequest extends AbstractRequest implements Request {
 
             return new Response().ok();
 
-        } catch (InvalidPollStateException e) {
+        } catch (AssignmentException e) {
 
             return new Response().serverError().exceptionBody(e);
         }

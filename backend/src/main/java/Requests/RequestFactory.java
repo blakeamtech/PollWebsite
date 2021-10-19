@@ -27,7 +27,7 @@ public class RequestFactory {
             case STATE:
                 return new GetStateRequest();
             default:
-                return new InvalidRequest();
+                return new InvalidRequest(400);
         }
     }
 
@@ -41,7 +41,7 @@ public class RequestFactory {
             case CREATE:
                 return new CreateRequest(request);
             default:
-                return new InvalidRequest();
+                return new InvalidRequest(400);
         }
     }
 
@@ -61,7 +61,7 @@ public class RequestFactory {
             case RUN:
                 return new RunRequest(request);
             default:
-                return new InvalidRequest();
+                return new InvalidRequest(400);
         }
     }
 

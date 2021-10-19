@@ -73,7 +73,7 @@ const VotingPage = (props) => {
         return (
             <ul>
                 {
-                    props.choices.map((choice,i) => 
+                    props.choices.map((choice,i) =>
                         <a href="javascript:void(0);">
                             <li tabIndex={i} key={i} onClick={e => handleVote(e)}>
                                 { choice }

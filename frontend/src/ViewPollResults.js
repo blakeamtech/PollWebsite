@@ -7,6 +7,7 @@ import axios from "axios";
  * Functional component responsible for displaying the poll results in a PieChart from google charts.
  */
 const ViewPollResults = (props) => {
+
     // const [results, setResults] = useState([]);
     // const [choices, setChoices] = useState([]);
     
