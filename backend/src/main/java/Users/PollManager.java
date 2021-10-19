@@ -153,14 +153,17 @@ public class PollManager {
 
     public synchronized static void downloadPollDetails(PrintWriter output, String fileName) throws PollIsNotReleasedException {
         if (currentStatus == POLL_STATUS.RELEASED) {
-            output.println(new JSONObject(getPollResults()));
+            JSONObject detailsJson = new JSONObject(getState());
+            detailsJson.put("votes", getPollResults());
+            output.print(detailsJson);
+            return;
         }
 
         throw new PollIsNotReleasedException();
     }
 
-    public static String getPollTitle() {
-        return pollInstance.getPollTitle();
+    public static Optional<String> getPollTitle() {
+        return Optional.of(pollInstance.getPollTitle());
     }
 
 

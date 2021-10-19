@@ -5,6 +5,7 @@ import Responses.Response;
 import Users.PollManager;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,23 +24,24 @@ public class DetailsRequest extends AbstractRequest implements Request {
     @Override
     public Response call() {
         Response toReturn = new Response();
-        String pollTitle = PollManager.getPollTitle();
+        String pollTitle = PollManager.getPollTitle().orElseGet(() ->"empty");
         String extension = (getRequest().getAttribute("extension") == null)
                 ? ".txt"
                 : getRequest().getAttribute("extension").toString();
-        toReturn.addHeader("Content-Disposition", String.format("attachment; filename=\"%s\".%s", pollTitle, extension));
+        toReturn.addHeader("Content-Disposition", String.format("attachment; filename=%s%s", pollTitle, extension));
 
         try{
-            File f = new File(String.format("%s-%d.%s", pollTitle, PollManager.getPollReleasedTimestamp() , extension));
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            PrintWriter pw = new PrintWriter(bos, true);
 
-            PollManager.downloadPollDetails(new PrintWriter(f), pollTitle);
+            PollManager.downloadPollDetails(pw, pollTitle);
 
-            byte[] fileAsBytes = Files.readAllBytes(f.toPath());
+            byte[] fileAsBytes = bos.toByteArray();
 
             toReturn.setBody(new String(fileAsBytes));
 
             return toReturn;
-        } catch (AssignmentException | IOException e) {
+        } catch (AssignmentException e) {
 
             return new Response().serverError().exceptionBody(e);
         }
