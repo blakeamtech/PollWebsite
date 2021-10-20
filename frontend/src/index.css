@@ -1,8 +1,22 @@
 body {
   margin: 0;
   text-align: center;
+  background-image: url("amogus.png");
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+  color: gold;
+  font-family: "Jokerman";
+  font-size: 40px;
+  background-color: black;
 }
+#changecolor
+ {
+  color: gold;
+}
+
+
 
 #waiting-page {
   margin-top: 10%;
 }
+

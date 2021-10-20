@@ -23,7 +23,9 @@ li:hover {
 }
 
 a {
-    color: black;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    color: gold;
 }
 
 li:focus {
