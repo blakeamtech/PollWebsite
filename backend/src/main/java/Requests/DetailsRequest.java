@@ -3,6 +3,7 @@ package Requests;
 import Exceptions.AssignmentException;
 import Responses.Response;
 import Users.PollManager;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
@@ -28,17 +29,11 @@ public class DetailsRequest extends AbstractRequest implements Request {
         String extension = (getRequest().getAttribute("extension") == null)
                 ? ".txt"
                 : getRequest().getAttribute("extension").toString();
-        toReturn.addHeader("Content-Disposition", String.format("attachment; filename=%s%s", pollTitle, extension));
+        toReturn.addHeader("Content-disposition", String.format("attachment; filename=%s%s", pollTitle, extension));
 
         try{
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            PrintWriter pw = new PrintWriter(bos, true);
-
-            PollManager.downloadPollDetails(pw, pollTitle);
-
-            byte[] fileAsBytes = bos.toByteArray();
-
-            toReturn.setBody(new String(fileAsBytes));
+            JSONObject obj = PollManager.downloadPollDetails();
+            toReturn.setBody(obj.toString(2));
 
             return toReturn;
         } catch (AssignmentException e) {

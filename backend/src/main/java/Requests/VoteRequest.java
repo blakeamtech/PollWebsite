@@ -19,11 +19,8 @@ public class VoteRequest extends AbstractRequest implements Request {
     public Response call() {
         try {
             HttpSession session = this.getHttpSession().orElseThrow(InvalidSessionException::new);
-
             String choice = this.getRequest().getParameter("choice");
-
             PollManager.vote(session, choice);
-
             return new Response().ok();
 
         } catch (AssignmentException e) {

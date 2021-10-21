@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import {Link} from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import history from "./history";
@@ -9,9 +8,9 @@ import {Route, Router, Switch} from "react-router";
 import PollManager from "./PollManager";
 import CreatePoll from "./CreatePoll";
 import ManagerLogin from "./ManagerLogin";
-import VotingPage from "./VotingPage";
 import ViewPollResults from "./ViewPollResults";
 import Home from "./Home";
+import UpdatePoll from "./UpdatePoll";
 
 
 ReactDOM.render(
@@ -34,6 +33,9 @@ ReactDOM.render(
               </Route>
               <Route path="/createpoll">
                   <CreatePoll />
+              </Route>
+              <Route path="/updatepoll">
+                  <UpdatePoll />
               </Route>
               <Route path="/viewpollresults">
                   <ViewPollResults />
