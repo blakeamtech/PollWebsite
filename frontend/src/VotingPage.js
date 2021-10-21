@@ -60,7 +60,7 @@ const VotingPage = (props) => {
      * Function responsible for sending a request when user votes in the poll.
      */
      const handleVotePoll = (answer) => {
-        axios.post(`http://localhost:8080/vote&choice=${answer}`)
+        axios.post(`http://localhost:8080/vote?choice=${answer}`)
             .then(function (response) {
                 console.log(response);
             })
@@ -85,6 +85,7 @@ const VotingPage = (props) => {
         )
     }
 
+
     return (
         <div>
             <h2>{props.title}</h2>
@@ -94,8 +95,6 @@ const VotingPage = (props) => {
             {
                 showMessage && <h2 className="chosen">{"You voted for: " + showMessage}</h2>
             }
-            <button type="button" className="results-button">View Results</button> <br/>
-            <button type="button" className="results-button">Download Results</button>
         </div>
     )
 }

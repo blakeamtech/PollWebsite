@@ -130,7 +130,7 @@ class PollManager extends Component {
             <div className="Manager">
                 <header>
                     <Link className="button-pollmanager" to="/createpoll">Create Poll</Link>
-                    <Link className="button-pollmanager" to="/createpoll">Update Poll</Link>
+                    <Link className="button-pollmanager" to="/updatepoll">Update Poll</Link>
                     <button type="button" className="button-pollmanager" onClick={this.handleClear}>Clear Poll</button><br/>
                     <button type="button" className="button-pollmanager" onClick={this.handleClose}>Close Poll</button>
                     <button type="button" className="button-pollmanager" onClick={this.handleRun}>Run Poll</button>

@@ -101,7 +101,6 @@ class App extends Component {
                     <div id="poll">
                         <Poll question={pollQuestion} answers={pollAnswers} onVote={this.handleVote}/>
                     </div><br/>
-                    <Link className="button-home" to="/viewpollresults">View Poll Results</Link><br/>
                     <button type="button" className="button-home" onClick={this.handleDownloadPoll}>Download Poll Results</button>
                 </header>
             </div>

@@ -3,6 +3,7 @@ import VotingPage from './VotingPage';
 import ViewPollResults from "./ViewPollResults";
 import axios from "axios";
 import WaitingPage from "./WaitingPage";
+import {Link} from "react-router-dom";
 
 
 const Home = () => {
@@ -75,7 +76,6 @@ const Home = () => {
                     // convert object into array
                     let choiceList = Object.keys(res).map((key) => [key, parseInt(res[key])]);
                     setChoicesCount(choiceList);
-                    //console.log(choiceList);
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -87,7 +87,12 @@ const Home = () => {
             case "running":
                 return <VotingPage question={question} title={title} choices={choices} poll={poll} pollState={pollState}/>
             case "released":
-                return <ViewPollResults question={question} title={title} choices={choices} poll={poll} pollState={pollState} choicesCount={choicesCount}/>
+                return (
+                    <div>
+                        <a href='http://localhost:8080/details' download>Download Results</a>
+                        <ViewPollResults question={question} title={title} choices={choices} poll={poll} pollState={pollState} choicesCount={choicesCount}/>
+                    </div>
+                )
             case "created":
                 return <WaitingPage />
             default:

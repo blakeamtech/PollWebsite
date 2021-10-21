@@ -67,14 +67,12 @@ public class PollManager {
         if (pollInstance == null)
             throw new InvalidPollStateException("null", "close");
 
-        if (currentStatus != POLL_STATUS.RELEASED && currentStatus != POLL_STATUS.RUNNING)
+        if (currentStatus == POLL_STATUS.RELEASED || currentStatus != POLL_STATUS.RUNNING)
             throw new InvalidPollStateException(currentStatus.value, "clear");
 
-        if (currentStatus == POLL_STATUS.RELEASED) {
+        if (currentStatus == POLL_STATUS.RUNNING) {
             clearChoices();
             currentStatus = POLL_STATUS.CREATED;
-        } else {
-            clearChoices();
         }
     }
 
@@ -151,12 +149,12 @@ public class PollManager {
         return toReturn;
     }
 
-    public synchronized static void downloadPollDetails(PrintWriter output, String fileName) throws PollIsNotReleasedException {
+    public synchronized static JSONObject downloadPollDetails() throws PollIsNotReleasedException {
         if (currentStatus == POLL_STATUS.RELEASED) {
-            JSONObject detailsJson = new JSONObject(getState());
+            JSONObject detailsJson = new JSONObject();
+            detailsJson.put("state", getState());
             detailsJson.put("votes", getPollResults());
-            output.print(detailsJson);
-            return;
+            return detailsJson;
         }
 
         throw new PollIsNotReleasedException();
