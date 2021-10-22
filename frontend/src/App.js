@@ -2,7 +2,6 @@ import './App.css';
 import axios from 'axios';
 import React, {Component} from "react";
 import Poll from 'react-polls';
-import {Link} from "react-router-dom";
 
 // Declaring poll question and answers
 const pollQuestion = 'What grade will we get?'

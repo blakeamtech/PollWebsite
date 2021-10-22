@@ -3,22 +3,14 @@ import VotingPage from './VotingPage';
 import ViewPollResults from "./ViewPollResults";
 import axios from "axios";
 import WaitingPage from "./WaitingPage";
-import {Link} from "react-router-dom";
-
 
 const Home = () => {
     const [pollState, setPollState] = useState("closed");
-    //const [pollUpdate, setPollUpdate] = useState(0);
     const [poll, setPoll] = useState();
     const [choices, setChoices] = useState([]);
     const [title, setTitle] = useState("");
     const [question, setQuestion] = useState("");
     const [choicesCount, setChoicesCount] = useState([]);
-
-    // useEffect(() => {
-    //     // retrieve latest state from backend
-    //     setInterval(() => getPollState(), pollUpdate)
-    // }, []);
 
     // interval to poll backend for poll status update every X seconds
     const getPollState = () => {
@@ -36,8 +28,6 @@ const Home = () => {
         .catch(function (error) {
             console.log(error);
         });
-        //
-        //setPollUpdate(20);
     }
 
     // interval to poll backend for poll status update every X seconds

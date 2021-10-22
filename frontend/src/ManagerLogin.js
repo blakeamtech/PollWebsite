@@ -2,9 +2,6 @@ import React, {useState} from "react";
 import './CreatePoll.css';
 import { useHistory } from 'react-router-dom';
 
-
-
-
 const ManagerLogin = (props) => {
     const history = useHistory();
 

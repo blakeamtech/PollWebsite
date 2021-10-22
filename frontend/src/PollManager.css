@@ -18,7 +18,7 @@
     text-align: center;
     text-decoration: none;
     width: 200px;
-    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-width: 0.5px;
     -webkit-text-stroke-color: black;
     color: gold;
 }
