@@ -6,6 +6,7 @@ import axios from "axios";
  * Functional component responsible for displaying and handling Poll Manager requests.
  */
 const UpdatePoll = () => {
+    // Keep track of poll information.
     const [newQty, setNewQty] = useState(3);
     const [choices, setChoices] = useState([]);
     const [title, setTitle] = useState("");
@@ -21,14 +22,11 @@ const UpdatePoll = () => {
         setNewQty(parseInt(qty));
     }
 
-    /***
-     * Function responsible for making a request to update a poll.
-     */
+    // Responsible for making a request to update a poll.
     const handleUpdate = (obj) => {
-
         axios.put('http://localhost:8080/update', obj)
             .then(function (response) {
-                console.log("RESPONSE: " + response.data);
+                console.log(response);
                 alert("Poll Updated Successfully.");
             })
             .catch(function (error) {
@@ -37,6 +35,7 @@ const UpdatePoll = () => {
             });
     }
 
+    // Run when the page loads, will get the data of the currently running poll.
     const getPollState = () => {
         // retrieve backend poll state and set pollState
         axios.get('http://localhost:8080/state')
@@ -51,11 +50,12 @@ const UpdatePoll = () => {
             });
     }
 
+    // On page load, get the poll state so the poll information will be already filled.
     useEffect(() => {
         getPollState();
     }, []);
 
-
+    // Responsible for setting up the title, question and choices to be sent to the servlet via /update request.
     const updatePoll = (e) => {
         e.preventDefault();
         let elements = e.target.elements;
@@ -94,7 +94,7 @@ const UpdatePoll = () => {
                 <label htmlFor="question">Poll Question:</label><br/>
                 <input type="text" id="question" name="question" defaultValue={question}/><br/><br/>
                 {
-                    [...Array(4)].map((e, i) =>
+                    [...Array(newQty)].map((e, i) =>
                         <label key={i} htmlFor="choice1">Choice {i+1}:<br/>
                             <input type="text" id={"choice" + (i+1)} name="choice" defaultValue={choices[i]}/><br/><br/>
                         </label>

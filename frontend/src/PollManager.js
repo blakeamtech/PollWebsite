@@ -8,34 +8,16 @@ import {Link} from "react-router-dom";
  */
 class PollManager extends Component {
     /**
-     * Constructor which allows functions to use the "this" keyword.     *
+     * Constructor which allows functions to use the "this" keyword.
      * @param props
      */
     constructor(props) {
         super(props);
-        this.handleUpdate = this.handleUpdate.bind(this);
         this.handleClear = this.handleClear.bind(this);
         this.handleClose = this.handleClose.bind(this);
         this.handleRun = this.handleRun.bind(this);
         this.handleRelease = this.handleRelease.bind(this);
         this.handleUnrelease = this.handleUnrelease.bind(this);
-    }
-
-    /**
-     * Function responsible for sending a request to update a poll.
-     */
-    handleUpdate() {
-        var getData = null; //Need to implement
-        axios.post('http://localhost:8080/update', getData)
-            .then(function (response) {
-                console.log(response);
-
-                alert("Update Successful.");
-            })
-            .catch(function (error) {
-                console.log(error);
-                alert("Update Failed.");
-            });
     }
 
     /**

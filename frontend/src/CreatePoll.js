@@ -1,42 +1,35 @@
 import React, {Component, useState} from "react";
 import './CreatePoll.css';
 import axios from "axios";
-import {Link} from "react-router-dom";
-import PollManager from "./PollManager.js";
-import { useLocation } from 'react-router-dom'
 
 /**
  * Functional component responsible for displaying and handling Poll Manager requests.
  */
 const CreatePoll = () => {
-    const [newQty, setNewQty] = useState(3);
+    const [newQty, setNewQty] = useState(3); // Default amount of choices is 3.
 
-    // Updates quantity of choices for the poll to be created.
+    // Update the amount of choices the poll manager wants to enter for the poll.
     const updateQty = (e) => {
         e.preventDefault();
         let qty = parseInt(e.target.choiceQty.value);
-        if (!Number.isInteger(qty) || qty > 15 || qty < 1){
+        if (!Number.isInteger(qty) || qty > 15 || qty < 1) {
             qty = 3
         }
         setNewQty(parseInt(qty));
     }
 
-    /***
-     * Function responsible for making a request to create a new poll.
-     */
+    // Responsible for making a request to create a new poll.
     const handleCreate = (obj) => {
+        axios.post('http://localhost:8080/create', obj).then(function (response) {
+            console.log(response);
+            alert("Poll Created Successfully.");
+        }).catch(function (error) {
+            console.log(error);
+            alert("Poll Creation Failed.");
+        });
+    }
 
-            axios.post('http://localhost:8080/create', obj)
-                .then(function (response) {
-                    console.log(response);
-                    alert("Poll Created Successfully.");
-                })
-                .catch(function (error) {
-                    console.log(error);
-                    alert("Poll Creation Failed.");
-                });
-        }
-
+    // Responsible for setting up the title, question and choices to be sent to the servlet via /create request.
     const createPoll = (e) => {
         e.preventDefault();
         let elements = e.target.elements;
@@ -57,7 +50,7 @@ const CreatePoll = () => {
     }
 
     /***
-     * Function responsible for rendering tags for use in react methods.
+     * Responsible for rendering tags for use in react methods.
      * @returns {JSX.Element}
      */
     return (
