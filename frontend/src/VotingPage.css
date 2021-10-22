@@ -14,7 +14,7 @@ li {
 }
 
 li:hover {
-    background-color: goldenrod;
+    background-color: gold;
 }
 
 .results-button {
@@ -29,9 +29,9 @@ a {
 }
 
 li:focus {
-    background-color:goldenrod;
+    background-color:gold;
 }
 
 .chosen {
-    color:goldenrod
+    color:gold
 }

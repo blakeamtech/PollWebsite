@@ -3,3 +3,26 @@
     background-color: white;
     height: 1100px;
 }
+
+.button-poll{
+    background-color: gold;
+    border: 1px solid #222222;
+    border-radius: 8px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 20px;
+    margin-left: 10px;
+    margin-bottom: 10px;
+    padding: 13px 23px;
+    text-align: center;
+    text-decoration: none;
+    width: 200px;
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: black;
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+    text-shadow: white 0px 0px 10px;
+}

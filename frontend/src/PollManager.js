@@ -110,7 +110,7 @@ class PollManager extends Component {
     render() {
         return (
             <div className="Manager">
-                <header>
+                <header className="center">
                     <Link className="button-pollmanager" to="/createpoll">Create Poll</Link>
                     <Link className="button-pollmanager" to="/updatepoll">Update Poll</Link>
                     <button type="button" className="button-pollmanager" onClick={this.handleClear}>Clear Poll</button><br/>

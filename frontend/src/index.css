@@ -5,18 +5,16 @@ body {
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: lightslategrey;
   color:gold;
-  font-family: "Jokerman";
+  font-family: "courier new";
   font-size: 40px;
   background-color: black;
+  text-shadow: white 0px 0px 10px;
 }
 #changecolor
  {
   color: gold;
 }
 
-
-
 #waiting-page {
   margin-top: 10%;
 }
-
