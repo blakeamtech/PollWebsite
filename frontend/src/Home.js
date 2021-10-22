@@ -5,11 +5,9 @@ import axios from "axios";
 import './Home.css';
 import WaitingPage from "./WaitingPage";
 
-
 // Responsible for keeping track of the poll information (title, question, choices, etc.)
 const Home = () => {
     const [pollState, setPollState] = useState("closed");
-    //const [pollUpdate, setPollUpdate] = useState(0);
     const [poll, setPoll] = useState();
     const [choices, setChoices] = useState([]);
     const [title, setTitle] = useState("");
