@@ -24,9 +24,9 @@ const VotingPage = (props) => {
         }
     }
 
-    /**
-     * Function responsible for sending a request when user votes in the poll.
-     */
+
+    // Responsible for sending a request when user votes in the poll.
+    // Will add the choice to the query string.
      const handleVotePoll = (answer) => {
         axios.post(`http://localhost:8080/vote?choice=${answer}`)
             .then(function (response) {
@@ -37,6 +37,7 @@ const VotingPage = (props) => {
             });
     }
 
+    // Dynamically display poll choices.
     const displayChoices = () => {
         return (
             <ul>
@@ -53,7 +54,10 @@ const VotingPage = (props) => {
         )
     }
 
-
+    /**
+     * Responsible for rendering tags for use in react methods.
+     * @returns {JSX.Element}
+     */
     return (
         <div>
             <h2>{props.title}</h2>

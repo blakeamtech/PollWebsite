@@ -2,8 +2,10 @@ import React, {useState, useEffect, useRef} from "react";
 import VotingPage from './VotingPage';
 import ViewPollResults from "./ViewPollResults";
 import axios from "axios";
+import './Home.css';
 import WaitingPage from "./WaitingPage";
 
+// Responsible for keeping track of the poll information (title, question, choices, etc.)
 const Home = () => {
     const [pollState, setPollState] = useState("closed");
     const [poll, setPoll] = useState();
@@ -33,7 +35,6 @@ const Home = () => {
     // interval to poll backend for poll status update every X seconds
     // https://stackoverflow.com/questions/46140764/polling-api-every-x-seconds-with-react
     const useInterval = (callback, delay) => {
-
         const savedCallback = useRef();
 
         useEffect(() => {
@@ -56,22 +57,21 @@ const Home = () => {
         getPollState();
         }, 1000 * 5);
 
-    /***
-     * Function responsible for getting the poll result data needed for the PieChart.
-     */
-         const handleResults = () => {
-            axios.get('http://localhost:8080/results')
-                .then(function (response) {    
-                    let res = response.data;
-                    // convert object into array
-                    let choiceList = Object.keys(res).map((key) => [key, parseInt(res[key])]);
-                    setChoicesCount(choiceList);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
 
+     // Responsible for getting the poll result data needed for the PieChart.
+    const handleResults = () => {
+        axios.get('http://localhost:8080/results').then(function (response) {
+            let res = response.data;
+            // convert object into array
+            let choiceList = Object.keys(res).map((key) => [key, parseInt(res[key])]);
+            setChoicesCount(choiceList);
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    // React code for rendering the body.
+    // Contains the voting page, a waiting page, a link to download a file as well as the piechart.
     const renderBody = () => {
         switch (pollState) {
             case "running":
@@ -80,7 +80,9 @@ const Home = () => {
                 return (
                     <div>
                         <a href='http://localhost:8080/details' download>Download Results</a>
-                        <ViewPollResults question={question} title={title} choices={choices} poll={poll} pollState={pollState} choicesCount={choicesCount}/>
+                        <div className="centering">
+                            <ViewPollResults question={question} title={title} choices={choices} poll={poll} pollState={pollState} choicesCount={choicesCount}/>
+                        </div>
                     </div>
                 )
             case "created":
@@ -90,6 +92,10 @@ const Home = () => {
         }
     }
 
+    /**
+     * Responsible for rendering tags for use in react methods.
+     * @returns {JSX.Element}
+     */
     return (
         <div>
             <h1>THE GREATEST POLL OF ALL TIME.</h1>
