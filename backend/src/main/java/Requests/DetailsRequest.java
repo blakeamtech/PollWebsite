@@ -36,7 +36,6 @@ public class DetailsRequest extends AbstractRequest implements Request {
         try{
             JSONObject obj = PollManager.downloadPollDetails();
             toReturn.setBody(obj.toString(2));
-
             return toReturn;
         } catch (AssignmentException e) {
 
