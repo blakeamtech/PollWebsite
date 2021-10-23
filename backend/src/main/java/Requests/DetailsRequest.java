@@ -27,6 +27,7 @@ public class DetailsRequest extends AbstractRequest implements Request {
     @Override
     public Response call() {
         Response toReturn = new Response();
+        String pollTitle = PollManager.getPollTitle().orElseGet(() ->"empty");
         String extension = (getRequest().getAttribute("extension") == null)
                 ? ".txt"
                 : getRequest().getAttribute("extension").toString();
