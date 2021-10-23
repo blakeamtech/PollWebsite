@@ -31,12 +31,11 @@ public class DetailsRequest extends AbstractRequest implements Request {
         String extension = (getRequest().getAttribute("extension") == null)
                 ? ".txt"
                 : getRequest().getAttribute("extension").toString();
-        toReturn.addHeader("Content-disposition", String.format("attachment; filename=%s%s", pollTitle, extension));
+        toReturn.addHeader("Content-disposition", String.format("attachment; filename=%s-%d%s", pollTitle, PollManager.getPollReleasedTimestamp(), extension));
 
         try{
             JSONObject obj = PollManager.downloadPollDetails();
             toReturn.setBody(obj.toString(2));
-
             return toReturn;
         } catch (AssignmentException e) {
 

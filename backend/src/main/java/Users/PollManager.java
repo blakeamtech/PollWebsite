@@ -92,7 +92,7 @@ public class PollManager {
     }
 
     public synchronized static void releasePoll() throws AssignmentException {
-        pollReleasedTimestamp = System.nanoTime();
+        pollReleasedTimestamp = System.currentTimeMillis();
 
         checkPollState(POLL_STATUS.RUNNING, "release");
 
