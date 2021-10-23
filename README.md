@@ -1,3 +1,0 @@
-# Assignment1
-
-POG
