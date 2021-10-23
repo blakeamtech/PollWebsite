@@ -168,20 +168,13 @@ public class PollManager {
         return toReturn;
     }
 
-    /**
-     * Downloads the poll details by writing them to the given print writer
-     * @param output printWriter to which to write the vote results
-     * @param fileName FileName, not used
-     * @throws PollIsNotReleasedException
-     */
-    public synchronized static void downloadPollDetails(PrintWriter output, String fileName) throws PollIsNotReleasedException {
+    public synchronized static JSONObject downloadPollDetails() throws PollIsNotReleasedException {
         if (currentStatus == POLL_STATUS.RELEASED) {
-            JSONObject detailsJson = new JSONObject(getState());
+            JSONObject detailsJson = new JSONObject();
+            detailsJson.put("state", getState());
             detailsJson.put("votes", getPollResults());
-            output.print(detailsJson);
-            return;
+            return detailsJson;
         }
-
         throw new PollIsNotReleasedException();
     }
 
