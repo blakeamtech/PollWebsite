@@ -113,7 +113,7 @@ public class PollManager {
         Map<String, Object> mapToReturn = new HashMap<>();
 
         if (pollInstance != null) {
-            mapToReturn.put("choices", pollInstance.getChoicesList().toString());
+            mapToReturn.put("choices", pollInstance.getChoicesList());
             mapToReturn.put("question", pollInstance.getQuestionText());
             mapToReturn.put("title", pollInstance.getPollTitle());
         }
