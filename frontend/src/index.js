@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import {Link} from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import history from "./history";
@@ -9,11 +8,12 @@ import {Route, Router, Switch} from "react-router";
 import PollManager from "./PollManager";
 import CreatePoll from "./CreatePoll";
 import ManagerLogin from "./ManagerLogin";
-import VotingPage from "./VotingPage";
 import ViewPollResults from "./ViewPollResults";
 import Home from "./Home";
+import UpdatePoll from "./UpdatePoll";
 
-
+// Render the nav bar which will be displayed on the top of every page.
+// Keep track of all routes to pages so when using "Link", it will find the specified page and display it.
 ReactDOM.render(
   <React.StrictMode>
       <Router history={history}>
@@ -34,6 +34,9 @@ ReactDOM.render(
               </Route>
               <Route path="/createpoll">
                   <CreatePoll />
+              </Route>
+              <Route path="/updatepoll">
+                  <UpdatePoll />
               </Route>
               <Route path="/viewpollresults">
                   <ViewPollResults />

@@ -1,6 +1,18 @@
 body {
   margin: 0;
   text-align: center;
+  background-image: url("amogus.png");
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: lightslategrey;
+  color:gold;
+  font-family: "courier new";
+  font-size: 40px;
+  background-color: black;
+  text-shadow: white 0px 0px 10px;
+}
+#changecolor
+ {
+  color: gold;
 }
 
 #waiting-page {

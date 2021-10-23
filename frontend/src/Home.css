@@ -1,8 +1,10 @@
-.Manager {
-    text-align: center;
+.centering{
+    align-content: center;
+    background-color: white;
+    height: 1100px;
 }
-                                                       /* CSS */
-.button-pollmanager {
+
+.button-poll{
     background-color: gold;
     border: 1px solid #222222;
     border-radius: 8px;
@@ -24,9 +26,3 @@
     font-family: 'Courier New', Courier, monospace;
     text-shadow: white 0px 0px 10px;
 }
-
-.center {
-    margin: auto;
-    width: 50%;
-    padding: 10px;
-  }

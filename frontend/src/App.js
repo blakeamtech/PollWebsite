@@ -2,7 +2,6 @@ import './App.css';
 import axios from 'axios';
 import React, {Component} from "react";
 import Poll from 'react-polls';
-import {Link} from "react-router-dom";
 
 // Declaring poll question and answers
 const pollQuestion = 'What grade will we get?'
@@ -101,7 +100,6 @@ class App extends Component {
                     <div id="poll">
                         <Poll question={pollQuestion} answers={pollAnswers} onVote={this.handleVote}/>
                     </div><br/>
-                    <Link className="button-home" to="/viewpollresults">View Poll Results</Link><br/>
                     <button type="button" className="button-home" onClick={this.handleDownloadPoll}>Download Poll Results</button>
                 </header>
             </div>
