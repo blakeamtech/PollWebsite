@@ -15,8 +15,17 @@ import java.util.concurrent.ThreadPoolExecutor;
  */
 public class RequestExecutor {
 
+    /**
+     * A thread pool executor offers a pool of threads to which an object implementing Callable can be passed.
+     * This object is then executed inside the thread, and a Response object, wrapped in a Future, is returned
+     */
     private static final ThreadPoolExecutor requestExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
 
+    /**
+     * This method executes a given object implementing the Request interface, which also implements the callable interface
+     * @param request a given Request object
+     * @return returns a Response wrapped in a Future
+     */
     public static Future<Response> executeRequest(Request request){
         return requestExecutor.submit(request);
     }

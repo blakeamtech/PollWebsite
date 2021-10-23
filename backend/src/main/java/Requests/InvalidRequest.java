@@ -13,6 +13,10 @@ public class InvalidRequest implements Request {
         this.statusCode = statusCode;
     }
 
+    /**
+     * Implementation of the Invalid request. This is a base invalid request, used when the request doesn't match out format.
+     * @return Response object containing body and status request.
+     */
     @Override
     public Response call() {
         return new Response()

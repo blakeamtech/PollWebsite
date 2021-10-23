@@ -14,6 +14,10 @@ public class ResultsRequest implements Request {
 
     ResultsRequest(){};
 
+    /**
+     * Implementation of the Results request. Returns the results of the poll
+     * @return Response object containing body and status request.
+     */
     @Override
     public Response call() {
         Map<String, String> results = PollManager.getPollResults();

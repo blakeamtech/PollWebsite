@@ -13,6 +13,11 @@ public class CloseRequest extends AbstractRequest implements Request {
         super(request);
     };
 
+
+    /**
+     * Implementation of the Close request. Closes the poll
+     * @return Response object containing body and status request.
+     */
     @Override
     public Response call() {
 

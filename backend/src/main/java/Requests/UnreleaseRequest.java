@@ -9,6 +9,10 @@ public class UnreleaseRequest implements Request {
 
     UnreleaseRequest(){};
 
+    /**
+     * Implementation of the Unrelease request. Unreleases the poll
+     * @return Response object containing body and status request.
+     */
     @Override
     public Response call() {
         try {

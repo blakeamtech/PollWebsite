@@ -1,17 +1,32 @@
 package Util;
 
+import Exceptions.InvalidPermissionException;
+
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The session manager manages HttpSessions from the servlet.
+ * It stores sessions inside a HashMap.
+ * If the Session is new, we store the Participant's choice. If it is old, we update the participant's choice.
+ */
 public class SessionManager {
 
-    private SessionManager(){};
+    private SessionManager() throws InvalidPermissionException {
+        throw new InvalidPermissionException();
+    };
 
+    // hash map which holds the httpSessions, using the SessionID as the key
     private final static Map<Integer, HttpSession> sessionMap = new HashMap<>();
-    private static final String POLL_MANAGER_PASSWORD = "poll_manager_yolo";
-    private static Integer pollManagerHash;
 
+    /**
+     * Vote method which takes in a Session and a choice.
+     * If the session is already stored, we update the choice.
+     * If it is not stored, we add the choice and store it.
+     * @param session Given httpSession taken from the servlet
+     * @param givenChoice given user choice for the poll
+     */
     public static void vote(HttpSession session, String givenChoice){
         synchronized (sessionMap){
             if(sessionMap.containsKey(session.hashCode())){
@@ -25,21 +40,4 @@ public class SessionManager {
 
     }
 
-
-    public static boolean isPollManager(HttpSession session){
-        if(pollManagerHash == null){
-            return false;
-        }
-
-        return session.hashCode() == pollManagerHash;
-    }
-
-
-    public synchronized static boolean setPollManagerSession(HttpSession session, String password){
-        if(password.equals(POLL_MANAGER_PASSWORD)){
-            pollManagerHash = session.hashCode();
-            return true;
-        }
-        return false;
-    }
 }

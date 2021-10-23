@@ -2,6 +2,7 @@ package Users;
 
 import Exceptions.*;
 import Polls.Poll;
+import Polls.PollChoice;
 import Util.SessionManager;
 import org.json.JSONObject;
 
@@ -32,15 +33,14 @@ public class PollManager {
     }
 
     // key would be unique identifier (sessionId, wtv) and value would be the vote choice
-    private static final Map<String, String> submittedVotes = new HashMap<>();
-    private static final Map<String, Integer> voteCount = new HashMap<>();
+    private static final Map<String, String> submittedVotes = new HashMap<>();  //submitted votes, session id as key
+    private static final Map<String, Integer> voteCount = new HashMap<>();      // count of different votes
     private static Poll pollInstance;
     private static long pollReleasedTimestamp;
     private static POLL_STATUS currentStatus = POLL_STATUS.CLOSED;
 
-    public synchronized static void createPoll(String name, String question, List<String> choices)
+    public synchronized static void createPoll(String name, String question, List<PollChoice> choices)
             throws AssignmentException {
-
 
         // if there exists a poll, can't create a new one
         if (pollInstance != null && currentStatus != POLL_STATUS.CLOSED) {
@@ -51,7 +51,7 @@ public class PollManager {
 
     }
 
-    public synchronized static void updatePoll(String name, String question, List<String> choices) throws InvalidPollStateException {
+    public synchronized static void updatePoll(String name, String question, List<PollChoice> choices) throws InvalidPollStateException {
         // can only update a poll if it's already running
         if (pollInstance == null || (currentStatus != POLL_STATUS.CREATED && currentStatus != POLL_STATUS.RUNNING))
             throw new InvalidPollStateException(currentStatus.value, "update");
@@ -62,7 +62,11 @@ public class PollManager {
         addChoices(choices);
     }
 
-
+    /**
+     * This method clears the poll if the poll is released or running.
+     * Else, it throws invalid state exceptions
+     * @throws InvalidPollStateException
+     */
     public synchronized static void clearPoll() throws InvalidPollStateException {
         if (pollInstance == null)
             throw new InvalidPollStateException("null", "close");
@@ -102,6 +106,10 @@ public class PollManager {
         currentStatus = POLL_STATUS.RUNNING;
     }
 
+    /**
+     * Returns the current state of the poll, more of a helper method for populating the frontend
+     * @return
+     */
     public static Map<String, Object> getState() {
         Map<String, Object> mapToReturn = new HashMap<>();
 
@@ -116,6 +124,12 @@ public class PollManager {
         return mapToReturn;
     }
 
+    /**
+     * This method allows the participant to vote if the Poll state is running, else, it throws an exception.
+     * @param httpSession given HttpSession from the Servlet
+     * @param choice given choice fromm the participant
+     * @throws AssignmentException
+     */
     public synchronized static void vote(HttpSession httpSession, String choice) throws AssignmentException {
         if (choice.isBlank() || choice.isEmpty() || !PollManager.validateChoice(choice))
             throw new InvalidChoiceException();
@@ -131,6 +145,10 @@ public class PollManager {
         SessionManager.vote(httpSession, choice);
     }
 
+    /**
+     * Returns the results of the poll
+     * @return map containing choice, vote-count value pairs
+     */
     public static Map<String, String> getPollResults() {
         Map<String, String> toReturn = new HashMap<>();
 
@@ -142,7 +160,7 @@ public class PollManager {
 
             pollInstance.getChoicesList().stream().sequential().forEach(
                     item -> {
-                        toReturn.put(item, voteCount.get(item).toString());
+                        toReturn.put(item.choice, voteCount.get(item).toString());
                     }
             );
 
@@ -151,6 +169,12 @@ public class PollManager {
         return toReturn;
     }
 
+    /**
+     * Downloads the poll details by writing them to the given print writer
+     * @param output printWriter to which to write the vote results
+     * @param fileName FileName, not used
+     * @throws PollIsNotReleasedException
+     */
     public synchronized static void downloadPollDetails(PrintWriter output, String fileName) throws PollIsNotReleasedException {
         if (currentStatus == POLL_STATUS.RELEASED) {
             JSONObject detailsJson = new JSONObject(getState());
@@ -166,7 +190,12 @@ public class PollManager {
         return Optional.of(pollInstance.getPollTitle());
     }
 
-
+    /**
+     * Validates a give choice. If invalid, throws an error, else returns a boolean
+     * @param choice
+     * @return
+     * @throws InvalidPollStateException
+     */
     public synchronized static boolean validateChoice(String choice) throws InvalidPollStateException {
         if (pollInstance == null)
             throw new InvalidPollStateException("none", "vote");
@@ -182,27 +211,38 @@ public class PollManager {
         voteCount.clear();
     }
 
+    /**
+     * Helper method which throws an exception if the current status is invalid.
+     * @param wantedStatus given wanted status, throws an error if current status != wanted stats
+     * @param triedAction action which was tried and invalid in current state
+     * @throws AssignmentException
+     */
     private static void checkPollState(POLL_STATUS wantedStatus, String triedAction) throws AssignmentException{
         if(currentStatus != wantedStatus || pollInstance == null)
             throw new InvalidPollStateException(currentStatus.value, triedAction);
     }
 
+    /**
+     * Changes the vote of a participant who already voted.
+     * @param httpSession given HttpSession from the servlet
+     * @param choice choice
+     */
     private static void changeVote(HttpSession httpSession, String choice) {
         String oldChoice = httpSession.getAttribute("choice").toString();
         voteCount.put(oldChoice, voteCount.get(oldChoice) - 1);
         voteCount.put(choice, voteCount.get(choice) + 1);
     }
 
-    private static void addChoices(List<String> choices) {
+    private static void addChoices(List<PollChoice> choices) {
         synchronized (voteCount) {
             choices.forEach(item -> {
-                voteCount.put(item, 0);
+                voteCount.put(item.choice, 0);
             });
         }
 
     }
 
-    private static void initAndCreatePoll(String name, String question, List<String> choices) {
+    private static void initAndCreatePoll(String name, String question, List<PollChoice> choices) {
         pollInstance = new Poll(name, question, choices);
         currentStatus = POLL_STATUS.CREATED;
         addChoices(choices);

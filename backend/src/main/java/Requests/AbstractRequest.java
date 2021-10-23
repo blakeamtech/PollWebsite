@@ -4,6 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
+/**
+ * The abstract request contains code that will be re-used by request implementations
+ * Namely: the constructor which takes in a HttpServletRequest, the HttpSession getter, and the HttpServletRequest getter
+ */
 public abstract class AbstractRequest {
 
     private final HttpSession httpSession;
@@ -15,6 +19,10 @@ public abstract class AbstractRequest {
     }
 
     public Optional<HttpSession> getHttpSession(){
+        if(this.httpSession == null){
+            return Optional.empty();
+        }
+
         return Optional.of(this.httpSession);
     }
 

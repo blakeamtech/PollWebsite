@@ -15,6 +15,10 @@ public class VoteRequest extends AbstractRequest implements Request {
         super(servletRequest);
     };
 
+    /**
+     * Implementation of the Vote request. Submits a vote to the poll
+     * @return Response object containing body and status request.
+     */
     @Override
     public Response call() {
         try {

@@ -13,6 +13,10 @@ public class RunRequest extends AbstractRequest implements Request {
         super(request);
     };
 
+    /**
+     * Implementation of the Run request. Sets the poll status to running.
+     * @return Response object containing body and status request.
+     */
     @Override
     public Response call() {
         try {

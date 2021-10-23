@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * This class implements the AbstractRequest abstract class, which requires the use
+ * of the super constructor.
+ */
 public class CreateRequest extends AbstractRequest implements Request {
 
     private static final ObjectMapper mapper = new ObjectMapper();
@@ -24,6 +28,11 @@ public class CreateRequest extends AbstractRequest implements Request {
         return Optional.of(poll);
     }
 
+
+    /**
+     * Implementation of the Create request. Creates the poll
+     * @return Response object containing body and status request.
+     */
     @Override
     public Response call() {
         try {

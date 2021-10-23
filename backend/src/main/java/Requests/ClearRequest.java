@@ -12,6 +12,10 @@ public class ClearRequest extends AbstractRequest implements Request {
         super(request);
     }
 
+    /**
+     * Implementation of the clear request. Clears the poll
+     * @return Response object containing body and status request.
+     */
     @Override
     public Response call() {
         try {

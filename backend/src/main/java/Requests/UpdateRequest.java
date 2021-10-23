@@ -18,6 +18,10 @@ public class UpdateRequest extends AbstractRequest implements Request {
         super(request);
     };
 
+    /**
+     * Implementation of the Update request. Updates the poll.
+     * @return Response object containing body and status request.
+     */
     @Override
     public Response call() {
         try{

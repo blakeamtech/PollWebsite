@@ -6,12 +6,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The response class is used as an implementation of the Http Response
+ * This class contains methods which can be used with method chaining to build the response
+ * We found that in this case this was a better implementation than using a builder.
+ */
 public class Response {
 
-    private int statusCode;
-    private String body = "";
-    private final Map<String, String> headers = new HashMap<>();
+    private int statusCode;     // response status code
+    private String body = "";   // response body, default empty
+    private final Map<String, String> headers = new HashMap<>(); //extra headers
 
+    // empty base constructor
     public Response(){};
 
     public Response(int statusCode, JSONObject body){
