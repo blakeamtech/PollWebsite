@@ -39,7 +39,7 @@ const CreatePoll = () => {
         for(var i = 0 ; i < elements.length ; i++){
             var item = elements.item(i);
             if (item.name === "choice" && item.value) {
-                obj["choices"].push(item.value)
+                obj["choices"].push({"choice": item.value, description:""})
             }
             else if (item.name === "name" || item.name === "question") {
                 obj[item.name] = item.value;

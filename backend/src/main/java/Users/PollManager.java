@@ -2,7 +2,6 @@ package Users;
 
 import Exceptions.*;
 import Polls.Poll;
-import Polls.PollChoice;
 import Util.SessionManager;
 import org.json.JSONObject;
 
@@ -39,7 +38,7 @@ public class PollManager {
     private static long pollReleasedTimestamp;
     private static POLL_STATUS currentStatus = POLL_STATUS.CLOSED;
 
-    public synchronized static void createPoll(String name, String question, List<PollChoice> choices)
+    public synchronized static void createPoll(String name, String question, List<String> choices)
             throws AssignmentException {
 
         // if there exists a poll, can't create a new one
@@ -51,7 +50,7 @@ public class PollManager {
 
     }
 
-    public synchronized static void updatePoll(String name, String question, List<PollChoice> choices) throws InvalidPollStateException {
+    public synchronized static void updatePoll(String name, String question, List<String> choices) throws InvalidPollStateException {
         // can only update a poll if it's already running
         if (pollInstance == null || (currentStatus != POLL_STATUS.CREATED && currentStatus != POLL_STATUS.RUNNING))
             throw new InvalidPollStateException(currentStatus.value, "update");
@@ -114,7 +113,7 @@ public class PollManager {
         Map<String, Object> mapToReturn = new HashMap<>();
 
         if (pollInstance != null) {
-            mapToReturn.put("choices", pollInstance.getChoicesList());
+            mapToReturn.put("choices", pollInstance.getChoicesList().toString());
             mapToReturn.put("question", pollInstance.getQuestionText());
             mapToReturn.put("title", pollInstance.getPollTitle());
         }
@@ -160,7 +159,7 @@ public class PollManager {
 
             pollInstance.getChoicesList().stream().sequential().forEach(
                     item -> {
-                        toReturn.put(item.choice, voteCount.get(item).toString());
+                        toReturn.put(item, voteCount.get(item).toString());
                     }
             );
 
@@ -233,16 +232,16 @@ public class PollManager {
         voteCount.put(choice, voteCount.get(choice) + 1);
     }
 
-    private static void addChoices(List<PollChoice> choices) {
+    private static void addChoices(List<String> choices) {
         synchronized (voteCount) {
             choices.forEach(item -> {
-                voteCount.put(item.choice, 0);
+                voteCount.put(item, 0);
             });
         }
 
     }
 
-    private static void initAndCreatePoll(String name, String question, List<PollChoice> choices) {
+    private static void initAndCreatePoll(String name, String question, List<String> choices) {
         pollInstance = new Poll(name, question, choices);
         currentStatus = POLL_STATUS.CREATED;
         addChoices(choices);

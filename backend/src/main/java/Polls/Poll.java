@@ -10,7 +10,7 @@ public class Poll{
 
     }
 
-    public Poll(String name, String question, List<PollChoice> choices) {
+    public Poll(String name, String question, List<String> choices) {
         this.choicesList = choices;
         this.pollTitle = name;
         this.questionText = question;
@@ -23,7 +23,7 @@ public class Poll{
     private String questionText;
 
     @JsonProperty("choices")
-    private List<PollChoice> choicesList;
+    private List<String> choicesList;
 
     public String getPollTitle() {
         return pollTitle;
@@ -41,11 +41,11 @@ public class Poll{
         this.questionText = questionText;
     }
 
-    public List<PollChoice> getChoicesList() {
+    public List<String> getChoicesList() {
         return choicesList;
     }
 
-    public void setChoicesList(List<PollChoice> choicesList) {
+    public void setChoicesList(List<String> choicesList) {
         this.choicesList = choicesList;
     }
 
