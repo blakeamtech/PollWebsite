@@ -20,6 +20,8 @@ ReactDOM.render(
           <div id="nav">
               <Link to="/">Home</Link><br/>
               <Link to="/pollmanagerlogin">Poll Manager</Link><br/>
+              <a href="" onClick={() => alert("Sorry, this feature isn't implemented yet!")}>Sign Up</a><br/>
+              <a href="" onClick={() => alert("Sorry, this feature isn't implemented yet!")}>Sign in</a>
           </div>
           <hr />
           <Switch>
