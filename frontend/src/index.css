@@ -1,15 +1,37 @@
 body {
+  background-color: black;
+  background-image: url("bg.jpg");
+}
+
+#body {
   margin: 0;
   text-align: center;
-  background-image: url("amogus.png");
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: lightslategrey;
   color:gold;
   font-family: "courier new";
   font-size: 40px;
-  background-color: black;
   text-shadow: white 0px 0px 10px;
 }
+
+#nav-bar {
+  white-space: pre-wrap;
+  font-size: 30px;
+  font-family: "courier new", serif;
+  margin: 10px;
+}
+
+#nav-bar-left {
+  text-align: left;
+  display: inline-block;
+}
+
+#nav-bar-right {
+  text-align: right;
+  display: inline-block;
+  margin-left: 20px;
+}
+
 #changecolor
  {
   color: gold;
