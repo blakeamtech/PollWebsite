@@ -98,6 +98,12 @@ const Home = () => {
      */
     return (
         <div>
+            <div id="pollText">
+                <label htmlFor="pollId">Enter a poll ID:</label><br/>
+                <input type="text" id="pollId" name="pollId"/><br/>
+                <label htmlFor="pinNum">Enter a given PIN#:</label><br/>
+                <input type="text" id="pinNum" name="pinNum"/><br/>
+            </div>
             <h1>THE GREATEST POLL OF ALL TIME.</h1>
             {
                 renderBody()

@@ -26,3 +26,16 @@
     font-family: 'Courier New', Courier, monospace;
     text-shadow: white 0px 0px 10px;
 }
+
+
+#pollText {
+    text-align: left;
+    font-size: 30px;
+    color: gold;
+}
+
+input {
+    padding: 6px;
+    width: 200px;
+    font-size: 16px;
+}

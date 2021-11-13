@@ -17,33 +17,39 @@ import UpdatePoll from "./UpdatePoll";
 ReactDOM.render(
   <React.StrictMode>
       <Router history={history}>
-          <div id="nav">
-              <Link to="/">Home</Link><br/>
-              <Link to="/pollmanagerlogin">Poll Manager</Link><br/>
-              <a href="" onClick={() => alert("Sorry, this feature isn't implemented yet!")}>Sign Up</a><br/>
-              <a href="" onClick={() => alert("Sorry, this feature isn't implemented yet!")}>Sign in</a>
+          <div id="nav-bar">
+              <div id="nav-bar-left">
+                  <Link to="/">Home</Link><br/>
+                  <Link to="/pollmanagerlogin">Poll Manager</Link>
+              </div>
+              <div id="nav-bar-right">
+                  <a href="" onClick={() => alert("Sorry, this feature isn't implemented yet!")}>Sign Up</a><br/>
+                  <a href="" onClick={() => alert("Sorry, this feature isn't implemented yet!")}>Sign In</a>
+              </div>
           </div>
           <hr />
-          <Switch>
-            <Route exact path="/">
-                  <Home />
-              </Route>
-              <Route path="/pollmanagerlogin">
-                  <ManagerLogin />
-              </Route>
-              <Route path="/pollmanager">
-                  <PollManager />
-              </Route>
-              <Route path="/createpoll">
-                  <CreatePoll />
-              </Route>
-              <Route path="/updatepoll">
-                  <UpdatePoll />
-              </Route>
-              <Route path="/viewpollresults">
-                  <ViewPollResults />
-              </Route>
-          </Switch>
+          <div id="body">
+              <Switch>
+                <Route exact path="/">
+                      <Home />
+                  </Route>
+                  <Route path="/pollmanagerlogin">
+                      <ManagerLogin />
+                  </Route>
+                  <Route path="/pollmanager">
+                      <PollManager />
+                  </Route>
+                  <Route path="/createpoll">
+                      <CreatePoll />
+                  </Route>
+                  <Route path="/updatepoll">
+                      <UpdatePoll />
+                  </Route>
+                  <Route path="/viewpollresults">
+                      <ViewPollResults />
+                  </Route>
+              </Switch>
+          </div>
       </Router>
   </React.StrictMode>,
   document.getElementById('root')
