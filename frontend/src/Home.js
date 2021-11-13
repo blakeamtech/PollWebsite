@@ -70,6 +70,43 @@ const Home = () => {
         });
     }
 
+    // Responsible for making a request to search for the given poll id and PIN#
+    const handleSearch = (obj) => {
+        axios.post('http://localhost:8080/search', obj).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+            //alert("Poll Search Failed.");
+        });
+    }
+
+    // Will look for the entered poll information and user choice if a PIN# was entered.
+    const searchPoll = (e) => {
+        e.preventDefault();
+        let elements = e.target.elements;
+        let obj = {};
+        obj["pinNum"] = "";
+        obj["pollId"] = "";
+
+        for(var i = 0 ; i < elements.length - 1; i++) {
+            var item = elements.item(i);
+            if (item.name === "pinNum" && item.value !== "") {
+                obj["pinNum"] = item.value;
+                console.log("FOUND PIN: " + item.value);
+            }
+            else if (item.name === "pollId" && item.value !== "" ) {
+                obj["pollId"] = item.value;
+                console.log("Poll Id: " + item.value);
+            }
+            else {
+                alert("Please enter a valid Poll ID and PIN#!");
+                break;
+            }
+        }
+        handleSearch(obj)
+        console.log(obj)
+    }
+
     // React code for rendering the body.
     // Contains the voting page, a waiting page, a link to download a file as well as the piechart.
     const renderBody = () => {
@@ -98,6 +135,15 @@ const Home = () => {
      */
     return (
         <div>
+            <div id="pollText">
+                <form onSubmit={searchPoll}>
+                    <label htmlFor="pollId">Enter a poll ID:</label><br/>
+                    <input type="text" id="pollId" name="pollId"/><br/>
+                    <label htmlFor="pinNum">Enter a given PIN#:</label><br/>
+                    <input type="text" id="pinNum" name="pinNum"/><br/>
+                    <input id="subBtn" type="submit" value="Submit"/>
+                </form>
+            </div>
             <h1>THE GREATEST POLL OF ALL TIME.</h1>
             {
                 renderBody()

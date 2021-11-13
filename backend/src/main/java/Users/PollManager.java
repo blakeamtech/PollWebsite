@@ -4,9 +4,9 @@ import Exceptions.*;
 import Polls.Poll;
 import Util.SessionManager;
 import org.json.JSONObject;
+import org.json.XML;
 
 import javax.servlet.http.HttpSession;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -168,12 +168,38 @@ public class PollManager {
         return toReturn;
     }
 
-    public synchronized static JSONObject downloadPollDetails() throws PollIsNotReleasedException {
+    public synchronized static JSONObject downloadJSonPollDetails() throws PollIsNotReleasedException {
         if (currentStatus == POLL_STATUS.RELEASED) {
             JSONObject detailsJson = new JSONObject();
             detailsJson.put("state", getState());
             detailsJson.put("votes", getPollResults());
             return detailsJson;
+        }
+        throw new PollIsNotReleasedException();
+    }
+
+    public synchronized static String downloadStringPollDetails() throws PollIsNotReleasedException {
+        if (currentStatus == POLL_STATUS.RELEASED) {
+            String details = "";
+            Map<String, Object> state = getState();
+            Map<String, String> results = getPollResults();
+
+            details = "Title: " + state.get("title") + "\n" +
+                    "Question: " + state.get("question") + "\n" +
+                    "State: " + state.get("state") + "\n" +
+                    "Choices: " + state.get("choices") + "\n\n" +
+                    "Votes: " + results.toString();
+            return details;
+        }
+        throw new PollIsNotReleasedException();
+    }
+
+    public synchronized static String downloadXMLPollDetails() throws PollIsNotReleasedException {
+        if (currentStatus == POLL_STATUS.RELEASED) {
+            JSONObject detailsJson = new JSONObject();
+            detailsJson.put("state", getState());
+            detailsJson.put("votes", getPollResults());
+            return XML.toString(detailsJson);
         }
         throw new PollIsNotReleasedException();
     }

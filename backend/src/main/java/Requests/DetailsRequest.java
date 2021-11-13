@@ -34,8 +34,12 @@ public class DetailsRequest extends AbstractRequest implements Request {
         toReturn.addHeader("Content-disposition", String.format("attachment; filename=%s-%d%s", pollTitle, PollManager.getPollReleasedTimestamp(), extension));
 
         try{
-            JSONObject obj = PollManager.downloadPollDetails();
-            toReturn.setBody(obj.toString(2));
+            JSONObject obj = PollManager.downloadJSonPollDetails();
+            String str = PollManager.downloadStringPollDetails();
+            String xml = PollManager.downloadXMLPollDetails();
+
+            toReturn.setBody(xml);
+            //toReturn.setBody(obj.toString(2)); // For use with JSON
             return toReturn;
         } catch (AssignmentException e) {
 
