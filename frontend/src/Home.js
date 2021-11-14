@@ -116,7 +116,9 @@ const Home = () => {
             case "released":
                 return (
                     <div>
-                        <a href='http://localhost:8080/details' download>Download Results</a>
+                        <a href='http://localhost:8080/details?choice=TEXT' download>TEXT Results</a><br/>
+                        <a href='http://localhost:8080/details?choice=JSON' download>JSON Results</a><br/>
+                        <a href='http://localhost:8080/details?choice=XML' download>XML Results</a><br/>
                         <div className="centering">
                             <ViewPollResults question={question} title={title} choices={choices} poll={poll} pollState={pollState} choicesCount={choicesCount}/>
                         </div>
