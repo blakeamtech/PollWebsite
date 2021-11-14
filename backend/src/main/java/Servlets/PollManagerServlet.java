@@ -1,6 +1,7 @@
 package Servlets;
 
 import Requests.RequestHandler;
+import Storage.PostgreSQLJDBC;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
