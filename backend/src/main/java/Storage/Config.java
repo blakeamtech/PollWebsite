@@ -7,7 +7,12 @@ public enum Config {
 
     DB_PW("db_pw", "PW for local DB", System.getProperty("DB_PW")),
 
-    DB_USERNAME("db_username", "User for local DB.", System.getProperty("DB_USER"));
+    DB_USERNAME("db_username", "User for local DB.", System.getProperty("DB_USER")),
+
+    ID_ALLOWED_CHARACTERS("allowed_characters",
+            "Allowed characters for random IDs.",
+            "abcdefghjkmnpqrstvwxyz0123456789")
+    ;
 
     public String propertyName;
     public String description;

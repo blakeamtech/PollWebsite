@@ -1,7 +1,13 @@
 package Users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
@@ -17,11 +23,17 @@ public class User {
     @JsonProperty("hashedPassword")
     public String hashedPassword;
 
-    public BasicDBObject asDBObject(){
-        return new BasicDBObject()
-                .append("userId", this.userId)
-                .append("fullName", this.fullName)
-                .append("emailAddress", this.emailAddress)
-                .append("hashedPassword", this.hashedPassword);
+    private List<String> pollsVoted = new ArrayList<>();
+
+    public void vote(String pin){
+        this.pollsVoted.add(pin);
+    }
+
+    public JSONObject asJson(){
+       return new JSONObject()
+               .put("userId", this.userId)
+               .put("emailAddress", this.emailAddress)
+               .put("hashedPassword", this.hashedPassword)
+               .put("fullName", this.fullName);
     }
 }
