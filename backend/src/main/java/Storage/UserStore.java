@@ -13,12 +13,12 @@ public class UserStore {
         userMap.put(user.userId, user);
     }
 
-    public static void vote(User user, String pin){
+    public static void addUserPollId(User user, String pollId){
         if(userMap.containsKey(user.userId)){
-            userMap.get(user.userId).vote(pin);
+            userMap.get(user.userId).addPollId(pollId);
             return;
         }
-        user.vote(pin);
+        user.addPollId(pollId);
         userMap.put(user.userId, user);
     }
 

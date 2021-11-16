@@ -23,11 +23,15 @@ public class User {
     @JsonProperty("hashedPassword")
     public String hashedPassword;
 
-    private List<String> pollsVoted = new ArrayList<>();
+    private List<String> userPins = new ArrayList<>();
 
-    public void vote(String pin){
-        this.pollsVoted.add(pin);
+    private List<String> userPollIds = new ArrayList<>();
+
+    public void addPin(String pin){
+        this.userPins.add(pin);
     }
+
+    public void addPollId(String pollId) { this.userPollIds.add(pollId); }
 
     public JSONObject asJson(){
        return new JSONObject()
