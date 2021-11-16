@@ -7,55 +7,70 @@ import WaitingPage from "./WaitingPage";
 
 // Responsible for keeping track of the poll information (title, question, choices, etc.)
 const Home = () => {
-    const [pollState, setPollState] = useState("closed");
+    const [pollStatus, setPollStatus] = useState("closed");
     const [poll, setPoll] = useState();
-    const [choices, setChoices] = useState([]);
-    const [title, setTitle] = useState("");
-    const [question, setQuestion] = useState("");
+    // pin: 6 digits number
+    const [pin, setPin] = useState("");
     const [choicesCount, setChoicesCount] = useState([]);
 
+    let mockPoll = {
+        "id": "1283ADE870",
+        "state": "running",
+        "title": "Kappa 123",
+        "question": "Yes or No?",
+        "choices": ["yes", "no"],
+        "pin_voteid": {
+            "273648": "yes",
+            "834294": "no"
+        },
+        "votes": {
+            "yes": "1",
+            "no": "2"
+        }
+    };
+
     // interval to poll backend for poll status update every X seconds
-    const getPollState = () => {
-        // retrieve backend poll state and set pollState
-        axios.get('http://localhost:8080/state', )
-        .then(function (response) {
-            setPoll(response.data);
-            setPollState(response.data.state);
-            setChoices(response.data.choices);
-            setTitle(response.data.title);
-            setQuestion(response.data.question);
-            handleResults();
-            console.log(response.data);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-    }
+    // const getPollState = () => {
+    //     // retrieve backend poll state and set pollState
+    //     axios.get('http://localhost:8080/state', )
+    //     .then(function (response) {
+    //         setPoll(response.data);
+    //         setPollState(response.data.state);
+    //         setChoices(response.data.choices);
+    //         setTitle(response.data.title);
+    //         setQuestion(response.data.question);
+    //         handleResults();
+    //         console.log(response.data);
+    //     })
+    //     .catch(function (error) {
+    //         console.log(error);
+    //     });
+    // }
 
     // interval to poll backend for poll status update every X seconds
     // https://stackoverflow.com/questions/46140764/polling-api-every-x-seconds-with-react
-    const useInterval = (callback, delay) => {
-        const savedCallback = useRef();
+    // const useInterval = (callback, delay) => {
+    //     const savedCallback = useRef();
 
-        useEffect(() => {
-          savedCallback.current = callback;
-        }, [callback]);
+    //     useEffect(() => {
+    //       savedCallback.current = callback;
+    //     }, [callback]);
 
 
-        useEffect(() => {
-          function tick() {
-            savedCallback.current();
-          }
-          if (delay !== null) {
-            const id = setInterval(tick, delay);
-            return () => clearInterval(id);
-          }
-        }, [delay]);
-      }
+    //     useEffect(() => {
+    //       function tick() {
+    //         savedCallback.current();
+    //       }
+    //       if (delay !== null) {
+    //         const id = setInterval(tick, delay);
+    //         return () => clearInterval(id);
+    //       }
+    //     }, [delay]);
+    //   }
 
-      useInterval(() => {
-        getPollState();
-        }, 1000 * 5);
+    //   useInterval(() => {
+    //     getPollState();
+    //     }, 1000 * 5);
 
 
      // Responsible for getting the poll result data needed for the PieChart.
@@ -64,20 +79,40 @@ const Home = () => {
             let res = response.data;
             // convert object into array
             let choiceList = Object.keys(res).map((key) => [key, parseInt(res[key])]);
-            setChoicesCount(choiceList);
+            //setChoicesCount(choiceList);
         }).catch(function (error) {
             console.log(error);
         });
     }
 
     // Responsible for making a request to search for the given poll id and PIN#
-    const handleSearch = (obj) => {
-        axios.post('http://localhost:8080/search', obj).then(function (response) {
-            console.log(response);
+    const handlePollSearch = (obj) => {
+        axios.post('http://localhost:8080/pollsearch', obj).then(function (response) {
+            /**
+             * - maybe don't need to send pin here
+             */
+            let poll = response.data
+            setPollStatus(poll.state);
+            setPoll(poll);
+            console.log(poll);
+
+            if (obj["pin"].length === 0) {
+                generatePin();
+            }
+
         }).catch(function (error) {
             console.log(error);
-            //alert("Poll Search Failed.");
+            alert("Poll Search Failed. Incorrect ID or PIN.");
         });
+    }
+
+    const mockHandlePollSearch = (obj) => {
+        setPollStatus(mockPoll.state);
+        setPoll(mockPoll);
+
+        if (obj["pin"].length === 0) {
+            mockGeneratePin();
+        }
     }
 
     // Will look for the entered poll information and user choice if a PIN# was entered.
@@ -85,34 +120,57 @@ const Home = () => {
         e.preventDefault();
         let elements = e.target.elements;
         let obj = {};
-        obj["pinNum"] = "";
-        obj["pollId"] = "";
+        obj["pollId"] = elements[0].value;
+        obj["pin"] = elements[1].value;
 
-        for(var i = 0 ; i < elements.length - 1; i++) {
-            var item = elements.item(i);
-            if (item.name === "pinNum" && item.value !== "") {
-                obj["pinNum"] = item.value;
-                console.log("FOUND PIN: " + item.value);
-            }
-            else if (item.name === "pollId" && item.value !== "" ) {
-                obj["pollId"] = item.value;
-                console.log("Poll Id: " + item.value);
-            }
-            else {
-                alert("Please enter a valid Poll ID and PIN#!");
+        if (obj["pollId"].length !== 10) {
+            alert("Please enter a valid poll ID.");
+            return;
+        }
+        else if (obj["pin"].length !== 6 && obj["pin"].length !== 0) {
+            alert("Please enter a valid PIN (6-digits).")
+            return;
+        }
+
+        mockHandlePollSearch(obj);
+        //handlePollSearch(obj);
+    }
+    
+    // Generate new 6 digit pin if none entered. Checks if already exist for given poll.
+    const generatePin = () => {
+        let doesntExist = true;
+
+        let newPin = Math.floor(100000 + Math.random() * 900000);
+        while (doesntExist) {
+            if (!(newPin in poll.pin_voteid)) {
+                setPin(newPin);
                 break;
             }
+
+            newPin = Math.floor(100000 + Math.random() * 900000);
         }
-        handleSearch(obj)
-        console.log(obj)
+    }
+
+    const mockGeneratePin = () => {
+        let doesntExist = true;
+
+        let newPin = Math.floor(100000 + Math.random() * 900000);
+        while (doesntExist) {
+            if (!(newPin in mockPoll.pin_voteid)) {
+                setPin(newPin);
+                break;
+            }
+
+            newPin = Math.floor(100000 + Math.random() * 900000);
+        }
     }
 
     // React code for rendering the body.
     // Contains the voting page, a waiting page, a link to download a file as well as the piechart.
     const renderBody = () => {
-        switch (pollState) {
+        switch (pollStatus) {
             case "running":
-                return <VotingPage question={question} title={title} choices={choices} poll={poll} pollState={pollState}/>
+                return <VotingPage id={poll.id} pin={pin} pin_voteid={poll.pin_voteid} question={poll.question} title={poll.title} choices={poll.choices} poll={poll.poll} pollState={poll.state}/>
             case "released":
                 return (
                     <div>
@@ -120,14 +178,12 @@ const Home = () => {
                         <a href='http://localhost:8080/details?choice=JSON' download>JSON Results</a><br/>
                         <a href='http://localhost:8080/details?choice=XML' download>XML Results</a><br/>
                         <div className="centering">
-                            <ViewPollResults question={question} title={title} choices={choices} poll={poll} pollState={pollState} choicesCount={choicesCount}/>
+                            <ViewPollResults question={poll.question} title={poll.title} choices={poll.choices} pollState={poll.state} choicesCount={choicesCount}/>
                         </div>
                     </div>
                 )
-            case "created":
-                return <WaitingPage />
             default:
-                return <WaitingPage />
+                return <WaitingPage pollStatus={pollStatus}/>
         }
     }
 
@@ -138,18 +194,16 @@ const Home = () => {
     return (
         <div>
             <div id="pollText">
+            <h1>THE GREATEST POLL OF ALL TIME.</h1>
                 <form onSubmit={searchPoll}>
                     <label htmlFor="pollId">Enter a poll ID:</label><br/>
                     <input type="text" id="pollId" name="pollId"/><br/>
                     <label htmlFor="pinNum">Enter a given PIN#:</label><br/>
-                    <input type="text" id="pinNum" name="pinNum"/><br/>
-                    <input id="subBtn" type="submit" value="Submit"/>
+                    <input type="text" id="pin" name="pin" placeholder="Optional"/><br/>
+                    <input id="subBtn" type="submit" value="Go!"/>
                 </form>
             </div>
-            <h1>THE GREATEST POLL OF ALL TIME.</h1>
-            {
-                renderBody()
-            }
+            { renderBody() }
         </div>
     )
 }

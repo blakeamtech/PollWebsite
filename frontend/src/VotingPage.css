@@ -43,3 +43,8 @@ li:focus {
 .chosen {
     color:gold
 }
+
+#pin-msg {
+    font-size: 30px;
+    font-style: italic;
+}
