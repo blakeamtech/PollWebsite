@@ -20,11 +20,10 @@ ReactDOM.render(
           <div id="nav-bar">
               <div id="nav-bar-left">
                   <Link to="/">Home</Link><br/>
-                  <Link to="/pollmanagerlogin">Poll Manager</Link>
+                  <Link to="/pollmanagerlogin">Login</Link>
               </div>
               <div id="nav-bar-right">
-                  <a href="" onClick={() => alert("Sorry, this feature isn't implemented yet!")}>Sign Up</a><br/>
-                  <a href="" onClick={() => alert("Sorry, this feature isn't implemented yet!")}>Sign In</a>
+                  <a href="" onClick={() => alert("Sorry, this feature isn't implemented yet!")}>Register</a><br/>
               </div>
           </div>
           <hr />
