@@ -1,7 +1,7 @@
 package Storage;
 
 public enum Config {
-    DB_STRING("db_string", "The string to connect to the database", "jdbc:postgresql://localhost:%s/pollDB"),
+    DB_STRING("db_string", "The string to connect to the database", "\"mongodb://localhost:%s"),
 
     DB_PORT("db_port", "The port through which to connect to the database", "5432"),
 

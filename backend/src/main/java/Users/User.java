@@ -1,10 +1,7 @@
 package Users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +26,11 @@ public class User {
         this.pollsVoted.add(pin);
     }
 
-    public JSONObject asJson(){
-       return new JSONObject()
-               .put("userId", this.userId)
-               .put("emailAddress", this.emailAddress)
-               .put("hashedPassword", this.hashedPassword)
-               .put("fullName", this.fullName);
+    public BasicDBObject asDBObject(){
+       return new BasicDBObject()
+               .append("userId", this.userId)
+               .append("emailAddress", this.emailAddress)
+               .append("hashedPassword", this.hashedPassword)
+               .append("fullName", this.fullName);
     }
 }
