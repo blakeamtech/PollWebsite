@@ -15,7 +15,7 @@ const Home = () => {
 
     let mockPoll = {
         "id": "1283ADE870",
-        "state": "running",
+        "state": "released",
         "title": "Kappa 123",
         "question": "Yes or No?",
         "choices": ["yes", "no"],
@@ -25,7 +25,7 @@ const Home = () => {
         },
         "votes": {
             "yes": "1",
-            "no": "2"
+            "no": "1"
         }
     };
 
@@ -73,16 +73,24 @@ const Home = () => {
     //     }, 1000 * 5);
 
 
-     // Responsible for getting the poll result data needed for the PieChart.
-    const handleResults = () => {
-        axios.get('http://localhost:8080/results').then(function (response) {
-            let res = response.data;
+    //  // Responsible for getting the poll result data needed for the PieChart.
+    // const handleResults = () => {
+    //     axios.get('http://localhost:8080/results').then(function (response) {
+    //         let res = response.data;
+    //         // convert object into array
+    //         let choiceList = Object.keys(res).map((key) => [key, parseInt(res[key])]);
+    //         setChoicesCount(choiceList);
+    //     }).catch(function (error) {
+    //         console.log(error);
+    //     });
+    // }
+
+    // convert object to array for results view
+    const formatVotes = (votes) => {
+            let res = votes;
             // convert object into array
             let choiceList = Object.keys(res).map((key) => [key, parseInt(res[key])]);
-            //setChoicesCount(choiceList);
-        }).catch(function (error) {
-            console.log(error);
-        });
+            setChoicesCount(choiceList);
     }
 
     // Responsible for making a request to search for the given poll id and PIN#
@@ -91,14 +99,12 @@ const Home = () => {
             /**
              * - maybe don't need to send pin here
              */
-            let poll = response.data
-            setPollStatus(poll.state);
-            setPoll(poll);
-            console.log(poll);
-
-            if (obj["pin"].length === 0) {
-                generatePin();
-            }
+            let newPoll = response.data
+            setPollStatus(newPoll.state);
+            setPoll(newPoll);
+            setPin(obj["pin"]);
+            formatVotes(newPoll.votes);
+            console.log(newPoll);
 
         }).catch(function (error) {
             console.log(error);
@@ -109,10 +115,8 @@ const Home = () => {
     const mockHandlePollSearch = (obj) => {
         setPollStatus(mockPoll.state);
         setPoll(mockPoll);
-
-        if (obj["pin"].length === 0) {
-            mockGeneratePin();
-        }
+        setPin(obj["pin"]);
+        formatVotes(mockPoll.votes);
     }
 
     // Will look for the entered poll information and user choice if a PIN# was entered.
@@ -170,6 +174,9 @@ const Home = () => {
     const renderBody = () => {
         switch (pollStatus) {
             case "running":
+                if (pin.length === 0) {
+                    mockGeneratePin();
+                }
                 return <VotingPage id={poll.id} pin={pin} pin_voteid={poll.pin_voteid} question={poll.question} title={poll.title} choices={poll.choices} poll={poll.poll} pollState={poll.state}/>
             case "released":
                 return (
