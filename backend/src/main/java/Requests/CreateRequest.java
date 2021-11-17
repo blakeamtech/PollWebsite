@@ -5,6 +5,7 @@ import Polls.Poll;
 import Responses.Response;
 import Users.PollManager;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class CreateRequest extends AbstractRequest implements Request {
 
             PollManager.createPoll(poll.getPollTitle(), poll.getQuestionText(), poll.getChoicesList());
 
-            return new Response().ok();
+            return new Response().ok().body(new JSONObject("{id:" + PollManager.getPollId() + "}"));
         } catch (IOException | AssignmentException e) {
             return new Response().badRequest().exceptionBody(e);
         }

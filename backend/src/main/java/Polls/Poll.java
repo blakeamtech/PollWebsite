@@ -22,6 +22,7 @@ public class Poll implements Serializable {
     @JsonProperty("choices")
     private List<String> choicesList;
 
+    @JsonProperty("id")
     private String pollId;
 
     private Poll(){

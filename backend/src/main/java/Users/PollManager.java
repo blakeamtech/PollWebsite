@@ -50,7 +50,7 @@ public class PollManager {
 
     }
 
-    public synchronized static void updatePoll(String name, String question, List<String> choices) throws InvalidPollStateException {
+    public synchronized static void updatePoll(String name, String question, List<String> choices, String pollId) throws InvalidPollStateException {
         // can only update a poll if it's already running
         if (pollInstance == null || (currentStatus != POLL_STATUS.CREATED && currentStatus != POLL_STATUS.RUNNING))
             throw new InvalidPollStateException(currentStatus.value, "update");
@@ -121,6 +121,13 @@ public class PollManager {
         mapToReturn.put("state", currentStatus.value);
 
         return mapToReturn;
+    }
+
+    public static String getPollId() {
+        if (pollInstance != null) {
+            return pollInstance.getPollId();
+        }
+        return "";
     }
 
     /**

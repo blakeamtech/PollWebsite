@@ -21,6 +21,14 @@ public class VoteRequest extends AbstractRequest implements Request {
      */
     @Override
     public Response call() {
+        /**
+         * TODO:
+         * - Must vote for a specific given poll id.
+         *
+         * INPUT: query strings "choice", "id", "pin" from endpoint:
+         *  - http://localhost:8080/vote?choice=${answer}&id=${props.id}&pin=${props.pin}
+         *
+         */
         try {
             HttpSession session = this.getHttpSession().orElseThrow(InvalidSessionException::new);
             String choice = this.getRequest().getParameter("choice");
