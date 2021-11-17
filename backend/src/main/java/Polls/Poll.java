@@ -25,7 +25,7 @@ public class Poll implements Serializable {
     @JsonProperty("id")
     private String pollId;
 
-    private Poll(){
+    public Poll(){
     }
 
     public Poll(String name, String question, List<String> choices) {
@@ -61,6 +61,10 @@ public class Poll implements Serializable {
 
     public String getPollId(){
         return this.pollId;
+    }
+
+    public void setPollId(String pollId) {
+        this.pollId = pollId;
     }
 
     // could use an object mapper, but it would be longer in terms of mapping than simply creating a json object (imo)
