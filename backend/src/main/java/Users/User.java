@@ -30,6 +30,22 @@ public class User {
 
     public void addPollId(String pollId) { this.userPollIds.add(pollId); }
 
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public void setHashedPassword(String hashedPassword) {
+        this.hashedPassword = hashedPassword;
+    }
+
     public JSONObject asJson(){
        return new JSONObject()
                .put("userId", this.userId)
