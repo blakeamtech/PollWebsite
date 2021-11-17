@@ -67,13 +67,13 @@ const CreatePoll = () => {
 
                 <form onSubmit={createPoll}>
                     <label htmlFor="name">Name of the Poll:</label><br/>
-                    <input type="text" id="name" name="name"/><br/><br/>
+                    <input type="text" id="name" name="name" required/><br/><br/>
                     <label htmlFor="question">Poll Question:</label><br/>
-                    <input type="text" id="question" name="question"/><br/><br/>
+                    <input type="text" id="question" name="question" required/><br/><br/>
                     {
                         [...Array(newQty)].map((e, i) =>
                                 <label key={i} htmlFor="choice1">Choice {i+1}:<br/>
-                                <input type="text" id={"choice" + (i+1)} name="choice"/><br/><br/>
+                                <input type="text" id={"choice" + (i+1)} name="choice" required/><br/><br/>
                                 </label>
                         )
                     }

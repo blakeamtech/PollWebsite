@@ -147,7 +147,6 @@ const PollManager = () => {
 
     const choosePoll = (id, question) => {
         setChosenPoll(id);
-
         setChosenMessage(question);
     }
 

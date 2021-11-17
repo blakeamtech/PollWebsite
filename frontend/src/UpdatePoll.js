@@ -72,6 +72,11 @@ const UpdatePoll = () => {
                 obj[item.name] = item.value;
             }
         }
+        if (obj["id"].length != 10) {
+            alert("Please input a valid ID.");
+            return;
+        }
+
         handleUpdate(obj);
         console.log(obj);
     }
@@ -93,15 +98,15 @@ const UpdatePoll = () => {
 
                 <form onSubmit={updatePoll}>
                     <label htmlFor="name">ID of Poll to Update:</label><br/>
-                    <input type="text" id="id" name="id" placeholder={"REQUIRED"}/><br/><br/>
+                    <input type="text" id="id" name="id" placeholder={"REQUIRED"} required/><br/><br/>
                     <label htmlFor="name">New Name of the Poll:</label><br/>
-                    <input type="text" id="name" name="name" defaultValue={title}/><br/><br/>
+                    <input type="text" id="name" name="name" defaultValue={title} required/><br/><br/>
                     <label htmlFor="question">New Poll Question:</label><br/>
-                    <input type="text" id="question" name="question" defaultValue={question}/><br/><br/>
+                    <input type="text" id="question" name="question" defaultValue={question} required/><br/><br/>
                     {
                         [...Array(newQty)].map((e, i) =>
                             <label key={i} htmlFor="choice1">Choice {i+1}:<br/>
-                                <input type="text" id={"choice" + (i+1)} name="choice" defaultValue={choices[i]}/><br/><br/>
+                                <input type="text" id={"choice" + (i+1)} name="choice" defaultValue={choices[i]} required/><br/><br/>
                             </label>
                         )
                     }
