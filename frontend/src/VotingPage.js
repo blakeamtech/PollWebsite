@@ -23,7 +23,6 @@ const VotingPage = (props) => {
         }
     }
 
-
     // Responsible for sending a request when user votes in the poll.
     // Will add the choice to the query string.
      const handleVotePoll = (answer) => {
@@ -33,6 +32,7 @@ const VotingPage = (props) => {
             })
             .catch(function (error) {
                 console.log(error);
+                alert("Vote error!");
             });
     }
 

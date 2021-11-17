@@ -1,31 +1,27 @@
-import React, {Component} from "react";
+import {React, useEffect, useState} from "react";
 import './PollManager.css';
 import axios from "axios";
 import {Link} from "react-router-dom";
 import Header from "./Header";
 
 /**
- * Class responsible for displaying and handling Poll Manager requests.
+ * Function responsible for displaying and handling Poll Manager requests.
  */
-class PollManager extends Component {
-    /**
-     * Constructor which allows functions to use the "this" keyword.
-     * @param props
-     */
-    constructor(props) {
-        super(props);
-        this.handleClear = this.handleClear.bind(this);
-        this.handleClose = this.handleClose.bind(this);
-        this.handleRun = this.handleRun.bind(this);
-        this.handleRelease = this.handleRelease.bind(this);
-        this.handleUnrelease = this.handleUnrelease.bind(this);
-    }
+const PollManager = () => {
+    const [polls, setPolls] = useState([]);
+    const [chosenPoll, setChosenPoll] = useState("");
+    const [username, setUsername] = useState(localStorage.getItem("username"));
+    const [chosenMessage, setChosenMessage] = useState("");
 
     /**
      * Function responsible for sending a request to clear the poll.
      */
-    handleClear() {
-        axios.put('http://localhost:8080/clear')
+    const handleClear = () => {
+        if (chosenPoll === "" || username === "none") {
+            alert("Choose a poll first!");
+            return;
+        }
+        axios.put(`http://localhost:8080/clear?username=${username}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -35,13 +31,17 @@ class PollManager extends Component {
                 console.log(error);
                 alert("Clear Failed.");
             });
-    }
+    };
 
     /**
      * Function responsible for sending a request to close the poll.
      */
-    handleClose() {
-        axios.put('http://localhost:8080/close')
+    const handleClose = () => {
+        if (chosenPoll === "" || username === "none") {
+            alert("Choose a poll first!");
+            return;
+        }
+        axios.put(`http://localhost:8080/close?username=${username}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -57,8 +57,12 @@ class PollManager extends Component {
     /**
      * Function responsible for sending a request to run the poll.
      */
-    handleRun() {
-        axios.put('http://localhost:8080/run')
+    const handleRun = () => {
+        if (chosenPoll === "" || username === "none") {
+            alert("Choose a poll first!");
+            return;
+        }
+        axios.put(`http://localhost:8080/run?username=${username}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -74,8 +78,12 @@ class PollManager extends Component {
     /**
      * Function responsible for sending a request to release the poll.
      */
-    handleRelease() {
-        axios.put('http://localhost:8080/release')
+    const handleRelease = () => {
+        if (chosenPoll === "" || username === "none") {
+            alert("Choose a poll first!");
+            return;
+        }
+        axios.put(`http://localhost:8080/release?username=${username}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -91,8 +99,12 @@ class PollManager extends Component {
     /**
      * Function responsible for sending a request to unrelease the poll.
      */
-    handleUnrelease() {
-        axios.put('http://localhost:8080/unrelease')
+    const handleUnrelease = () => {
+        if (chosenPoll === "" || username === "none") {
+            alert("Choose a poll first!");
+            return;
+        }
+        axios.put(`http://localhost:8080/unrelease?username=${username}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -104,11 +116,63 @@ class PollManager extends Component {
             });
     }
 
+    // Format: one attribute polls which is an array of objects. The objects are of format {pollid : question}
+    let mockPolls = {
+        "polls": [
+            ["1234567890", "Yes or No?"],
+            ["827364AIZS", "Where is Kappa?"]
+        ]
+    }
+    /**
+     * - Should return all polls
+     * - User can only delete or close the ones he created
+     * - What about clear, update, release, run and unrelease?
+     *      - If they are also creator only, then send username along with request and only retrieve those associated with creator.
+     */
+    const fetchPolls = () => {
+        axios.get('http://localhost:8080/polls')
+            .then((res) => {
+                console.log(res);
+                setPolls(res.polls);
+            })
+            .catch(function (error) {
+                console.log(error);
+                alert("Poll fetching failed.");
+            });
+    }
+
+    const mockFetchPolls = () => {
+        setPolls(mockPolls.polls);
+    }
+
+    const choosePoll = (id, question) => {
+        setChosenPoll(id);
+        setChosenMessage(question);
+    }
+
+    const renderPolls = () => {
+        if (polls.length === 0) {
+            return (
+                <h3>There are no created polls.</h3>
+            )
+        }
+        // each poll clicked will set chosenPoll to that poll's id.
+        const list = polls.map((poll) => <a href="javascript:void(0);"><li tabindex="1" key={poll[0]} onClick={() => choosePoll(poll[0], poll[1])}>{poll[1]}</li></a>);
+        return (
+            <ol>
+                {list}
+            </ol>
+        )
+    }
+
+    useEffect(() => {
+        mockFetchPolls();
+    }, []);
+
     /***
      * Function responsible for rendering tags for use in react methods.
      * @returns {JSX.Element}
      */
-    render() {
         return (
             <div>
                 <Header />
@@ -116,16 +180,18 @@ class PollManager extends Component {
                     <header className="center">
                         <Link className="button-pollmanager" to="/createpoll">Create Poll</Link>
                         <Link className="button-pollmanager" to="/updatepoll">Update Poll</Link>
-                        <button type="button" className="button-pollmanager" onClick={this.handleClear}>Clear Poll</button><br/>
-                        <button type="button" className="button-pollmanager" onClick={this.handleClose}>Close Poll</button>
-                        <button type="button" className="button-pollmanager" onClick={this.handleRun}>Run Poll</button>
-                        <button type="button" className="button-pollmanager" onClick={this.handleRelease}>Release Poll</button><br/>
-                        <button type="button" className="button-pollmanager" onClick={this.handleUnrelease}>Unrelease Poll</button>
+                        <button type="button" className="button-pollmanager" onClick={handleClear}>Clear Poll</button><br/>
+                        <button type="button" className="button-pollmanager" onClick={handleClose}>Close Poll</button>
+                        <button type="button" className="button-pollmanager" onClick={handleRun}>Run Poll</button>
+                        <button type="button" className="button-pollmanager" onClick={handleRelease}>Release Poll</button><br/>
+                        <button type="button" className="button-pollmanager" onClick={handleUnrelease}>Unrelease Poll</button>
                     </header>
                 </div>
+                {chosenMessage !== "" && <h3>You chose poll "{chosenMessage}"</h3>}
+                {renderPolls()}
             </div>
         );
-    }
 }
+
 
 export default PollManager;
