@@ -147,6 +147,7 @@ const PollManager = () => {
 
     const choosePoll = (id, question) => {
         setChosenPoll(id);
+
         setChosenMessage(question);
     }
 
@@ -188,6 +189,7 @@ const PollManager = () => {
                     </header>
                 </div>
                 {chosenMessage !== "" && <h3>You chose poll "{chosenMessage}"</h3>}
+                {chosenPoll !== "" && <h3>Poll ID: {chosenPoll}</h3>}
                 {renderPolls()}
             </div>
         );
