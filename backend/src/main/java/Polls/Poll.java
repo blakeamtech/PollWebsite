@@ -2,6 +2,8 @@ package Polls;
 
 import Util.StringHelper;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import org.json.JSONObject;
 
 import java.io.Serializable;
@@ -61,12 +63,12 @@ public class Poll implements Serializable {
     }
 
     // could use an object mapper, but it would be longer in terms of mapping than simply creating a json object (imo)
-    public JSONObject asJson(){
-        return new JSONObject()
-                .put("name", this.pollTitle)
-                .put("question", this.questionText)
-                .put("choices", this.choicesList)
-                .put("pollId", this.pollId);
+    public BasicDBObject asDBObject(){
+        return new BasicDBObject()
+                .append("name", this.pollTitle)
+                .append("question", this.questionText)
+                .append("choices", this.choicesList)
+                .append("pollId", this.pollId);
     }
 
     // it is a good practice to implement equals and hash when implementing serializable
