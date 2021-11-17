@@ -8,6 +8,7 @@ import Header from "./Header";
  */
 const CreatePoll = () => {
     const [newQty, setNewQty] = useState(3); // Default amount of choices is 3.
+    const [id, setId] = useState("");
 
     // Update the amount of choices the poll manager wants to enter for the poll.
     const updateQty = (e) => {
@@ -23,6 +24,7 @@ const CreatePoll = () => {
     const handleCreate = (obj) => {
         axios.post('http://localhost:8080/create', obj).then(function (response) {
             console.log(response);
+            setId(response.data.id);
             alert("Poll Created Successfully.");
         }).catch(function (error) {
             console.log(error);
@@ -65,15 +67,17 @@ const CreatePoll = () => {
                 </form>
                 <br/>
 
+                {id !== "" && <h3>Created poll's ID: {id}</h3>}
+
                 <form onSubmit={createPoll}>
                     <label htmlFor="name">Name of the Poll:</label><br/>
-                    <input type="text" id="name" name="name"/><br/><br/>
+                    <input type="text" id="name" name="name" required/><br/><br/>
                     <label htmlFor="question">Poll Question:</label><br/>
-                    <input type="text" id="question" name="question"/><br/><br/>
+                    <input type="text" id="question" name="question" required/><br/><br/>
                     {
                         [...Array(newQty)].map((e, i) =>
                                 <label key={i} htmlFor="choice1">Choice {i+1}:<br/>
-                                <input type="text" id={"choice" + (i+1)} name="choice"/><br/><br/>
+                                <input type="text" id={"choice" + (i+1)} name="choice" required/><br/><br/>
                                 </label>
                         )
                     }

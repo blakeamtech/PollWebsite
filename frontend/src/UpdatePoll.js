@@ -1,4 +1,5 @@
-import React, {Component, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import { useLocation } from 'react-router-dom';
 import './UpdatePoll.css';
 import axios from "axios";
 import Header from "./Header";
@@ -7,6 +8,9 @@ import Header from "./Header";
  * Functional component responsible for displaying and handling Poll Manager requests.
  */
 const UpdatePoll = () => {
+    // Get poll id
+    const location = useLocation();
+    const { pollId } = location.state;
     // Keep track of poll information.
     const [newQty, setNewQty] = useState(3);
     const [choices, setChoices] = useState([]);
@@ -62,16 +66,22 @@ const UpdatePoll = () => {
         let elements = e.target.elements;
         let obj = {};
         obj["choices"] = [];
+        if (pollId == "" || pollId == null) {
+            alert("Invalid poll ID.");
+            return;
+        }
+        obj["id"] = pollId;
 
         for(var i = 0 ; i < elements.length ; i++){
             var item = elements.item(i);
             if (item.name === "choice" && item.value) {
                 obj["choices"].push(item.value)
             }
-            else if (item.name === "name" || item.name === "question" || item.id === "id") {
+            else if (item.name === "name" || item.name === "question") {
                 obj[item.name] = item.value;
             }
         }
+
         handleUpdate(obj);
         console.log(obj);
     }
@@ -92,16 +102,15 @@ const UpdatePoll = () => {
                 <br/>
 
                 <form onSubmit={updatePoll}>
-                    <label htmlFor="name">ID of Poll to Update:</label><br/>
-                    <input type="text" id="id" name="id" placeholder={"REQUIRED"}/><br/><br/>
+                    <h3>ID of Poll to Update: {pollId} </h3>
                     <label htmlFor="name">New Name of the Poll:</label><br/>
-                    <input type="text" id="name" name="name" defaultValue={title}/><br/><br/>
+                    <input type="text" id="name" name="name" defaultValue={title} required/><br/><br/>
                     <label htmlFor="question">New Poll Question:</label><br/>
-                    <input type="text" id="question" name="question" defaultValue={question}/><br/><br/>
+                    <input type="text" id="question" name="question" defaultValue={question} required/><br/><br/>
                     {
                         [...Array(newQty)].map((e, i) =>
                             <label key={i} htmlFor="choice1">Choice {i+1}:<br/>
-                                <input type="text" id={"choice" + (i+1)} name="choice" defaultValue={choices[i]}/><br/><br/>
+                                <input type="text" id={"choice" + (i+1)} name="choice" defaultValue={choices[i]} required/><br/><br/>
                             </label>
                         )
                     }

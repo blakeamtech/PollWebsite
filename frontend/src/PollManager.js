@@ -130,7 +130,7 @@ const PollManager = () => {
      *      - If they are also creator only, then send username along with request and only retrieve those associated with creator.
      */
     const fetchPolls = () => {
-        axios.get('http://localhost:8080/polls')
+        axios.get(`http://localhost:8080/polls?username=${username}`)
             .then((res) => {
                 console.log(res);
                 setPolls(res.polls);
@@ -147,7 +147,6 @@ const PollManager = () => {
 
     const choosePoll = (id, question) => {
         setChosenPoll(id);
-
         setChosenMessage(question);
     }
 
@@ -170,6 +169,13 @@ const PollManager = () => {
         mockFetchPolls();
     }, []);
 
+    const canUpdate = (e) => {
+        if (chosenPoll === "") {
+            alert("Choose a poll first!");
+            e.preventDefault();
+        }
+    }
+
     /***
      * Function responsible for rendering tags for use in react methods.
      * @returns {JSX.Element}
@@ -180,7 +186,7 @@ const PollManager = () => {
                 <div className="Manager">
                     <header className="center">
                         <Link className="button-pollmanager" to="/createpoll">Create Poll</Link>
-                        <Link className="button-pollmanager" to="/updatepoll">Update Poll</Link>
+                        <Link className="button-pollmanager" to={{ pathname: "/updatepoll", state:{pollId: chosenPoll} }} onClick={canUpdate}>Update Poll</Link>
                         <button type="button" className="button-pollmanager" onClick={handleClear}>Clear Poll</button><br/>
                         <button type="button" className="button-pollmanager" onClick={handleClose}>Close Poll</button>
                         <button type="button" className="button-pollmanager" onClick={handleRun}>Run Poll</button>
