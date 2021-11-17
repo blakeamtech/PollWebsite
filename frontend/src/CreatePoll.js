@@ -1,6 +1,7 @@
 import React, {Component, useState} from "react";
 import './CreatePoll.css';
 import axios from "axios";
+import Header from "./Header";
 
 /**
  * Functional component responsible for displaying and handling Poll Manager requests.
@@ -54,28 +55,31 @@ const CreatePoll = () => {
      * @returns {JSX.Element}
      */
     return (
-        <div className="CreatePoll">
-            <form onSubmit={updateQty}>
-                <label htmlFor="choice-qty">Input number of choices: </label>
-                <input type="number" min="1" step="1" name="choiceQty" id="choiceQty"/>
-                <button type="submit">Update</button>
-            </form>
-            <br/>
+        <div>
+            <Header />
+            <div className="CreatePoll">
+                <form onSubmit={updateQty}>
+                    <label htmlFor="choice-qty">Input number of choices: </label>
+                    <input type="number" min="1" step="1" name="choiceQty" id="choiceQty"/>
+                    <button type="submit">Update</button>
+                </form>
+                <br/>
 
-            <form onSubmit={createPoll}>
-                <label htmlFor="name">Name of the Poll:</label><br/>
-                <input type="text" id="name" name="name"/><br/><br/>
-                <label htmlFor="question">Poll Question:</label><br/>
-                <input type="text" id="question" name="question"/><br/><br/>
-                {
-                    [...Array(newQty)].map((e, i) =>
-                            <label key={i} htmlFor="choice1">Choice {i+1}:<br/>
-                            <input type="text" id={"choice" + (i+1)} name="choice"/><br/><br/>
-                            </label>
-                    )
-                }
-                <input type="submit" className="button-create" value="Submit"/>
-            </form>
+                <form onSubmit={createPoll}>
+                    <label htmlFor="name">Name of the Poll:</label><br/>
+                    <input type="text" id="name" name="name"/><br/><br/>
+                    <label htmlFor="question">Poll Question:</label><br/>
+                    <input type="text" id="question" name="question"/><br/><br/>
+                    {
+                        [...Array(newQty)].map((e, i) =>
+                                <label key={i} htmlFor="choice1">Choice {i+1}:<br/>
+                                <input type="text" id={"choice" + (i+1)} name="choice"/><br/><br/>
+                                </label>
+                        )
+                    }
+                    <input type="submit" className="button-create" value="Submit"/>
+                </form>
+            </div>
         </div>
     );
 }

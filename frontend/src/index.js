@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import {Link} from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import history from "./history";
 import {Route, Router, Switch} from "react-router";
@@ -17,16 +16,6 @@ import UpdatePoll from "./UpdatePoll";
 ReactDOM.render(
   <React.StrictMode>
       <Router history={history}>
-          <div id="nav-bar">
-              <div id="nav-bar-left">
-                  <Link to="/">Home</Link><br/>
-                  <Link to="/pollmanagerlogin">Login</Link>
-              </div>
-              <div id="nav-bar-right">
-                  <a href="" onClick={() => alert("Sorry, this feature isn't implemented yet!")}>Register</a><br/>
-              </div>
-          </div>
-          <hr />
           <div id="body">
               <Switch>
                 <Route exact path="/">

@@ -11,7 +11,6 @@ const WaitingPage = (props) => {
             { 
                 (props.pollStatus === "none" || props.pollStatus === "closed") && <h2 id="waiting-page">Please search for a poll.</h2>
             }
-            {console.log(props.pollStatus)}
         </div>
     )
 }

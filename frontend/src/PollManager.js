@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import './PollManager.css';
 import axios from "axios";
 import {Link} from "react-router-dom";
+import Header from "./Header";
 
 /**
  * Class responsible for displaying and handling Poll Manager requests.
@@ -109,16 +110,19 @@ class PollManager extends Component {
      */
     render() {
         return (
-            <div className="Manager">
-                <header className="center">
-                    <Link className="button-pollmanager" to="/createpoll">Create Poll</Link>
-                    <Link className="button-pollmanager" to="/updatepoll">Update Poll</Link>
-                    <button type="button" className="button-pollmanager" onClick={this.handleClear}>Clear Poll</button><br/>
-                    <button type="button" className="button-pollmanager" onClick={this.handleClose}>Close Poll</button>
-                    <button type="button" className="button-pollmanager" onClick={this.handleRun}>Run Poll</button>
-                    <button type="button" className="button-pollmanager" onClick={this.handleRelease}>Release Poll</button><br/>
-                    <button type="button" className="button-pollmanager" onClick={this.handleUnrelease}>Unrelease Poll</button>
-                </header>
+            <div>
+                <Header />
+                <div className="Manager">
+                    <header className="center">
+                        <Link className="button-pollmanager" to="/createpoll">Create Poll</Link>
+                        <Link className="button-pollmanager" to="/updatepoll">Update Poll</Link>
+                        <button type="button" className="button-pollmanager" onClick={this.handleClear}>Clear Poll</button><br/>
+                        <button type="button" className="button-pollmanager" onClick={this.handleClose}>Close Poll</button>
+                        <button type="button" className="button-pollmanager" onClick={this.handleRun}>Run Poll</button>
+                        <button type="button" className="button-pollmanager" onClick={this.handleRelease}>Release Poll</button><br/>
+                        <button type="button" className="button-pollmanager" onClick={this.handleUnrelease}>Unrelease Poll</button>
+                    </header>
+                </div>
             </div>
         );
     }

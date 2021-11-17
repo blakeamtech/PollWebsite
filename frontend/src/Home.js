@@ -4,6 +4,7 @@ import ViewPollResults from "./ViewPollResults";
 import axios from "axios";
 import './Home.css';
 import WaitingPage from "./WaitingPage";
+import Header from "./Header";
 
 // Responsible for keeping track of the poll information (title, question, choices, etc.)
 const Home = () => {
@@ -12,6 +13,7 @@ const Home = () => {
     // pin: 6 digits number
     const [pin, setPin] = useState("");
     const [choicesCount, setChoicesCount] = useState([]);
+    const [username, setUsername] = useState("none");
 
     let mockPoll = {
         "id": "1283ADE870",
@@ -28,6 +30,15 @@ const Home = () => {
             "no": "1"
         }
     };
+
+    useEffect(() => {
+        if (localStorage.getItem("username") === null) {
+            localStorage.setItem("username", "none");
+        }
+        else {
+            setUsername(localStorage.getItem("username"));
+        }
+    })
 
     // interval to poll backend for poll status update every X seconds
     // const getPollState = () => {
@@ -200,6 +211,7 @@ const Home = () => {
      */
     return (
         <div>
+            <Header setUsername={setUsername}/>
             <div id="pollText">
             <h1>THE GREATEST POLL OF ALL TIME.</h1>
                 <form onSubmit={searchPoll}>
