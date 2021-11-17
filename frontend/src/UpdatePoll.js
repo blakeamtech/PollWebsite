@@ -1,6 +1,7 @@
 import React, {Component, useEffect, useState} from "react";
 import './UpdatePoll.css';
 import axios from "axios";
+import Header from "./Header";
 
 /**
  * Functional component responsible for displaying and handling Poll Manager requests.
@@ -80,28 +81,31 @@ const UpdatePoll = () => {
      * @returns {JSX.Element}
      */
     return (
-        <div className="UpdatePoll">
-            <form onSubmit={updateQty}>
-                <label htmlFor="choice-qty">Input number of choices: </label>
-                <input type="number" min="1" step="1" name="choiceQty" id="choiceQty"/>
-                <button type="submit">Update</button>
-            </form>
-            <br/>
+        <div>
+            <Header />        
+            <div className="UpdatePoll">
+                <form onSubmit={updateQty}>
+                    <label htmlFor="choice-qty">Input number of choices: </label>
+                    <input type="number" min="1" step="1" name="choiceQty" id="choiceQty"/>
+                    <button type="submit">Update</button>
+                </form>
+                <br/>
 
-            <form onSubmit={updatePoll}>
-                <label htmlFor="name">Name of the Poll:</label><br/>
-                <input type="text" id="name" name="name" defaultValue={title}/><br/><br/>
-                <label htmlFor="question">Poll Question:</label><br/>
-                <input type="text" id="question" name="question" defaultValue={question}/><br/><br/>
-                {
-                    [...Array(newQty)].map((e, i) =>
-                        <label key={i} htmlFor="choice1">Choice {i+1}:<br/>
-                            <input type="text" id={"choice" + (i+1)} name="choice" defaultValue={choices[i]}/><br/><br/>
-                        </label>
-                    )
-                }
-                <input type="submit" className="button-update" value="Submit"/>
-            </form>
+                <form onSubmit={updatePoll}>
+                    <label htmlFor="name">Name of the Poll:</label><br/>
+                    <input type="text" id="name" name="name" defaultValue={title}/><br/><br/>
+                    <label htmlFor="question">Poll Question:</label><br/>
+                    <input type="text" id="question" name="question" defaultValue={question}/><br/><br/>
+                    {
+                        [...Array(newQty)].map((e, i) =>
+                            <label key={i} htmlFor="choice1">Choice {i+1}:<br/>
+                                <input type="text" id={"choice" + (i+1)} name="choice" defaultValue={choices[i]}/><br/><br/>
+                            </label>
+                        )
+                    }
+                    <input type="submit" className="button-update" value="Submit"/>
+                </form>
+            </div>
         </div>
     );
 }
