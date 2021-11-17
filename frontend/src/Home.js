@@ -9,7 +9,7 @@ import Header from "./Header";
 // Responsible for keeping track of the poll information (title, question, choices, etc.)
 const Home = () => {
     const [pollStatus, setPollStatus] = useState("closed");
-    const [poll, setPoll] = useState();
+    const [poll, setPoll] = useState({});
     // pin: 6 digits number
     const [pin, setPin] = useState("");
     const [choicesCount, setChoicesCount] = useState([]);
@@ -106,7 +106,7 @@ const Home = () => {
 
     // Responsible for making a request to search for the given poll id and PIN#
     const handlePollSearch = (obj) => {
-        axios.post('http://localhost:8080/pollsearch', obj).then(function (response) {
+        axios.post('http://localhost:8080/access', obj).then(function (response) {
             /**
              * - maybe don't need to send pin here
              */
@@ -119,6 +119,9 @@ const Home = () => {
 
         }).catch(function (error) {
             console.log(error);
+            setPoll({});
+            setPin("");
+            setPollStatus("closed");
             alert("Poll Search Failed. Incorrect ID or PIN.");
         });
     }
@@ -135,10 +138,10 @@ const Home = () => {
         e.preventDefault();
         let elements = e.target.elements;
         let obj = {};
-        obj["pollId"] = elements[0].value;
+        obj["id"] = elements[0].value;
         obj["pin"] = elements[1].value;
 
-        if (obj["pollId"].length !== 10) {
+        if (obj["id"].length !== 10) {
             alert("Please enter a valid poll ID.");
             return;
         }

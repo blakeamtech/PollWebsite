@@ -1,4 +1,5 @@
-import React, {Component, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import { useLocation } from 'react-router-dom';
 import './UpdatePoll.css';
 import axios from "axios";
 import Header from "./Header";
@@ -7,6 +8,9 @@ import Header from "./Header";
  * Functional component responsible for displaying and handling Poll Manager requests.
  */
 const UpdatePoll = () => {
+    // Get poll id
+    const location = useLocation();
+    const { pollId } = location.state;
     // Keep track of poll information.
     const [newQty, setNewQty] = useState(3);
     const [choices, setChoices] = useState([]);
@@ -62,19 +66,20 @@ const UpdatePoll = () => {
         let elements = e.target.elements;
         let obj = {};
         obj["choices"] = [];
+        if (pollId == "" || pollId == null) {
+            alert("Invalid poll ID.");
+            return;
+        }
+        obj["id"] = pollId;
 
         for(var i = 0 ; i < elements.length ; i++){
             var item = elements.item(i);
             if (item.name === "choice" && item.value) {
                 obj["choices"].push(item.value)
             }
-            else if (item.name === "name" || item.name === "question" || item.id === "id") {
+            else if (item.name === "name" || item.name === "question") {
                 obj[item.name] = item.value;
             }
-        }
-        if (obj["id"].length != 10) {
-            alert("Please input a valid ID.");
-            return;
         }
 
         handleUpdate(obj);
@@ -97,8 +102,7 @@ const UpdatePoll = () => {
                 <br/>
 
                 <form onSubmit={updatePoll}>
-                    <label htmlFor="name">ID of Poll to Update:</label><br/>
-                    <input type="text" id="id" name="id" placeholder={"REQUIRED"} required/><br/><br/>
+                    <h3>ID of Poll to Update: {pollId} </h3>
                     <label htmlFor="name">New Name of the Poll:</label><br/>
                     <input type="text" id="name" name="name" defaultValue={title} required/><br/><br/>
                     <label htmlFor="question">New Poll Question:</label><br/>
