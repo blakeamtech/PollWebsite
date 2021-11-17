@@ -17,7 +17,7 @@ const PollManager = () => {
      * Function responsible for sending a request to clear the poll.
      */
     const handleClear = () => {
-        if (chosenPoll[0] === "" || username === "none") {
+        if (chosenPoll === "" || username === "none") {
             alert("Choose a poll first!");
             return;
         }
