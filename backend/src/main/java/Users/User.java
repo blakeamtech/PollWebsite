@@ -2,9 +2,12 @@ package Users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mongodb.BasicDBObject;
+import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class User {
 
@@ -20,10 +23,11 @@ public class User {
     @JsonProperty("hashedPassword")
     public String hashedPassword;
 
-    private List<String> pollsVoted = new ArrayList<>();
+    @JsonProperty("votes")
+    public Map<String, String> pollsVoted = new HashMap<>();
 
-    public void vote(String pin){
-        this.pollsVoted.add(pin);
+    public void vote(String votePin, String pollId){
+        pollsVoted.putIfAbsent(pollId, votePin);
     }
 
     public BasicDBObject asDBObject(){
@@ -31,6 +35,7 @@ public class User {
                .append("userId", this.userId)
                .append("emailAddress", this.emailAddress)
                .append("hashedPassword", this.hashedPassword)
-               .append("fullName", this.fullName);
+               .append("fullName", this.fullName)
+               .append("votes", pollsVoted);
     }
 }

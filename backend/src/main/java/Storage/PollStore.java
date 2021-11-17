@@ -9,11 +9,6 @@ import java.util.Set;
 
 public class PollStore {
 
-    public static class Vote{
-        public String pin;
-        public String vote;
-    }
-
     private static final Map<String, Set<Vote>> voteStore = new HashMap<>();
     private static final Map<String, Poll> pollStore = new HashMap<>();
 

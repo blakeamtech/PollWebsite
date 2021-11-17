@@ -15,10 +15,8 @@ public class UserStore {
 
     public static void vote(User user, String pin){
         if(userMap.containsKey(user.userId)){
-            userMap.get(user.userId).vote(pin);
             return;
         }
-        user.vote(pin);
         userMap.put(user.userId, user);
     }
 
