@@ -2,8 +2,6 @@ import React, {useState} from "react";
 import './CreatePoll.css';
 import { useHistory } from 'react-router-dom';
 import axios from "axios";
-import ReactSession from 'react-client-session';
-
 
 // Responsible for handling the Manager Login page, where the poll manager must enter the correct password to enter.
 const ManagerLogin = (props) => {
