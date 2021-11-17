@@ -68,7 +68,7 @@ const UpdatePoll = () => {
             if (item.name === "choice" && item.value) {
                 obj["choices"].push(item.value)
             }
-            else if (item.name === "name" || item.name === "question") {
+            else if (item.name === "name" || item.name === "question" || item.id === "id") {
                 obj[item.name] = item.value;
             }
         }
@@ -92,9 +92,11 @@ const UpdatePoll = () => {
                 <br/>
 
                 <form onSubmit={updatePoll}>
-                    <label htmlFor="name">Name of the Poll:</label><br/>
+                    <label htmlFor="name">ID of Poll to Update:</label><br/>
+                    <input type="text" id="id" name="id" placeholder={"REQUIRED"}/><br/><br/>
+                    <label htmlFor="name">New Name of the Poll:</label><br/>
                     <input type="text" id="name" name="name" defaultValue={title}/><br/><br/>
-                    <label htmlFor="question">Poll Question:</label><br/>
+                    <label htmlFor="question">New Poll Question:</label><br/>
                     <input type="text" id="question" name="question" defaultValue={question}/><br/><br/>
                     {
                         [...Array(newQty)].map((e, i) =>

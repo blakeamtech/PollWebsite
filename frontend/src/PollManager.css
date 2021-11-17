@@ -30,3 +30,8 @@
     width: 50%;
     padding: 10px;
   }
+
+li:focus {
+    background-color:gold;
+    font-style: black;
+}

@@ -17,7 +17,7 @@ const Home = () => {
 
     let mockPoll = {
         "id": "1283ADE870",
-        "state": "released",
+        "state": "running",
         "title": "Kappa 123",
         "question": "Yes or No?",
         "choices": ["yes", "no"],
