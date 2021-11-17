@@ -29,18 +29,20 @@
 
 
 #pollText {
-    text-align: left;
+    text-align: center;
     font-size: 30px;
     color: gold;
 }
 
 input {
+    margin: 5px;
     padding: 6px;
     width: 200px;
     font-size: 16px;
 }
 
 #subBtn {
+    margin: 7px;
     width: 215px;
     height: 30px;
 }

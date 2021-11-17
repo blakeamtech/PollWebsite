@@ -1,14 +1,16 @@
 import React, {Component, useState} from "react";
 
 // Responsible for displaying the waiting page when there is no poll running/released.
-const WaitingPage = () => {
+const WaitingPage = (props) => {
     /**
      * Responsible for rendering tags for use in react methods.
      * @returns {JSX.Element}
      */
     return (
         <div>
-            <h2 id="waiting-page">Please wait for the poll.</h2>
+            { 
+                (props.pollStatus === "none" || props.pollStatus === "closed") && <h2 id="waiting-page">Please search for a poll.</h2>
+            }
         </div>
     )
 }

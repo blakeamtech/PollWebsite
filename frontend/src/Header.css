@@ -1,0 +1,19 @@
+#nav-bar {
+    white-space: pre-wrap;
+    font-size: 30px;
+    font-family: "courier new", serif;
+    margin: 10px;
+    text-align: left;
+    margin-left: 20px;
+  }
+  
+  #nav-bar-left {
+    text-align: left;
+    display: inline-block;
+  }
+  
+  #nav-bar-right {
+    text-align: right;
+    display: inline-block;
+    margin-left: 20px;
+  }

@@ -14,7 +14,6 @@ const VotingPage = (props) => {
         setShowMessage(chosenAnswer);
     }, [chosenAnswer]);
 
-
     // updates vote on front-end then sends to back-end.
     const handleVote = (e) => {
         let voteAnswer = e.target.innerHTML;
@@ -28,7 +27,7 @@ const VotingPage = (props) => {
     // Responsible for sending a request when user votes in the poll.
     // Will add the choice to the query string.
      const handleVotePoll = (answer) => {
-        axios.post(`http://localhost:8080/vote?choice=${answer}`)
+        axios.post(`http://localhost:8080/vote?choice=${answer}&id=${props.id}&pin=${props.pin}`)
             .then(function (response) {
                 console.log(response);
             })
@@ -43,7 +42,7 @@ const VotingPage = (props) => {
             <ul>
                 {
                     props.choices.map((choice,i) =>
-                        <a href="javascript:void(0);">
+                        <a key={i} href="javascript:void(0);">
                             <li tabIndex={i} key={i} onClick={e => handleVote(e)}>
                                 { choice }
                             </li>
@@ -60,13 +59,15 @@ const VotingPage = (props) => {
      */
     return (
         <div>
-            <h2>{props.title}</h2>
+            <p id="pin-msg">Your PIN# is: {props.pin}</p>
+            <h2>{props.question}</h2>
             {
                 displayChoices()
             }
             {
                 showMessage && <h2 className="chosen">{"You voted for: " + showMessage}</h2>
             }
+            {console.log(props.pin)}
         </div>
     )
 }

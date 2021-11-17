@@ -1,13 +1,10 @@
 package Users;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mongodb.BasicDBObject;
-import org.bson.Document;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class User {
 
@@ -23,19 +20,21 @@ public class User {
     @JsonProperty("hashedPassword")
     public String hashedPassword;
 
-    @JsonProperty("votes")
-    public Map<String, String> pollsVoted = new HashMap<>();
+    private List<String> userPins = new ArrayList<>();
 
-    public void vote(String votePin, String pollId){
-        pollsVoted.putIfAbsent(pollId, votePin);
+    private List<String> userPollIds = new ArrayList<>();
+
+    public void addPin(String pin){
+        this.userPins.add(pin);
     }
 
-    public BasicDBObject asDBObject(){
-       return new BasicDBObject()
-               .append("userId", this.userId)
-               .append("emailAddress", this.emailAddress)
-               .append("hashedPassword", this.hashedPassword)
-               .append("fullName", this.fullName)
-               .append("votes", pollsVoted);
+    public void addPollId(String pollId) { this.userPollIds.add(pollId); }
+
+    public JSONObject asJson(){
+       return new JSONObject()
+               .put("userId", this.userId)
+               .put("emailAddress", this.emailAddress)
+               .put("hashedPassword", this.hashedPassword)
+               .put("fullName", this.fullName);
     }
 }
