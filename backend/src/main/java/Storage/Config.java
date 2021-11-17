@@ -1,13 +1,13 @@
 package Storage;
 
 public enum Config {
-    DB_STRING("db_string", "The string to connect to the database", "jdbc:postgresql://localhost:%s/pollDB"),
+    DB_STRING("db_string", "The string to connect to the database", "jdbc:mysql://localhost:%s/database"),
 
-    DB_PORT("db_port", "The port through which to connect to the database", "5432"),
+    DB_PORT("db_port", "The port through which to connect to the database", "3307"),
 
-    DB_PW("db_pw", "PW for local DB", System.getProperty("DB_PW")),
+    DB_PW("db_pw", "PW for local DB", "root"),
 
-    DB_USERNAME("db_username", "User for local DB.", System.getProperty("DB_USER")),
+    DB_USERNAME("db_username", "User for local DB.", "root"),
 
     ID_ALLOWED_CHARACTERS("allowed_characters",
             "Allowed characters for random IDs.",
