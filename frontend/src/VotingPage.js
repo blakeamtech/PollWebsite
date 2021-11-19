@@ -15,18 +15,16 @@ const VotingPage = (props) => {
     }, [chosenAnswer]);
 
     // updates vote on front-end then sends to back-end.
-    const handleVote = (e) => {
+    const handleVote = (e, choiceId) => {
         let voteAnswer = e.target.innerHTML;
-        if (props.choices.includes(voteAnswer)) {
-            setChosenAnswer(voteAnswer);
-            handleVotePoll(voteAnswer);
-        }
+        setChosenAnswer(voteAnswer);
+        handleVotePoll(voteAnswer, choiceId);
     }
 
     // Responsible for sending a request when user votes in the poll.
     // Will add the choice to the query string.
-     const handleVotePoll = (answer) => {
-        axios.post(`http://localhost:8080/vote?choice=${answer}&id=${props.id}&pin=${props.pin}`)
+     const handleVotePoll = (answer, choiceId) => {
+        axios.post(`http://localhost:8080/vote?choice=${answer}&choiceid=${choiceId}&id=${props.id}&pin=${props.pin}`)
             .then(function (response) {
                 console.log(response);
             })
@@ -43,8 +41,8 @@ const VotingPage = (props) => {
                 {
                     props.choices.map((choice,i) =>
                         <a key={i} href="javascript:void(0);">
-                            <li tabIndex={i} key={i} onClick={e => handleVote(e)}>
-                                { choice }
+                            <li tabIndex={i} key={choice["choiceId"]} onClick={e => handleVote(e, choice["choiceId"])}>
+                                { choice["choice"] }
                             </li>
                         </a>
                     )
