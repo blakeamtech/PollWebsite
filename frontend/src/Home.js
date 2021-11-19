@@ -20,10 +20,13 @@ const Home = () => {
         "state": "running",
         "title": "Kappa 123",
         "question": "Yes or No?",
-        "choices": ["yes", "no"],
-        "pin_voteid": {
-            "273648": "yes",
-            "834294": "no"
+        "choices": [
+            {"choice":"yes", "choiceId": 125234},
+            {"choice":"no", "choiceId": 897692}
+        ],
+        "pins": {
+            "273648": 0,
+            "834294": 0
         },
         "votes": {
             "yes": "1",
@@ -158,9 +161,9 @@ const Home = () => {
     const generatePin = () => {
         let doesntExist = true;
 
-        let newPin = Math.floor(100000 + Math.random() * 900000);
+        let newPin = Math.floor(100000 + Math.random() * 900000).toString();
         while (doesntExist) {
-            if (!(newPin in poll.pin_voteid)) {
+            if (!(newPin in poll.pins)) {
                 setPin(newPin);
                 break;
             }
@@ -174,7 +177,7 @@ const Home = () => {
 
         let newPin = Math.floor(100000 + Math.random() * 900000);
         while (doesntExist) {
-            if (!(newPin in mockPoll.pin_voteid)) {
+            if (!(newPin in mockPoll.pins)) {
                 setPin(newPin);
                 break;
             }
@@ -191,7 +194,7 @@ const Home = () => {
                 if (pin.length === 0) {
                     mockGeneratePin();
                 }
-                return <VotingPage id={poll.id} pin={pin} pin_voteid={poll.pin_voteid} question={poll.question} title={poll.title} choices={poll.choices} poll={poll.poll} pollState={poll.state}/>
+                return <VotingPage id={poll.id} pin={pin} pins={poll.pins} question={poll.question} title={poll.title} choices={poll.choices} poll={poll.poll} pollState={poll.state}/>
             case "released":
                 return (
                     <div>
