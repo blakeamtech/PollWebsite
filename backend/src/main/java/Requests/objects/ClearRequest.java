@@ -1,14 +1,15 @@
-package Requests;
+package Requests.objects;
 
 import Exceptions.InvalidPollStateException;
 import Responses.Response;
 import Users.PollManager;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 
 public class ClearRequest extends AbstractRequest implements Request {
 
-    ClearRequest(HttpServletRequest request){
+    public ClearRequest(HttpServletRequest request){
         super(request);
     }
 
@@ -19,9 +20,9 @@ public class ClearRequest extends AbstractRequest implements Request {
     @Override
     public Response call() {
         try {
-            PollManager.clearPoll();
+            PollManager.clearPoll(this.getPollId());
             return new Response().ok();
-        } catch (InvalidPollStateException e) {
+        } catch (InvalidPollStateException | SQLException | ClassNotFoundException e) {
 
             return new Response().badRequest().exceptionBody(e);
         }

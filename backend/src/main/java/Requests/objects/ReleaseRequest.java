@@ -1,13 +1,17 @@
-package Requests;
+package Requests.objects;
 
 import Exceptions.AssignmentException;
-import Exceptions.InvalidPollStateException;
 import Responses.Response;
 import Users.PollManager;
 
-public class ReleaseRequest implements Request {
+import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 
-    ReleaseRequest(){};
+public class ReleaseRequest extends AbstractRequest implements Request {
+
+    public ReleaseRequest(HttpServletRequest request){
+        super(request);
+    };
 
     /**
      * Implementation of the Release request. Sets the poll status to released
@@ -16,9 +20,9 @@ public class ReleaseRequest implements Request {
     @Override
     public Response call() {
         try {
-            PollManager.releasePoll();
+            PollManager.releasePoll(getPollId());
             return new Response().ok();
-        } catch (AssignmentException e) {
+        } catch (AssignmentException | SQLException | ClassNotFoundException e) {
             return new Response().serverError().exceptionBody(e);
         }
     }

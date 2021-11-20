@@ -1,5 +1,7 @@
 package Storage.Entities;
 
+import org.json.JSONObject;
+
 public class Choice {
     private String choiceID;
     private String pollId;
@@ -35,5 +37,12 @@ public class Choice {
 
     public void setChoice(String choice) {
         this.choice = choice;
+    }
+
+    public JSONObject asJson(){
+        JSONObject jsonToReturn = new JSONObject();
+        jsonToReturn.put("choice", this.choice);
+        jsonToReturn.put("choiceId", this.choiceID);
+        return jsonToReturn;
     }
 }

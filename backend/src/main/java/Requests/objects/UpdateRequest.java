@@ -1,4 +1,4 @@
-package Requests;
+package Requests.objects;
 
 import Exceptions.InvalidPollStateException;
 import Polls.Poll;
@@ -8,13 +8,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class UpdateRequest extends AbstractRequest implements Request {
 
     private static final ObjectMapper mapper = new ObjectMapper();
     private Poll poll;
 
-    UpdateRequest(HttpServletRequest request){
+    public UpdateRequest(HttpServletRequest request){
         super(request);
     }
 
@@ -31,7 +32,7 @@ public class UpdateRequest extends AbstractRequest implements Request {
             PollManager.updatePoll(poll.getPollTitle(), poll.getQuestionText(), poll.getChoicesList(), poll.getPollId());
 
             return new Response().ok();
-        } catch (IOException | InvalidPollStateException e) {
+        } catch (IOException | InvalidPollStateException | SQLException | ClassNotFoundException e) {
             return new Response().badRequest().exceptionBody(e);
         }
 

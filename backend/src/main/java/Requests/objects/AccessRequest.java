@@ -1,4 +1,4 @@
-package Requests;
+package Requests.objects;
 
 import Responses.Response;
 
@@ -6,17 +6,18 @@ import javax.servlet.http.HttpServletRequest;
 
 public class AccessRequest extends AbstractRequest implements Request {
 
-    AccessRequest(HttpServletRequest request){
+    public AccessRequest(HttpServletRequest request){
         super(request);
     }
 
     /**
-     * Implementation of the Run request. Sets the poll status to running.
+     * Implementation of the Access request.
      * @return Response object containing body and status request.
      */
     @Override
     public Response call() {
         try {
+
             /** IMPLEMENTATION:
              *
              * Endpoint: http://localhost:8080/access

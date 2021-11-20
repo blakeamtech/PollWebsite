@@ -1,4 +1,4 @@
-package Requests;
+package Requests.objects;
 
 import Exceptions.AssignmentException;
 import Polls.Poll;
@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Optional;
 
 /**
@@ -20,7 +21,7 @@ public class CreateRequest extends AbstractRequest implements Request {
     private static final ObjectMapper mapper = new ObjectMapper();
     private Poll poll;
 
-    CreateRequest(HttpServletRequest request){
+    public CreateRequest(HttpServletRequest request){
         super(request);
 
     };
@@ -38,11 +39,11 @@ public class CreateRequest extends AbstractRequest implements Request {
     public Response call() {
         try {
             poll = mapper.readValue(this.getRequest().getReader(), Poll.class);
+            poll.verifyId();
+            PollManager.createPoll(poll);
 
-            PollManager.createPoll(poll.getPollTitle(), poll.getQuestionText(), poll.getChoicesList());
-
-            return new Response().ok().body(new JSONObject("{id:" + PollManager.getPollId() + "}"));
-        } catch (IOException | AssignmentException e) {
+            return new Response().ok().body(new JSONObject().put("id", poll.getPollId()));
+        } catch (IOException | SQLException | ClassNotFoundException e) {
             return new Response().badRequest().exceptionBody(e);
         }
     }

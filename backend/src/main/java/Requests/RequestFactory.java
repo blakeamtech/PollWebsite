@@ -1,5 +1,7 @@
 package Requests;
 
+import Requests.objects.*;
+
 import javax.naming.NoPermissionException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,7 +29,10 @@ public class RequestFactory {
         CREATE,
         UPDATE,
         RUN,
-        STATE
+        STATE,
+        ACCESS,
+        POLLS,
+        AUTHENTICATE
     }
 
     /**
@@ -40,11 +45,13 @@ public class RequestFactory {
     public static Request valueOfGetRequest(HttpServletRequest request){
         switch (getRequestTypeFromServletRequest(request)){
             case RESULTS:
-                return new ResultsRequest();
+                return new ResultsRequest(request);
             case DETAILS:
                 return new DetailsRequest(request);
             case STATE:
-                return new GetStateRequest();
+                return new GetStateRequest(request);
+            case POLLS:
+                return new GetPollsRequest(request);
             default:
                 return new InvalidRequest(400);
         }
@@ -65,6 +72,10 @@ public class RequestFactory {
                 return new DetailsRequest(request);
             case CREATE:
                 return new CreateRequest(request);
+            case ACCESS:
+                return new AccessRequest(request);
+            case AUTHENTICATE:
+                return new LoginRequest(request);
             default:
                 return new InvalidRequest(400);
         }
@@ -80,9 +91,9 @@ public class RequestFactory {
     public static Request valueOfPutRequest(HttpServletRequest request){
         switch (getRequestTypeFromServletRequest(request)){
             case RELEASE:
-                return new ReleaseRequest();
+                return new ReleaseRequest(request);
             case UNRELEASE:
-                return new UnreleaseRequest();
+                return new UnreleaseRequest(request);
             case CLEAR:
                 return new ClearRequest(request);
             case CLOSE:

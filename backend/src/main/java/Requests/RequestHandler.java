@@ -1,6 +1,7 @@
 package Requests;
 
 import Exceptions.InvalidPermissionException;
+import Requests.objects.Request;
 import Responses.Response;
 import Responses.ResponseWriter;
 import Util.RequestExecutor;

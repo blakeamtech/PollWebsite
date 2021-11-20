@@ -1,17 +1,17 @@
-package Requests;
+package Requests.objects;
 
 import Exceptions.AssignmentException;
-import Exceptions.InvalidChoiceException;
 import Exceptions.InvalidSessionException;
 import Responses.Response;
 import Users.PollManager;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.sql.SQLException;
 
 public class VoteRequest extends AbstractRequest implements Request {
 
-    VoteRequest(HttpServletRequest servletRequest){
+    public VoteRequest(HttpServletRequest servletRequest){
         super(servletRequest);
     };
 
@@ -32,10 +32,12 @@ public class VoteRequest extends AbstractRequest implements Request {
         try {
             HttpSession session = this.getHttpSession().orElseThrow(InvalidSessionException::new);
             String choice = this.getRequest().getParameter("choice");
-            PollManager.vote(session, choice);
+            String choiceId = this.getRequest().getParameter("choiceId");
+            String pin = this.getRequest().getParameter("pin");
+            PollManager.vote(choiceId, choice, pin, getPollId());
             return new Response().ok();
 
-        } catch (AssignmentException e) {
+        } catch (AssignmentException | SQLException | ClassNotFoundException e) {
             return new Response().serverError().exceptionBody(e);
         }
     }

@@ -1,4 +1,4 @@
-package Requests;
+package Requests.objects;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -28,5 +28,9 @@ public abstract class AbstractRequest {
 
     public HttpServletRequest getRequest(){
         return this.request;
+    }
+
+    public String getPollId(){
+        return this.request.getParameter("id");
     }
 }

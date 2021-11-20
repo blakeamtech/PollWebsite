@@ -1,4 +1,4 @@
-package Requests;
+package Requests.objects;
 
 import Responses.Response;
 
@@ -9,7 +9,7 @@ public class InvalidRequest implements Request {
     InvalidRequest(){};
 
     // If we want to pass a status code when creating an invalid request
-    InvalidRequest(int statusCode){
+    public InvalidRequest(int statusCode){
         this.statusCode = statusCode;
     }
 

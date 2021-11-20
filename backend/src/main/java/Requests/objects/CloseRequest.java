@@ -1,15 +1,15 @@
-package Requests;
+package Requests.objects;
 
 import Exceptions.AssignmentException;
-import Exceptions.InvalidPollStateException;
 import Responses.Response;
 import Users.PollManager;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.SQLException;
 
 public class CloseRequest extends AbstractRequest implements Request {
 
-    CloseRequest(HttpServletRequest request){
+    public CloseRequest(HttpServletRequest request){
         super(request);
     };
 
@@ -23,11 +23,11 @@ public class CloseRequest extends AbstractRequest implements Request {
 
         try {
 
-            PollManager.closePoll();
+            PollManager.closePoll(this.getPollId());
 
             return new Response().ok();
 
-        } catch (AssignmentException e) {
+        } catch (AssignmentException | SQLException | ClassNotFoundException e) {
 
             return new Response().serverError().exceptionBody(e);
         }

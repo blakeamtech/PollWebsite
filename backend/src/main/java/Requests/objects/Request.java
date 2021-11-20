@@ -1,4 +1,4 @@
-package Requests;
+package Requests.objects;
 
 import Responses.Response;
 

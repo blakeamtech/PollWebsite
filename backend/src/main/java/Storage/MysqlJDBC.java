@@ -1,13 +1,19 @@
 package Storage;
 
+import Exceptions.AssignmentException;
+import Exceptions.PollIsNotReleasedException;
 import Polls.Poll;
 import Storage.Entities.Choice;
 import Storage.Entities.Vote;
 import Users.User;
+import org.json.JSONObject;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class MysqlJDBC {
 
@@ -27,6 +33,7 @@ public class MysqlJDBC {
     private static final String DELETE_USER_QUERY = "DELETE FROM Users WHERE userId = ?";
     private static final String DELETE_POLL_QUERY = "DELETE FROM Polls WHERE pollId = ?";
     private static final String DELETE_CHOICE_QUERY = "DELETE FROM Choices WHERE choiceId = ?";
+    private static final String DELETE_ALL_VOTES_QUERY = "DELETE FROM Vote WHERE pollId = ?";
     private static final String DELETE_VOTE_QUERY = "DELETE FROM Vote WHERE voteId = ?";
 
     private static final String SELECT_ALLUSER_QUERY = "SELECT * FROM Users";
@@ -38,6 +45,9 @@ public class MysqlJDBC {
     private static final String SELECT_POLLCHOICES_QUERY = "SELECT * FROM Choices WHERE pollId = ?";
     private static final String SELECT_ALLVOTE_QUERY = "SELECT * FROM Vote";
     private static final String SELECT_VOTE_QUERY = "SELECT * FROM Vote WHERE voteId = ?";
+    private static final String SELECT_ALL_VOTES_FROM_POLL = "SELECT * FROM Vote WHERE pollId = ?";
+    private static final String SELECT_ALL_POLLS_FROM_USER = "SELECT * FROM Polls WHERE email = ?";
+    private static final String SELECT_USER_FROM_USERNAME = "SELECT * FROM Users WHERE username = ?";
 
     public static MysqlJDBC getInstance() throws ClassNotFoundException, SQLException {
         if(connection == null || INSTANCE == null) {
@@ -90,6 +100,42 @@ public class MysqlJDBC {
         statement.setString(3, poll.getQuestionText());
         statement.executeUpdate();
         statement.close();
+    }
+
+    public synchronized Map<String, Long> getPollResults(String pollId) throws SQLException {
+       List<Choice> choicesForPoll = this.selectPollChoices(pollId);
+
+       return choicesForPoll.stream().collect(Collectors.groupingBy(Choice::getChoice, Collectors.counting() ));
+    }
+
+    public synchronized JSONObject getPollDetailsAsJson(String pollId) throws SQLException, PollIsNotReleasedException, ClassNotFoundException {
+        Poll pollToCheck = this.selectPoll(pollId);
+        if(pollToCheck.getStatus() == Poll.POLL_STATUS.RELEASED){
+            JSONObject detailsJson = new JSONObject();
+            detailsJson.put("state", pollToCheck.getState());
+            detailsJson.put("votes", this.getPollResults(pollId));
+            return detailsJson;
+        }
+        throw new PollIsNotReleasedException();
+    }
+
+    public synchronized String getPollDetailsAsString(String pollId) throws SQLException, PollIsNotReleasedException, ClassNotFoundException {
+        Poll pollToCheck = this.selectPoll(pollId);
+        if(pollToCheck.getStatus() == Poll.POLL_STATUS.RELEASED){
+            StringBuilder sb = new StringBuilder();
+
+            Map<String, Object> pollState = pollToCheck.getState();
+            Map<String, Long> results = this.getPollResults(pollId);
+
+            sb.append("Title: ").append(pollState.get("title")).append("\n");
+            sb.append("Question: ").append(pollState.get("question")).append("\n");
+            sb.append("State: ").append(pollState.get("state")).append("\n");
+            sb.append("Choices: ").append(pollState.get("choices")).append("\n");
+            sb.append("Voted: ").append(results.toString());
+            return sb.toString();
+
+        }
+        throw new PollIsNotReleasedException();
     }
 
     /**
@@ -226,6 +272,13 @@ public class MysqlJDBC {
         statement.close();
     }
 
+    public synchronized void deleteAllVotesFromPoll(String pollId) throws SQLException{
+        PreparedStatement statement = connection.prepareStatement(DELETE_ALL_VOTES_QUERY);
+        statement.setString(1, pollId);
+        statement.executeUpdate();
+        statement.close();
+    }
+
     /**
      * Method responsible for deleting a choice in the database.
      *
@@ -298,6 +351,24 @@ public class MysqlJDBC {
         return user;
     }
 
+
+    public synchronized User selectUserFromUsername(String username) throws SQLException {
+        User user = null;
+        PreparedStatement statement = connection.prepareStatement(SELECT_USER_FROM_USERNAME);
+        statement.setString(1, username);
+        try (ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                user = setupUser(resultSet);
+            }
+        }
+        catch (SQLException ex) {
+            System.out.println("Exception: " + ex);
+            throw ex;
+        }
+        statement.close();
+        return user;
+    }
+
     /**
      * Method responsible for returning a list of all polls in the database.
      *
@@ -307,17 +378,17 @@ public class MysqlJDBC {
     public synchronized List<Poll> selectAllPolls() throws SQLException {
         List<Poll> rows = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement(SELECT_ALLPOLL_QUERY);
-        try (ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                Poll poll = setupPoll(resultSet);
-                rows.add(poll);
-            }
-        } catch (SQLException ex) {
-            System.out.println("Exception: " + ex);
-            throw ex;
-        }
-        statement.close();
-        return rows;
+        return getPolls(rows, statement);
+    }
+
+    public synchronized void updatePollStatus(String pollId,
+                                        Poll.POLL_STATUS statusToSet,
+                                        Poll.POLL_STATUS statusToCheck,
+                                        String triedAction) throws SQLException, ClassNotFoundException, AssignmentException {
+        Poll pollToCheck = getInstance().selectPoll(pollId);
+        pollToCheck.checkPollState(statusToCheck, triedAction);
+        pollToCheck.setPollStatus(statusToSet);
+        MysqlJDBC.getInstance().updatePoll(pollToCheck);
     }
 
     /**
@@ -430,6 +501,23 @@ public class MysqlJDBC {
         return rows;
     }
 
+    public synchronized List<Vote> selectAllVotesFromPoll(String pollId) throws SQLException {
+        List<Vote> rows = new ArrayList<>();
+        PreparedStatement statement = connection.prepareStatement(SELECT_ALL_VOTES_FROM_POLL);
+        statement.setString(1, pollId);
+        try (ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Vote vote = setupVote(resultSet);
+                rows.add(vote);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Exception: " + ex);
+            throw ex;
+        }
+        statement.close();
+        return rows;
+    }
+
     /**
      * Method responsible for returning a specific vote in the database.
      *
@@ -482,6 +570,7 @@ public class MysqlJDBC {
         poll.setPollId(rs.getString("pollId"));
         poll.setPollTitle(rs.getString("title"));
         poll.setQuestionText(rs.getString("question"));
+        poll.setPollStatus(rs.getString("pollStatus"));
         return poll;
     }
 
@@ -513,5 +602,26 @@ public class MysqlJDBC {
         vote.setPIN(rs.getString("PIN"));
         vote.setChoiceId("choiceId");
         return vote;
+    }
+
+    public List<Poll> getAllPollsFromUser(String email) throws SQLException {
+        List<Poll> rows = new ArrayList<>();
+        PreparedStatement statement = connection.prepareStatement(SELECT_ALL_POLLS_FROM_USER);
+        statement.setString(1, email);
+        return getPolls(rows, statement);
+    }
+
+    private List<Poll> getPolls(List<Poll> rows, PreparedStatement statement) throws SQLException {
+        try (ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                Poll poll= setupPoll(resultSet);
+                rows.add(poll);
+            }
+        } catch (SQLException ex) {
+            System.out.println("Exception: " + ex);
+            throw ex;
+        }
+        statement.close();
+        return rows;
     }
 }

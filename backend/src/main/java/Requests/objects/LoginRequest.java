@@ -1,12 +1,14 @@
-package Requests;
+package Requests.objects;
 
 import Responses.Response;
+import Storage.MysqlJDBC;
+import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 
 public class LoginRequest extends AbstractRequest implements Request {
 
-    LoginRequest(HttpServletRequest request){
+    public LoginRequest(HttpServletRequest request){
         super(request);
     }
 
@@ -17,19 +19,10 @@ public class LoginRequest extends AbstractRequest implements Request {
     @Override
     public Response call() {
         try {
-            /** IMPLEMENTATION:
-             *
-             * Endpoint: http://localhost:8080/authenticate
-             *
-             * - See if username and password match the credentials.
-             *
-             * INPUT BODY:
-             *  - E.g.: { "username": "helloworl123", "password": "123" }
-             *
-             * OUTPUT:
-             *  - If success: 200 ok
-             *  - Else: 401 unauthorized
-             */
+
+            JSONObject object = new JSONObject(getRequest().getReader());
+
+            MysqlJDBC.getInstance().selectUserFromUsername(object.getString("username"));
 
             return new Response().ok();
         } catch (Exception e) {
