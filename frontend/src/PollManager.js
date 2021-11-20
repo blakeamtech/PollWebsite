@@ -10,18 +10,18 @@ import Header from "./Header";
 const PollManager = () => {
     const [polls, setPolls] = useState([]);
     const [chosenPoll, setChosenPoll] = useState("");
-    const [username, setUsername] = useState(localStorage.getItem("username"));
+    const [email, setEmail] = useState(localStorage.getItem("email"));
     const [chosenMessage, setChosenMessage] = useState("");
 
     /**
      * Function responsible for sending a request to clear the poll.
      */
     const handleClear = () => {
-        if (chosenPoll === "" || username === "none") {
+        if (chosenPoll === "" || email === "none") {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/clear?username=${username}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/clear?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -37,11 +37,11 @@ const PollManager = () => {
      * Function responsible for sending a request to close the poll.
      */
     const handleClose = () => {
-        if (chosenPoll === "" || username === "none") {
+        if (chosenPoll === "" || email === "none") {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/close?username=${username}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/close?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -58,11 +58,11 @@ const PollManager = () => {
      * Function responsible for sending a request to run the poll.
      */
     const handleRun = () => {
-        if (chosenPoll === "" || username === "none") {
+        if (chosenPoll === "" || email === "none") {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/run?username=${username}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/run?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -79,11 +79,11 @@ const PollManager = () => {
      * Function responsible for sending a request to release the poll.
      */
     const handleRelease = () => {
-        if (chosenPoll === "" || username === "none") {
+        if (chosenPoll === "" || email === "none") {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/release?username=${username}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/release?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -100,11 +100,11 @@ const PollManager = () => {
      * Function responsible for sending a request to unrelease the poll.
      */
     const handleUnrelease = () => {
-        if (chosenPoll === "" || username === "none") {
+        if (chosenPoll === "" || email === "none") {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/unrelease?username=${username}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/unrelease?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -127,10 +127,10 @@ const PollManager = () => {
      * - Should return all polls
      * - User can only delete or close the ones he created
      * - What about clear, update, release, run and unrelease?
-     *      - If they are also creator only, then send username along with request and only retrieve those associated with creator.
+     *      - If they are also creator only, then send email along with request and only retrieve those associated with creator.
      */
     const fetchPolls = () => {
-        axios.get(`http://localhost:8080/polls?username=${username}`)
+        axios.get(`http://localhost:8080/polls?email=${email}`)
             .then((res) => {
                 console.log(res);
                 setPolls(res.polls);

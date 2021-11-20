@@ -11,41 +11,41 @@ const ManagerLogin = (props) => {
     const mockAuthenticate = (e) => {
         e.preventDefault();
         let elements = e.target.elements;
-        const username = elements[0].value;
+        const email = elements[0].value;
         const pass = elements[1].value;
 
-        if ((username === "shadow" && pass === "123") || 
-             (username === "alex" && pass === "abc") ||
-             (username === "pan" && pass === "qwe")) {
+        if ((email === "shadow@gmail.com" && pass === "123") || 
+             (email === "alex@gmail.com" && pass === "abc") ||
+             (email === "pan@gmail.com" && pass === "qwe")) {
             history.push("/");
 
-            localStorage.setItem("username", username);
+            localStorage.setItem("email", email);
         }
         else {
-            alert("Wrong username/passcode!");
+            alert("Wrong email/passcode!");
         }
     }
 
     const authenticate = (e) => {
         e.preventDefault();
         let elements = e.target.elements;
-        const username = elements[0].value;
+        const email = elements[0].value;
         const pass = elements[1].value;
 
         // data to be sent
         let obj = {
-            "username": username,
+            "email": email,
             "password": pass
         };
 
 
         axios.post('http://localhost:8080/authenticate', obj).then((e) => {
 
-            localStorage.setItem("username", username);
+            localStorage.setItem("email", email);
             history.push("/pollmanager");
         }).catch((error) => {
             console.log(error);
-            alert("Incorrect username/password.");
+            alert("Incorrect email/password.");
         });
     }
 
@@ -57,8 +57,8 @@ const ManagerLogin = (props) => {
         <div>
             <h1>Login</h1>
             <form onSubmit={(e) => mockAuthenticate(e)}>
-                <label htmlFor="username">Username: </label>
-                <input type="username" id="username"/><br/>
+                <label htmlFor="email">&nbsp;&nbsp; Email: </label>
+                <input type="email" id="email"/><br/>
                 <label htmlFor="passcode">Passcode: </label>
                 <input type="password" id="passcode"/><br/>
                 <button type="submit" style={{margin: '8px', padding: '10px'}}>Login</button>
