@@ -22,7 +22,7 @@ public class LoginRequest extends AbstractRequest implements Request {
 
             JSONObject object = new JSONObject(getRequest().getReader());
 
-            MysqlJDBC.getInstance().selectUserFromUsername(object.getString("username"));
+            MysqlJDBC.getInstance().selectUserFromEmail(object.getString("email"));
 
             return new Response().ok();
         } catch (Exception e) {

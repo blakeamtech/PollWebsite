@@ -21,12 +21,12 @@ public class MysqlJDBC {
     private static MysqlJDBC INSTANCE;
 
     private static final String INSERT_USER_QUERY = "INSERT INTO Users (name, email, password) values (?, ?, ?)";
-    private static final String INSERT_POLL_QUERY = "INSERT INTO Polls (pollId, title, question) values (?, ?, ?)";
+    private static final String INSERT_POLL_QUERY = "INSERT INTO Polls (pollId, title, question, email) values (?, ?, ?, ?)";
     private static final String INSERT_CHOICE_QUERY = "INSERT INTO Choices (pollId, choice) values (?, ?)";
     private static final String INSERT_VOTE_QUERY = "INSERT INTO Vote (PIN, choiceId) values (?, ?)";
 
     private static final String UPDATE_USER_QUERY = "UPDATE Users SET name = ?, email = ?, password = ? WHERE userId = ?";
-    private static final String UPDATE_POLL_QUERY = "Update Polls SET title = ?, question = ? WHERE pollId = ?";
+    private static final String UPDATE_POLL_QUERY = "Update Polls SET title = ?, question = ?, email = ? WHERE pollId = ?";
     private static final String UPDATE_CHOICE_QUERY = "UPDATE Choices SET pollId = ?, choice = ? WHERE choiceId = ?";
     private static final String UPDATE_VOTE_QUERY = "UPDATE Vote SET PIN = ?, choiceId = ? WHERE voteId = ?";
 
@@ -47,7 +47,7 @@ public class MysqlJDBC {
     private static final String SELECT_VOTE_QUERY = "SELECT * FROM Vote WHERE voteId = ?";
     private static final String SELECT_ALL_VOTES_FROM_POLL = "SELECT * FROM Vote WHERE pollId = ?";
     private static final String SELECT_ALL_POLLS_FROM_USER = "SELECT * FROM Polls WHERE email = ?";
-    private static final String SELECT_USER_FROM_USERNAME = "SELECT * FROM Users WHERE username = ?";
+    private static final String SELECT_USER_FROM_USERNAME = "SELECT * FROM Users WHERE email = ?";
 
     public static MysqlJDBC getInstance() throws ClassNotFoundException, SQLException {
         if(connection == null || INSTANCE == null) {
@@ -98,6 +98,7 @@ public class MysqlJDBC {
         statement.setString(1, poll.getPollId());
         statement.setString(2, poll.getPollTitle());
         statement.setString(3, poll.getQuestionText());
+        statement.setString(4, poll.getEmail());
         statement.executeUpdate();
         statement.close();
     }
@@ -212,6 +213,7 @@ public class MysqlJDBC {
         statement.setString(1, poll.getPollTitle());
         statement.setString(2, poll.getQuestionText());
         statement.setString(3, poll.getPollId());
+        statement.setString(4, poll.getEmail());
         statement.executeUpdate();
         statement.close();
     }
@@ -352,10 +354,11 @@ public class MysqlJDBC {
     }
 
 
-    public synchronized User selectUserFromUsername(String username) throws SQLException {
+    //EMAIL THIS SHIT
+    public synchronized User selectUserFromEmail(String email) throws SQLException {
         User user = null;
         PreparedStatement statement = connection.prepareStatement(SELECT_USER_FROM_USERNAME);
-        statement.setString(1, username);
+        statement.setString(1, email);
         try (ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 user = setupUser(resultSet);

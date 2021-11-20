@@ -112,6 +112,14 @@ public class Poll implements Serializable {
         return pollStatus;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setPollStatus(String status){
         this.pollStatus = POLL_STATUS.valueOf(status.toUpperCase());
     }
