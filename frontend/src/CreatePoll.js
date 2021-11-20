@@ -48,6 +48,10 @@ const CreatePoll = () => {
                 obj[item.name] = item.value;
             }
         }
+        obj["email"] = localStorage.getItem("email");
+        if (!obj["email"]) {
+            alert("Problem with user authentication. No email found.");
+        }
         handleCreate(obj);
         console.log(obj);
     }

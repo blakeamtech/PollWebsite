@@ -13,7 +13,7 @@ const Home = () => {
     // pin: 6 digits number
     const [pin, setPin] = useState("");
     const [choicesCount, setChoicesCount] = useState([]);
-    const [username, setUsername] = useState("none");
+    const [email, setEmail] = useState("none");
 
     let mockPoll = {
         "id": "1283ADE870",
@@ -35,11 +35,11 @@ const Home = () => {
     };
 
     useEffect(() => {
-        if (localStorage.getItem("username") === null) {
-            localStorage.setItem("username", "none");
+        if (localStorage.getItem("email") === null) {
+            localStorage.setItem("email", "none");
         }
         else {
-            setUsername(localStorage.getItem("username"));
+            setEmail(localStorage.getItem("email"));
         }
     })
 
@@ -217,7 +217,7 @@ const Home = () => {
      */
     return (
         <div>
-            <Header setUsername={setUsername}/>
+            <Header setEmail={setEmail}/>
             <div id="pollText">
             <h1>THE GREATEST POLL OF ALL TIME.</h1>
                 <form onSubmit={searchPoll}>
