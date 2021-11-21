@@ -51,7 +51,7 @@ public class MysqlJDBC {
 
     public static MysqlJDBC getInstance() throws ClassNotFoundException, SQLException {
         if(connection == null || INSTANCE == null) {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager
                     .getConnection(String.format(Config.DB_STRING.value.toString(), Config.DB_PORT.value.toString())
                             , Config.DB_USERNAME.value.toString(), Config.DB_PW.value.toString());
