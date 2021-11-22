@@ -21,6 +21,7 @@ public class GetStateRequest extends AbstractRequest implements Request{
     @Override
     public Response call() {
         try{
+            String state = this.getPollId();
             return new Response().ok().body(new JSONObject(PollManager.getState(this.getPollId())));
         } catch (SQLException | ClassNotFoundException e) {
             return new Response().badRequest();

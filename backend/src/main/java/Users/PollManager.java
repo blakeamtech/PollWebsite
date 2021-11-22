@@ -76,11 +76,12 @@ public class PollManager {
                 "close");
     }
 
-    public synchronized static void runPoll(String pollId) throws AssignmentException, SQLException, ClassNotFoundException {
-        MysqlJDBC.getInstance().updatePollStatus(pollId,
-                Poll.POLL_STATUS.RUNNING,
-                Poll.POLL_STATUS.CREATED,
-                "run");
+    public synchronized static void runPoll(String pollId, String email) throws AssignmentException, SQLException, ClassNotFoundException {
+        Poll pollToCheck = MysqlJDBC.getInstance().selectPoll(pollId);
+        pollToCheck.checkPollState(Poll.POLL_STATUS.CREATED, "run");
+        pollToCheck.setPollStatus(Poll.POLL_STATUS.RUNNING);
+        pollToCheck.setEmail(email);
+        MysqlJDBC.getInstance().updatePoll(pollToCheck);
     }
 
     public synchronized static void releasePoll(String pollId) throws AssignmentException, SQLException, ClassNotFoundException {

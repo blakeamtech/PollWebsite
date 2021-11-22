@@ -20,7 +20,7 @@ public class RunRequest extends AbstractRequest implements Request {
     @Override
     public Response call() {
         try {
-            PollManager.runPoll(this.getPollId());
+            PollManager.runPoll(this.getPollId(), this.getEmail());
             return new Response().ok();
         } catch (AssignmentException | SQLException | ClassNotFoundException e) {
             return new Response().badRequest().exceptionBody(e);

@@ -20,34 +20,34 @@ public class MysqlJDBC {
     private static Connection connection;
     private static MysqlJDBC INSTANCE;
 
-    private static final String INSERT_USER_QUERY = "INSERT INTO Users (name, email, password) values (?, ?, ?)";
-    private static final String INSERT_POLL_QUERY = "INSERT INTO Polls (pollId, title, question, email, pollStatus) values (?, ?, ?, ?, ?)";
-    private static final String INSERT_CHOICE_QUERY = "INSERT INTO Choices (pollId, choice) values (?, ?)";
-    private static final String INSERT_VOTE_QUERY = "INSERT INTO Vote (PIN, choiceId) values (?, ?)";
+    private static final String INSERT_USER_QUERY = "INSERT INTO users (name, email, password) values (?, ?, ?)";
+    private static final String INSERT_POLL_QUERY = "INSERT INTO polls (pollId, title, question, email, pollStatus) values (?, ?, ?, ?, ?)";
+    private static final String INSERT_CHOICE_QUERY = "INSERT INTO choices (pollId, choice) values (?, ?)";
+    private static final String INSERT_VOTE_QUERY = "INSERT INTO vote (PIN, choiceId) values (?, ?)";
 
-    private static final String UPDATE_USER_QUERY = "UPDATE Users SET name = ?, email = ?, password = ? WHERE userId = ?";
-    private static final String UPDATE_POLL_QUERY = "Update Polls SET title = ?, question = ?, email = ?, pollStatus = ? WHERE pollId = ?";
-    private static final String UPDATE_CHOICE_QUERY = "UPDATE Choices SET pollId = ?, choice = ? WHERE choiceId = ?";
-    private static final String UPDATE_VOTE_QUERY = "UPDATE Vote SET PIN = ?, choiceId = ? WHERE voteId = ?";
+    private static final String UPDATE_USER_QUERY = "UPDATE users SET name = ?, email = ?, password = ? WHERE userId = ?";
+    private static final String UPDATE_POLL_QUERY = "Update polls SET title = ?, question = ?, email = ?, pollStatus = ? WHERE pollId = ?";
+    private static final String UPDATE_CHOICE_QUERY = "UPDATE choices SET pollId = ?, choice = ? WHERE choiceId = ?";
+    private static final String UPDATE_VOTE_QUERY = "UPDATE vote SET PIN = ?, choiceId = ? WHERE voteId = ?";
 
-    private static final String DELETE_USER_QUERY = "DELETE FROM Users WHERE userId = ?";
-    private static final String DELETE_POLL_QUERY = "DELETE FROM Polls WHERE pollId = ?";
-    private static final String DELETE_CHOICE_QUERY = "DELETE FROM Choices WHERE choiceId = ?";
-    private static final String DELETE_ALL_VOTES_QUERY = "DELETE FROM Vote WHERE pollId = ?";
-    private static final String DELETE_VOTE_QUERY = "DELETE FROM Vote WHERE voteId = ?";
+    private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE userId = ?";
+    private static final String DELETE_POLL_QUERY = "DELETE FROM polls WHERE pollId = ?";
+    private static final String DELETE_CHOICE_QUERY = "DELETE FROM choices WHERE choiceId = ?";
+    private static final String DELETE_ALL_VOTES_QUERY = "DELETE FROM vote WHERE pollId = ?";
+    private static final String DELETE_VOTE_QUERY = "DELETE FROM vote WHERE voteId = ?";
 
-    private static final String SELECT_ALLUSER_QUERY = "SELECT * FROM Users";
-    private static final String SELECT_USER_QUERY = "SELECT * FROM Users WHERE userId = ?";
-    private static final String SELECT_ALLPOLL_QUERY = "SELECT * FROM Polls";
-    private static final String SELECT_POLL_QUERY = "SELECT * FROM Polls WHERE pollId = ?";
-    private static final String SELECT_ALLCHOICE_QUERY = "SELECT * FROM Choices";
-    private static final String SELECT_CHOICE_QUERY = "SELECT * FROM Choices WHERE choiceId = ?";
-    private static final String SELECT_POLLCHOICES_QUERY = "SELECT * FROM Choices WHERE pollId = ?";
-    private static final String SELECT_ALLVOTE_QUERY = "SELECT * FROM Vote";
-    private static final String SELECT_VOTE_QUERY = "SELECT * FROM Vote WHERE voteId = ?";
-    private static final String SELECT_ALL_VOTES_FROM_POLL = "SELECT * FROM Vote WHERE pollId = ?";
-    private static final String SELECT_ALL_POLLS_FROM_USER = "SELECT * FROM Polls WHERE email = ?";
-    private static final String SELECT_USER_FROM_USERNAME = "SELECT * FROM Users WHERE email = ?";
+    private static final String SELECT_ALLUSER_QUERY = "SELECT * FROM users";
+    private static final String SELECT_USER_QUERY = "SELECT * FROM users WHERE userId = ?";
+    private static final String SELECT_ALLPOLL_QUERY = "SELECT * FROM polls";
+    private static final String SELECT_POLL_QUERY = "SELECT * FROM polls WHERE pollId = ?";
+    private static final String SELECT_ALLCHOICE_QUERY = "SELECT * FROM choices";
+    private static final String SELECT_CHOICE_QUERY = "SELECT * FROM choices WHERE choiceId = ?";
+    private static final String SELECT_POLLCHOICES_QUERY = "SELECT * FROM choices WHERE pollId = ?";
+    private static final String SELECT_ALLVOTE_QUERY = "SELECT * FROM vote";
+    private static final String SELECT_VOTE_QUERY = "SELECT * FROM vote WHERE voteId = ?";
+    private static final String SELECT_ALL_VOTES_FROM_POLL = "SELECT * FROM vote WHERE pollId = ?";
+    private static final String SELECT_ALL_POLLS_FROM_USER = "SELECT * FROM polls WHERE email = ?";
+    private static final String SELECT_USER_FROM_USERNAME = "SELECT * FROM users WHERE email = ?";
 
     public static MysqlJDBC getInstance() throws ClassNotFoundException, SQLException {
         if(connection == null || INSTANCE == null) {
@@ -213,9 +213,9 @@ public class MysqlJDBC {
         PreparedStatement statement = connection.prepareStatement(UPDATE_POLL_QUERY);
         statement.setString(1, poll.getPollTitle());
         statement.setString(2, poll.getQuestionText());
-        statement.setString(3, poll.getPollId());
-        statement.setString(4, poll.getEmail());
-        statement.setString(5, poll.getStatus().getValue());
+        statement.setString(5, poll.getPollId());
+        statement.setString(3, poll.getEmail());
+        statement.setString(4, poll.getStatus().getValue());
         statement.executeUpdate();
         statement.close();
     }
@@ -417,6 +417,8 @@ public class MysqlJDBC {
             throw ex;
         }
         statement.close();
+
+        poll.setChoicesList(this.selectPollChoices(pollId).stream().map(Choice::getChoice).collect(Collectors.toList()));
         return poll;
     }
 

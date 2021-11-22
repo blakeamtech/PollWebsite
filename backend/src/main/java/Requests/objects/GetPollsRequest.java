@@ -19,9 +19,9 @@ public class GetPollsRequest extends AbstractRequest implements Request {
     @Override
     public Response call() {
         try {
-            String username = getRequest().getParameter("username");
+            String email = getRequest().getParameter("email");
 
-            JSONObject body = PollManager.getAllPolls(username);
+            JSONObject body = PollManager.getAllPolls(email);
 
             return new Response().ok().body(body);
         } catch (Exception e) {
