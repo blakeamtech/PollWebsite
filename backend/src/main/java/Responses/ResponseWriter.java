@@ -29,6 +29,7 @@ public class ResponseWriter {
             Response res = potentialResponse.get();
             httpServletResponse.getOutputStream().println(res.getBody().orElseGet(()->""));
             addHeaders(res, httpServletResponse);
+            httpServletResponse.setStatus(res.getStatusCode().get());
         } catch (IOException | InterruptedException | ExecutionException e) {
             httpServletResponse.setStatus(500);
         }
