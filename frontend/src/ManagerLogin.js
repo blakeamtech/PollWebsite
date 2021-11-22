@@ -34,13 +34,14 @@ const ManagerLogin = (props) => {
 
         // data to be sent
         let obj = {
-            "email": email,
-            "password": pass
+            "emailAddress": email,
+            "hashedPassword": pass
         };
 
+        console.log("OBJECT HERE:", obj);
 
         axios.post('http://localhost:8080/Assignment1_war/authenticate', obj).then((e) => {
-
+            console.log(e);
             localStorage.setItem("email", email);
             history.push("/pollmanager");
         }).catch((error) => {
@@ -56,7 +57,7 @@ const ManagerLogin = (props) => {
     return (
         <div>
             <h1>Login</h1>
-            <form onSubmit={(e) => mockAuthenticate(e)}>
+            <form onSubmit={(e) => authenticate(e)}>
                 <label htmlFor="email">&nbsp;&nbsp; Email: </label>
                 <input type="email" id="email"/><br/>
                 <label htmlFor="passcode">Passcode: </label>
