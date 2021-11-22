@@ -46,7 +46,7 @@ const Home = () => {
     // interval to poll backend for poll status update every X seconds
     // const getPollState = () => {
     //     // retrieve backend poll state and set pollState
-    //     axios.get('http://localhost:8080/state', )
+    //     axios.get('http://localhost:8080/Assignment1_war/state', )
     //     .then(function (response) {
     //         setPoll(response.data);
     //         setPollState(response.data.state);
@@ -89,7 +89,7 @@ const Home = () => {
 
     //  // Responsible for getting the poll result data needed for the PieChart.
     // const handleResults = () => {
-    //     axios.get('http://localhost:8080/results').then(function (response) {
+    //     axios.get('http://localhost:8080/Assignment1_war/results').then(function (response) {
     //         let res = response.data;
     //         // convert object into array
     //         let choiceList = Object.keys(res).map((key) => [key, parseInt(res[key])]);
@@ -103,24 +103,27 @@ const Home = () => {
     const formatVotes = (votes) => {
             let res = votes;
             // convert object into array
-            let choiceList = Object.keys(res).map((key) => [key, parseInt(res[key])]);
+            let choiceList = Object.keys(res).map((key) => [key, res[key]]);
             setChoicesCount(choiceList);
     }
 
     // Responsible for making a request to search for the given poll id and PIN#
     const handlePollSearch = (obj) => {
-        axios.post('http://localhost:8080/access', obj).then(function (response) {
+        axios.get(`http://localhost:8080/Assignment1_war/state?id=${obj["id"]}`).then(function (response) {
             /**
              * - maybe don't need to send pin here
              */
+             console.log('HEREEEEEEEEEE0000000');
             let newPoll = response.data
+            console.log(newPoll);
             setPollStatus(newPoll.state);
             setPoll(newPoll);
             setPin(obj["pin"]);
             formatVotes(newPoll.votes);
-            console.log(newPoll);
+            console.log(response);
 
         }).catch(function (error) {
+            console.log('HEREEEEEEEEEE');
             console.log(error);
             setPoll({});
             setPin("");
@@ -129,12 +132,12 @@ const Home = () => {
         });
     }
 
-    const mockHandlePollSearch = (obj) => {
-        setPollStatus(mockPoll.state);
-        setPoll(mockPoll);
-        setPin(obj["pin"]);
-        formatVotes(mockPoll.votes);
-    }
+    // const mockHandlePollSearch = (obj) => {
+    //     setPollStatus(mockPoll.state);
+    //     setPoll(mockPoll);
+    //     setPin(obj["pin"]);
+    //     formatVotes(mockPoll.votes);
+    // }
 
     // Will look for the entered poll information and user choice if a PIN# was entered.
     const searchPoll = (e) => {
@@ -153,8 +156,9 @@ const Home = () => {
             return;
         }
 
-        mockHandlePollSearch(obj);
-        //handlePollSearch(obj);
+        console.log(obj);
+        //mockHandlePollSearch(obj);
+        handlePollSearch(obj);
     }
     
     // Generate new 6 digit pin if none entered. Checks if already exist for given poll.
@@ -172,41 +176,43 @@ const Home = () => {
         }
     }
 
-    const mockGeneratePin = () => {
-        let doesntExist = true;
+    // const mockGeneratePin = () => {
+    //     let doesntExist = true;
 
-        let newPin = Math.floor(100000 + Math.random() * 900000);
-        while (doesntExist) {
-            if (!(newPin in mockPoll.pins)) {
-                setPin(newPin);
-                break;
-            }
+    //     let newPin = Math.floor(100000 + Math.random() * 900000);
+    //     while (doesntExist) {
+    //         if (!(newPin in mockPoll.pins)) {
+    //             setPin(newPin);
+    //             break;
+    //         }
 
-            newPin = Math.floor(100000 + Math.random() * 900000);
-        }
-    }
+    //         newPin = Math.floor(100000 + Math.random() * 900000);
+    //     }
+    // }
 
     // React code for rendering the body.
     // Contains the voting page, a waiting page, a link to download a file as well as the piechart.
     const renderBody = () => {
+        console.log(pollStatus);
         switch (pollStatus) {
             case "running":
-                if (pin.length === 0) {
-                    mockGeneratePin();
+                if (pin && pin.length === 0) {
+                    generatePin();
                 }
                 return <VotingPage id={poll.id} pin={pin} pins={poll.pins} question={poll.question} title={poll.title} choices={poll.choices} poll={poll.poll} pollState={poll.state}/>
             case "released":
                 return (
                     <div>
-                        <a href='http://localhost:8080/details?choice=TEXT' download>TEXT Results</a><br/>
-                        <a href='http://localhost:8080/details?choice=JSON' download>JSON Results</a><br/>
-                        <a href='http://localhost:8080/details?choice=XML' download>XML Results</a><br/>
+                        <a href='http://localhost:8080/Assignment1_war/details?choice=TEXT' download>TEXT Results</a><br/>
+                        <a href='http://localhost:8080/Assignment1_war/details?choice=JSON' download>JSON Results</a><br/>
+                        <a href='http://localhost:8080/Assignment1_war/details?choice=XML' download>XML Results</a><br/>
                         <div className="centering">
                             <ViewPollResults question={poll.question} title={poll.title} choices={poll.choices} pollState={poll.state} choicesCount={choicesCount}/>
                         </div>
                     </div>
                 )
             default:
+                console.log("hererere");
                 return <WaitingPage pollStatus={pollStatus}/>
         }
     }
