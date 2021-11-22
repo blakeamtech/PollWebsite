@@ -21,7 +21,7 @@ const PollManager = () => {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/clear?email=${email}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/Assignment1_war/clear?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -41,7 +41,7 @@ const PollManager = () => {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/close?email=${email}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/Assignment1_war/close?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -62,7 +62,7 @@ const PollManager = () => {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/run?email=${email}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/Assignment1_war/run?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -83,7 +83,7 @@ const PollManager = () => {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/release?email=${email}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/Assignment1_war/release?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -104,7 +104,7 @@ const PollManager = () => {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/unrelease?email=${email}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/Assignment1_war/unrelease?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -130,10 +130,10 @@ const PollManager = () => {
      *      - If they are also creator only, then send email along with request and only retrieve those associated with creator.
      */
     const fetchPolls = () => {
-        axios.get(`http://localhost:8080/polls?email=${email}`)
+        axios.get(`http://localhost:8080/Assignment1_war/polls?email=${email}`)
             .then((res) => {
                 console.log(res);
-                setPolls(res.polls);
+                setPolls(res.data.polls);
             })
             .catch(function (error) {
                 console.log(error);
@@ -141,9 +141,9 @@ const PollManager = () => {
             });
     }
 
-    const mockFetchPolls = () => {
-        setPolls(mockPolls.polls);
-    }
+    // const mockFetchPolls = () => {
+    //     setPolls(mockPolls.polls);
+    // }
 
     const choosePoll = (id, question) => {
         setChosenPoll(id);
@@ -166,7 +166,8 @@ const PollManager = () => {
     }
 
     useEffect(() => {
-        mockFetchPolls();
+        fetchPolls();
+        //mockFetchPolls();
     }, []);
 
     const canUpdate = (e) => {

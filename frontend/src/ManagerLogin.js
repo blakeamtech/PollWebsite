@@ -39,7 +39,7 @@ const ManagerLogin = (props) => {
         };
 
 
-        axios.post('http://localhost:8080/authenticate', obj).then((e) => {
+        axios.post('http://localhost:8080/Assignment1_war/authenticate', obj).then((e) => {
 
             localStorage.setItem("email", email);
             history.push("/pollmanager");

@@ -1,9 +1,9 @@
 package Storage.Entities;
 
 public class Vote {
-    private String voteId;
-    private String PIN;
-    private String choiceId;
+    private String voteId = "";
+    private String PIN = "";
+    private String choiceId = "";
 
     public Vote() {}
 

@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @WebServlet(
         urlPatterns = {
+                "/polls",       //get
                 "/results",     //get
                 "/details",     //get
                 "/vote",        //post or put

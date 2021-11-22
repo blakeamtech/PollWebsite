@@ -2,6 +2,7 @@ package Polls;
 
 import Exceptions.AssignmentException;
 import Exceptions.InvalidPollStateException;
+import Storage.Entities.Choice;
 import Storage.Entities.Vote;
 import Storage.MysqlJDBC;
 import Util.StringHelper;
@@ -13,10 +14,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.counting;
@@ -163,15 +161,58 @@ public class Poll implements Serializable {
     public Map<String, Object> getState() throws SQLException, ClassNotFoundException {
         Map<String, Object> mapToReturn = new HashMap<>();
 
-        Map<String, Long> mapOfPins = MysqlJDBC.getInstance()
-                .selectAllVotesFromPoll(this.pollId)
-                .stream().collect(Collectors.groupingBy(Vote::getPIN, Collectors.counting()));
+        try {
+            Map<String, Long> mapOfPins = MysqlJDBC.getInstance()
+                    .selectAllVotesFromPoll(this.pollId)
+                    .stream().collect(Collectors.groupingBy(Vote::getPIN, Collectors.counting()));
+
+            mapToReturn.put("pins", mapOfPins);
+
+            Map<String, Long> mapOfChoices1 = MysqlJDBC.getInstance()
+                    .selectAllVotesFromPoll(this.pollId)
+                    .stream().collect(Collectors.groupingBy(Vote::getChoiceId, Collectors.counting()));
+
+            Map<String, Long> mapOfChoices2 = new HashMap<String, Long>();
+            for (Map.Entry<String, Long> entry : mapOfChoices1.entrySet()) {
+                String choiceName = MysqlJDBC.getInstance().selectChoice(entry.getKey()).getChoice();
+                mapOfChoices2.put(choiceName, entry.getValue());
+            }
+
+            mapToReturn.put("votes", mapOfChoices2);
+
+            List<Choice> choices = MysqlJDBC.getInstance().selectPollChoices(this.pollId);
+            ArrayList<Map<String, String>> choiceObjs = new ArrayList<Map<String, String>>();
+            for(Choice choice : choices) {
+                Map<String, String> choiceObj = new HashMap<String,String>();
+                choiceObj.put("choice", choice.getChoice());
+                choiceObj.put("choiceId", choice.getChoiceID());
+                choiceObjs.add(choiceObj);
+            }
+
+            mapToReturn.put("choices", choiceObjs);
+        }
+        catch (SQLException e) {
+            // WHEN THE POLL IS JUST CREATED AND THERE'S NOTHING!!!!!!!!!!!!!!!!!!!!!!!
+            List<Choice> choices = MysqlJDBC.getInstance().selectPollChoices(this.pollId);
+            ArrayList<Map<String, String>> choiceObjs = new ArrayList<Map<String, String>>();
+            Map<String, Long> mapVotes = new HashMap<>();
+            for(Choice choice : choices) {
+                mapVotes.put(choice.getChoice(), (long) 0);
+                Map<String, String> choiceObj = new HashMap<String,String>();
+                choiceObj.put("choice", choice.getChoice());
+                choiceObj.put("choiceId", choice.getChoiceID());
+                choiceObjs.add(choiceObj);
+            }
+
+            mapToReturn.put("votes", mapVotes);
+            mapToReturn.put("pins", new HashMap<String, Long>());
+            mapToReturn.put("choices", choiceObjs);
+        }
 
         if (this.pollStatus != null) {
             mapToReturn.put("id", this.getPollId());
             mapToReturn.put("question", this.getQuestionText());
             mapToReturn.put("title", this.getPollTitle());
-            mapToReturn.put("pins", mapOfPins);
         }
 
         mapToReturn.put("state", Objects.requireNonNull(this.pollStatus).value);

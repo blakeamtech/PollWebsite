@@ -33,4 +33,8 @@ public abstract class AbstractRequest {
     public String getPollId(){
         return this.request.getParameter("id");
     }
+
+    public String getEmail() {
+        return this.request.getParameter("email");
+    }
 }

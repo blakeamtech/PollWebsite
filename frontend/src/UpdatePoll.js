@@ -29,7 +29,7 @@ const UpdatePoll = () => {
 
     // Responsible for making a request to update a poll.
     const handleUpdate = (obj) => {
-        axios.put('http://localhost:8080/update', obj)
+        axios.put('http://localhost:8080/Assignment1_war/update', obj)
             .then(function (response) {
                 console.log(response);
                 alert("Poll Updated Successfully.");
@@ -43,7 +43,7 @@ const UpdatePoll = () => {
     // Run when the page loads, will get the data of the currently running poll.
     const getPollState = () => {
         // retrieve backend poll state and set pollState
-        axios.get('http://localhost:8080/state')
+        axios.get('http://localhost:8080/Assignment1_war/state')
             .then(function (response) {
                 setNewQty(parseInt(response.data.choices.length));
                 setChoices(response.data.choices);
