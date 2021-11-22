@@ -56,17 +56,11 @@ public class PollManager {
     public synchronized static void clearPoll(String pollId) throws InvalidPollStateException, SQLException, ClassNotFoundException {
         Poll pollToCheck = MysqlJDBC.getInstance().selectPoll(pollId);
         Poll.POLL_STATUS currentStatus = pollToCheck.getStatus();
-        if (currentStatus !=  Poll.POLL_STATUS.RELEASED && currentStatus !=  Poll.POLL_STATUS.RUNNING)
+        if (currentStatus !=  Poll.POLL_STATUS.RELEASED && currentStatus !=  Poll.POLL_STATUS.RUNNING) {
             throw new InvalidPollStateException(currentStatus.getValue(), "clear");
-
-        if (currentStatus == Poll.POLL_STATUS.RELEASED) {
-            MysqlJDBC.getInstance().deleteAllVotesFromPoll(pollId);
-            pollToCheck.setChoicesList(new ArrayList<>());
-            pollToCheck.setPollStatus(Poll.POLL_STATUS.CREATED);
-            MysqlJDBC.getInstance().updatePoll(pollToCheck);
-        } else {
-            MysqlJDBC.getInstance().deleteAllVotesFromPoll(pollId);
         }
+
+        MysqlJDBC.getInstance().deleteAllVotesFromPoll(pollId);
     }
 
     public synchronized static void closePoll(String pollId) throws AssignmentException, SQLException, ClassNotFoundException {
@@ -88,7 +82,7 @@ public class PollManager {
         MysqlJDBC.getInstance().updatePollStatus(pollId,
                 Poll.POLL_STATUS.RELEASED,
                 Poll.POLL_STATUS.RUNNING,
-                "release");
+                "released");
     }
 
     public synchronized static void unreleasePoll(String pollId) throws AssignmentException, SQLException, ClassNotFoundException {
@@ -98,15 +92,21 @@ public class PollManager {
                 "unrelease");
     }
 
-    public synchronized static void vote(String choiceId, String choice, String pin, String pollId ) throws AssignmentException, SQLException, ClassNotFoundException {
+    public synchronized static void vote(String choiceId, String choice, String pin, String pollId) throws AssignmentException, SQLException, ClassNotFoundException {
         if (choice.isBlank() || choice.isEmpty() || !PollManager.validateChoice(choice, pollId))
             throw new InvalidChoiceException();
 
         Poll pollToVote = MysqlJDBC.getInstance().selectPoll(pollId);
         pollToVote.checkPollState(Poll.POLL_STATUS.RUNNING, "vote");
 
-        Vote vote = new Vote(StringHelper.randomPin(), pin, choiceId);
-        MysqlJDBC.getInstance().insertVote(vote);
+        Vote vote = new Vote(StringHelper.randomPin(), pin, choiceId, pollId);
+        // if theres a tuple where PIN and pollID already exist
+        if (MysqlJDBC.getInstance().checkPinExist(pin, pollId)) {
+            MysqlJDBC.getInstance().updateVote(vote);
+        }
+        else {
+            MysqlJDBC.getInstance().insertVote(vote);
+        }
     }
 
     /**
@@ -168,7 +168,7 @@ public class PollManager {
         JSONObject objectToReturn = new JSONObject();
         JSONArray arrayToPut = new JSONArray();
         pollsFromUser.forEach(poll -> {
-            arrayToPut.put(new JSONArray().put(poll.getPollId()).put(poll.getQuestionText()));
+            arrayToPut.put(new JSONArray().put(poll.getPollId()).put(poll.getQuestionText()).put(poll.getStatus()));
         });
 
         objectToReturn.put("polls", arrayToPut);

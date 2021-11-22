@@ -119,8 +119,8 @@ const PollManager = () => {
     // Format: one attribute polls which is an array of objects. The objects are of format {pollid : question}
     let mockPolls = {
         "polls": [
-            ["1234567890", "Yes or No?"],
-            ["827364AIZS", "Where is Kappa?"]
+            ["1234567890", "Yes or No?", "created"],
+            ["827364AIZS", "Where is Kappa?", "running"]
         ]
     }
     /**
@@ -157,7 +157,7 @@ const PollManager = () => {
             )
         }
         // each poll clicked will set chosenPoll to that poll's id.
-        const list = polls.map((poll) => <a href="javascript:void(0);"><li tabindex="1" key={poll[0]} onClick={() => choosePoll(poll[0], poll[1])}>{poll[1]}</li></a>);
+        const list = polls.map((poll) => <a href="javascript:void(0);"><li tabindex="1" key={poll[0]} onClick={() => choosePoll(poll[0], poll[1])}>{poll[1]} ({poll[2]})</li></a>);
         return (
             <ol>
                 {list}

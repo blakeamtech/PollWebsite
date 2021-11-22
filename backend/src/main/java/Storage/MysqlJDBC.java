@@ -23,12 +23,12 @@ public class MysqlJDBC {
     private static final String INSERT_USER_QUERY = "INSERT INTO users (name, email, password) values (?, ?, ?)";
     private static final String INSERT_POLL_QUERY = "INSERT INTO polls (pollId, title, question, email, pollStatus) values (?, ?, ?, ?, ?)";
     private static final String INSERT_CHOICE_QUERY = "INSERT INTO choices (pollId, choice) values (?, ?)";
-    private static final String INSERT_VOTE_QUERY = "INSERT INTO vote (PIN, choiceId) values (?, ?)";
+    private static final String INSERT_VOTE_QUERY = "INSERT INTO vote (PIN, choiceId, pollId) values (?, ?, ?)";
 
     private static final String UPDATE_USER_QUERY = "UPDATE users SET name = ?, email = ?, password = ? WHERE userId = ?";
     private static final String UPDATE_POLL_QUERY = "Update polls SET title = ?, question = ?, email = ?, pollStatus = ? WHERE pollId = ?";
     private static final String UPDATE_CHOICE_QUERY = "UPDATE choices SET pollId = ?, choice = ? WHERE choiceId = ?";
-    private static final String UPDATE_VOTE_QUERY = "UPDATE vote SET PIN = ?, choiceId = ? WHERE voteId = ?";
+    private static final String UPDATE_VOTE_QUERY = "UPDATE vote SET choiceId = ? WHERE PIN = ? AND pollId = ?";
 
     private static final String DELETE_USER_QUERY = "DELETE FROM users WHERE userId = ?";
     private static final String DELETE_POLL_QUERY = "DELETE FROM polls WHERE pollId = ?";
@@ -36,6 +36,7 @@ public class MysqlJDBC {
     private static final String DELETE_ALL_VOTES_QUERY = "DELETE FROM vote WHERE pollId = ?";
     private static final String DELETE_VOTE_QUERY = "DELETE FROM vote WHERE voteId = ?";
 
+    private static final String SELECT_VOTE_EXISTS_QUERY = "SELECT * FROM vote WHERE PIN = ? AND pollId = ?";
     private static final String SELECT_ALLUSER_QUERY = "SELECT * FROM users";
     private static final String SELECT_USER_QUERY = "SELECT * FROM users WHERE userId = ?";
     private static final String SELECT_ALLPOLL_QUERY = "SELECT * FROM polls";
@@ -173,6 +174,7 @@ public class MysqlJDBC {
         PreparedStatement statement = connection.prepareStatement(INSERT_VOTE_QUERY, Statement.RETURN_GENERATED_KEYS);
         statement.setString(1, vote.getPIN());
         statement.setString(2, vote.getChoiceId());
+        statement.setString(3, vote.getPollId());
         statement.executeUpdate();
 
         try (ResultSet rs = statement.getGeneratedKeys();) {
@@ -243,9 +245,9 @@ public class MysqlJDBC {
      */
     public synchronized void updateVote(Vote vote) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(UPDATE_VOTE_QUERY);
-        statement.setString(1, vote.getPIN());
-        statement.setString(2, vote.getChoiceId());
-        statement.setString(3, vote.getVoteId());
+        statement.setString(1, vote.getChoiceId());
+        statement.setString(2, vote.getPIN());
+        statement.setString(3, vote.getPollId());
         statement.executeUpdate();
         statement.close();
     }
@@ -353,6 +355,32 @@ public class MysqlJDBC {
         }
         statement.close();
         return user;
+    }
+
+    /**
+     * Method responsible to check if a vote already exist by the pin# user.
+     *
+     * @param
+     * @return
+     * @throws SQLException
+     */
+    public synchronized boolean checkPinExist(String pin, String pollId) throws SQLException {
+        int count = 0;
+        PreparedStatement statement = connection.prepareStatement(SELECT_VOTE_EXISTS_QUERY);
+        statement.setString(1, pin);
+        statement.setString(2, pollId);
+
+        try (ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                count++;
+            }
+        }
+        catch (SQLException ex) {
+            System.out.println("Exception: " + ex);
+            throw ex;
+        }
+        statement.close();
+        return count > 0 ? true : false;
     }
 
 
@@ -578,6 +606,7 @@ public class MysqlJDBC {
         poll.setPollTitle(rs.getString("title"));
         poll.setQuestionText(rs.getString("question"));
         poll.setPollStatus(rs.getString("pollStatus"));
+        poll.setEmail(rs.getString("email"));
         return poll;
     }
 
@@ -607,7 +636,7 @@ public class MysqlJDBC {
         Vote vote = new Vote();
         vote.setVoteId(rs.getString("voteId"));
         vote.setPIN(rs.getString("PIN"));
-        vote.setChoiceId("choiceId");
+        vote.setChoiceId(rs.getString("choiceId"));
         return vote;
     }
 

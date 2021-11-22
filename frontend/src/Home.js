@@ -113,17 +113,14 @@ const Home = () => {
             /**
              * - maybe don't need to send pin here
              */
-             console.log('HEREEEEEEEEEE0000000');
-            let newPoll = response.data
-            console.log(newPoll);
-            setPollStatus(newPoll.state);
+             console.log(response);
+            let newPoll = response["data"];
             setPoll(newPoll);
+            setPollStatus(newPoll["state"]);
             setPin(obj["pin"]);
-            formatVotes(newPoll.votes);
-            console.log(response);
+            formatVotes(newPoll["votes"]);
 
         }).catch(function (error) {
-            console.log('HEREEEEEEEEEE');
             console.log(error);
             setPoll({});
             setPin("");
@@ -196,7 +193,7 @@ const Home = () => {
         console.log(pollStatus);
         switch (pollStatus) {
             case "running":
-                if (pin && pin.length === 0) {
+                if (pin.length === 0) {
                     generatePin();
                 }
                 return <VotingPage id={poll.id} pin={pin} pins={poll.pins} question={poll.question} title={poll.title} choices={poll.choices} poll={poll.poll} pollState={poll.state}/>
@@ -212,8 +209,7 @@ const Home = () => {
                     </div>
                 )
             default:
-                console.log("hererere");
-                return <WaitingPage pollStatus={pollStatus}/>
+                return <WaitingPage pollStatus={pollStatus}/>;
         }
     }
 
