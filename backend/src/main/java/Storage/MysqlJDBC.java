@@ -383,8 +383,6 @@ public class MysqlJDBC {
         return count > 0 ? true : false;
     }
 
-
-    //EMAIL THIS SHIT
     public synchronized User selectUserFromEmail(String email) throws SQLException {
         User user = null;
         PreparedStatement statement = connection.prepareStatement(SELECT_USER_FROM_USERNAME);
