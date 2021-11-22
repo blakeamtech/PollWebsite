@@ -4,14 +4,22 @@ public class Vote {
     private String voteId = "";
     private String PIN = "";
     private String choiceId = "";
+    private String pollId = "";
 
     public Vote() {}
 
-    public Vote(String voteId, String PIN, String choiceId) {
+    public Vote(String voteId, String PIN, String choiceId, String pollId) {
         this.voteId = voteId;
         this.PIN = PIN;
         this.choiceId = choiceId;
+        this.pollId = pollId;
     }
+
+    public String getPollId(){
+        return pollId;
+    }
+
+    public void setPollId(String id) { this.pollId = id; }
 
     public String getVoteId() {
         return voteId;

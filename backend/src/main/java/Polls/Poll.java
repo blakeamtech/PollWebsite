@@ -191,7 +191,7 @@ public class Poll implements Serializable {
 
             mapToReturn.put("choices", choiceObjs);
         }
-        catch (SQLException e) {
+        catch (Exception e) {
             // WHEN THE POLL IS JUST CREATED AND THERE'S NOTHING!!!!!!!!!!!!!!!!!!!!!!!
             List<Choice> choices = MysqlJDBC.getInstance().selectPollChoices(this.pollId);
             ArrayList<Map<String, String>> choiceObjs = new ArrayList<Map<String, String>>();
