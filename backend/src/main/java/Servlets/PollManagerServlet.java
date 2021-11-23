@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet(
         urlPatterns = {
-                "/polls",       //get
+                "/polls",       //get or delete
                 "/results",     //get
                 "/details",     //get
                 "/vote",        //post or put
@@ -46,7 +46,7 @@ public class PollManagerServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        RequestHandler.handleDelete(req, resp);
     }
 
     @Override

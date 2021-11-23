@@ -1,0 +1,39 @@
+CREATE DATABASE IF NOT EXISTS PollSystem;
+USE PollSystem;
+DROP TABLE IF EXISTS Users, Polls, Choices, Vote, Config;
+
+CREATE TABLE users(
+    userId INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    PRIMARY KEY (userId)
+);
+
+CREATE TABLE polls(
+    pollId VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    question VARCHAR(255) NOT NULL,
+    pollStatus VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    PRIMARY KEY (pollId),
+); 
+
+CREATE TABLE choices(
+    choiceId INT NOT NULL AUTO_INCREMENT,
+    pollId VARCHAR(255) NOT NULL,
+    choice VARCHAR(255) NOT NULL,
+    PRIMARY KEY (choiceId),
+    FOREIGN KEY (pollId) REFERENCES Polls(pollId)
+);
+
+CREATE TABLE vote (
+    voteId INT NOT NULL AUTO_INCREMENT,
+    PIN VARCHAR(255) NOT NULL,
+    choiceId INT NOT NULL,
+    pollId VARCHAR(255) NOT NULL,
+    PRIMARY KEY (voteId),
+    FOREIGN KEY (choiceId)
+        REFERENCES Choices (choiceId)
+    FOREIGN KEY (pollId) REFERENCES polls (pollId)
+);

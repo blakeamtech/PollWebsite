@@ -216,6 +216,7 @@ public class Poll implements Serializable {
         }
 
         mapToReturn.put("state", Objects.requireNonNull(this.pollStatus).value);
+        mapToReturn.put("email", this.getEmail());
 
         return mapToReturn;
     }

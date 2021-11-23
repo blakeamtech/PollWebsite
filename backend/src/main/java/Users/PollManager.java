@@ -76,6 +76,13 @@ public class PollManager {
         MysqlJDBC.getInstance().deleteAllVotesFromPoll(pollId);
     }
 
+    /**
+     * This method deletes the poll if the poll exists.
+     */
+    public synchronized static void deletePoll(String pollId) throws SQLException, ClassNotFoundException {
+        MysqlJDBC.getInstance().deletePoll(pollId);
+    }
+
     public synchronized static void closePoll(String pollId) throws AssignmentException, SQLException, ClassNotFoundException {
         MysqlJDBC.getInstance().updatePollStatus(pollId,
                 Poll.POLL_STATUS.CLOSED,

@@ -54,6 +54,16 @@ public class RequestHandler {
     }
 
     /**
+     * Handles delete requests
+     * @param request HttpServletRequest passed from the servlet
+     * @param response HttpServletResponse passed from the servlet
+     */
+    public static void handleDelete(HttpServletRequest request, HttpServletResponse response){
+        Request requestToProcess = RequestFactory.valueOfDeleteRequest(request);
+        writeResponse(response, requestToProcess);
+    }
+
+    /**
      * Writes the response to the HttpServletResponse.
      * Adds additional headers for CORS.
      * @param response HttpServletRequest passed from the servlet
