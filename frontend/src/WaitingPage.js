@@ -9,8 +9,13 @@ const WaitingPage = (props) => {
     return (
         <div>
             { 
-                (props.pollStatus === "none" || props.pollStatus === "closed") && <h2 id="waiting-page">Please search for a poll.</h2>
+                (props.pollStatus === "closed") && <h2 id="waiting-page">The poll you've searched for has been closed.</h2>
             }
+            {
+                (props.pollStatus === "created") && <h2 id="waiting-page">The poll you've searched for has not been run yet.</h2>
+            }
+
+            <h2 id="waiting-page">Please search for a poll.</h2>
         </div>
     )
 }

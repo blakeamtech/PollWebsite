@@ -8,7 +8,7 @@ import Header from "./Header";
 
 // Responsible for keeping track of the poll information (title, question, choices, etc.)
 const Home = () => {
-    const [pollStatus, setPollStatus] = useState("closed");
+    const [pollStatus, setPollStatus] = useState("none");
     const [poll, setPoll] = useState({});
     // pin: 6 digits number
     const [pin, setPin] = useState("");
@@ -20,6 +20,7 @@ const Home = () => {
         "state": "running",
         "title": "Kappa 123",
         "question": "Yes or No?",
+        "email": "pan@gmail.com",
         "choices": [
             {"choice":"yes", "choiceId": 125234},
             {"choice":"no", "choiceId": 897692}
@@ -190,8 +191,7 @@ const Home = () => {
     // React code for rendering the body.
     // Contains the voting page, a waiting page, a link to download a file as well as the piechart.
     const renderBody = () => {
-        console.log(pollStatus);
-        switch (pollStatus) {
+        switch (poll["state"]) {
             case "running":
                 if (pin.length === 0) {
                     generatePin();
@@ -208,6 +208,22 @@ const Home = () => {
                         </div>
                     </div>
                 )
+            case "closed":
+                if (localStorage.getItem("email") === poll["email"]) {
+                    return (
+                        <div>
+                            <a href={'http://localhost:8080/Assignment1_war/details?choice=TEXT&id=' + poll.id} download>TEXT Results</a><br/>
+                            <a href={'http://localhost:8080/Assignment1_war/details?choice=JSON&id=' + poll.id} download>JSON Results</a><br/>
+                            <a href={'http://localhost:8080/Assignment1_war/details?choice=XML&id=' + poll.id} download>XML Results</a><br/>
+                            <div className="centering">
+                                <ViewPollResults question={poll.question} title={poll.title} choices={poll.choices} pollState={poll.state} choicesCount={choicesCount}/>
+                            </div>
+                        </div>
+                    )
+                }
+                else {
+                    return <WaitingPage pollStatus={pollStatus}/>;
+                }
             default:
                 return <WaitingPage pollStatus={pollStatus}/>;
         }

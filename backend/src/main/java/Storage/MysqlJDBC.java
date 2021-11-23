@@ -272,10 +272,11 @@ public class MysqlJDBC {
      * @throws SQLException
      */
     public synchronized void deletePoll(String pollId) throws SQLException {
-        PreparedStatement statement = connection.prepareStatement(DELETE_POLL_QUERY);
-        statement.setString(1, pollId);
-        statement.executeUpdate();
-        statement.close();
+        // delete poll id cascade
+        PreparedStatement statement2 = connection.prepareStatement(DELETE_POLL_QUERY);
+        statement2.setString(1, pollId);
+        statement2.executeUpdate();
+        statement2.close();
     }
 
     public synchronized void deleteAllVotesFromPoll(String pollId) throws SQLException{

@@ -108,12 +108,12 @@ public class RequestFactory {
     }
 
     /**
-     * This method has no use in our project, therefore if simply returns an invalid request if ever it is called
+     * Delete a poll.
      * @param request HttpServletRequest passed to the method from the servlet
      * @return Instance of an object which implements the Request interface.
      */
     public static Request valueOfDeleteRequest(HttpServletRequest request){
-        return new InvalidRequest(400);
+        return new DeleteRequest(request);
     }
 
     /**
