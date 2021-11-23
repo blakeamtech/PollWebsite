@@ -4,6 +4,21 @@ Github Link: https://github.com/CoricovMA/Assignment1
 
 This is a Poll System where any user is able to anonymously vote for any of the options in a poll that is released to the public and provides Poll Managers with the appropriate tools for viewing information about polls that have been released or closed.
 
+# Running App
+- Must run all three of below:
+## Running Front-End
+- `npm install`
+- `npm start`
+## Running Back-end
+- Run local Tomcat Server in IntelliJ with url set to http://localhost:8080/Assignment1_war/
+
+OR
+
+- Run Docker: run `sh BuildTools/build_locally.sh` in `/backend` folder.
+## Running Database
+- Run MySQL Server.
+- Create database `pollsystem` and schema with `backend/create-db.txt`.
+
 # Version 1.0:
 Created a business layer for our poll which allows us to:
 - Create poll, update poll, clear poll, close poll, run poll, release poll, unrelease poll, vote in a poll, view poll results, download poll details.
