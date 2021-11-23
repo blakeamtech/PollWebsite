@@ -177,6 +177,18 @@ const PollManager = () => {
         }
     }
 
+    const handleDelete = () => {
+        axios.delete(`http://localhost:8080/Assignment1_war/polls?id=${chosenPoll}`)
+        .then((res) => {
+            console.log(res);
+            setPolls(polls.filter((e) => e[0] !== chosenPoll));
+        })
+        .catch(function (error) {
+            console.log(error);
+            alert("Poll deletion failed.");
+        });
+    }
+
     /***
      * Function responsible for rendering tags for use in react methods.
      * @returns {JSX.Element}
@@ -193,6 +205,7 @@ const PollManager = () => {
                         <button type="button" className="button-pollmanager" onClick={handleRun}>Run Poll</button>
                         <button type="button" className="button-pollmanager" onClick={handleRelease}>Release Poll</button><br/>
                         <button type="button" className="button-pollmanager" onClick={handleUnrelease}>Unrelease Poll</button>
+                        <button type="button" className="button-pollmanager" onClick={handleDelete}>Delete Poll</button>
                     </header>
                 </div>
                 {chosenMessage !== "" && <h3>You chose poll "{chosenMessage}"</h3>}
