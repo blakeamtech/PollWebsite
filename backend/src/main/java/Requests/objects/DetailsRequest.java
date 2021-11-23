@@ -31,6 +31,7 @@ public class DetailsRequest extends AbstractRequest implements Request {
                     ? ".txt"
                     : getRequest().getAttribute("extension").toString();
             toReturn.addHeader("Content-disposition", String.format("attachment; filename=%s-%d%s", pollTitle, System.currentTimeMillis(), extension));
+
             String choice = this.getRequest().getParameter("choice");
             if (choice.equals("JSON")) {
                 JSONObject obj = PollManager.downloadJSonPollDetails(this.getPollId());
@@ -42,6 +43,8 @@ public class DetailsRequest extends AbstractRequest implements Request {
                 String xml = PollManager.downloadXMLPollDetails(this.getPollId());
                 toReturn.setBody(xml);
             }
+
+            toReturn.setStatusCode(200);
             return toReturn;
         } catch (AssignmentException | SQLException | ClassNotFoundException e) {
             return new Response().serverError().exceptionBody(e);

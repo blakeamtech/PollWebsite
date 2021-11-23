@@ -70,7 +70,7 @@ const UpdatePoll = () => {
             alert("Invalid poll ID.");
             return;
         }
-        obj["id"] = pollId;
+        obj["pollId"] = pollId;
 
         for(var i = 0 ; i < elements.length ; i++){
             var item = elements.item(i);
