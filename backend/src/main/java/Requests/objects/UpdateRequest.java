@@ -28,7 +28,6 @@ public class UpdateRequest extends AbstractRequest implements Request {
     public Response call() {
         try{
             poll = mapper.readValue(this.getRequest().getReader(), Poll.class);
-
             PollManager.updatePoll(poll.getPollTitle(), poll.getQuestionText(), poll.getChoicesList(), poll.getPollId());
 
             return new Response().ok();

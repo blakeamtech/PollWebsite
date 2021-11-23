@@ -46,6 +46,19 @@ public class PollManager {
         pollInstance.setQuestionText(question);
         pollInstance.setChoicesList(choices);
         MysqlJDBC.getInstance().deleteAllVotesFromPoll(pollId);
+        MysqlJDBC.getInstance().updatePoll(pollInstance);
+
+        List<Choice> pollChoices = MysqlJDBC.getInstance().selectPollChoices(pollId);
+        for(Choice choice: pollChoices)
+            MysqlJDBC.getInstance().deleteChoice(choice.getChoiceID());
+
+        for (int i = 0; i < choices.size(); i++)
+        {
+            Choice choice = new Choice();
+            choice.setPollId(pollId);
+            choice.setChoice(choices.get(i));
+            MysqlJDBC.getInstance().insertChoice(choice);
+        }
     }
 
     /**

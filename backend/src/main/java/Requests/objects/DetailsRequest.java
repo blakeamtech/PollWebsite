@@ -44,6 +44,7 @@ public class DetailsRequest extends AbstractRequest implements Request {
                 toReturn.setBody(xml);
             }
 
+            toReturn.setStatusCode(200);
             return toReturn;
         } catch (AssignmentException | SQLException | ClassNotFoundException e) {
             return new Response().serverError().exceptionBody(e);
