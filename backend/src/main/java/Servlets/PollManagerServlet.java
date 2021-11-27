@@ -15,6 +15,7 @@ import java.io.IOException;
                 "/polls",       //get or delete
                 "/results",     //get
                 "/details",     //get
+                "/verification", //get
                 "/vote",        //post or put
                 "/authenticate", //post
                 "/signup",      //post

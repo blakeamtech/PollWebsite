@@ -1,6 +1,7 @@
 package Requests;
 
 import Requests.objects.*;
+import Requests.objects.TokenRequest;
 
 import javax.naming.NoPermissionException;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +34,8 @@ public class RequestFactory {
         ACCESS,
         POLLS,
         AUTHENTICATE,
-        SIGNUP
+        SIGNUP,
+        VERIFICATION
     }
 
     /**
@@ -79,6 +81,8 @@ public class RequestFactory {
                 return new LoginRequest(request);
             case SIGNUP:
                 return new SignUpRequest(request);
+            case VERIFICATION:
+                return new TokenRequest(request);
             default:
                 return new InvalidRequest(400);
         }

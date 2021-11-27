@@ -20,7 +20,7 @@ public class MysqlJDBC {
     private static Connection connection;
     private static MysqlJDBC INSTANCE;
 
-    private static final String INSERT_USER_QUERY = "INSERT INTO users (name, email, password) values (?, ?, ?)";
+    private static final String INSERT_USER_QUERY = "INSERT INTO users (name, email, password, token) values (?, ?, ?, ?)";
     private static final String INSERT_POLL_QUERY = "INSERT INTO polls (pollId, title, question, email, pollStatus) values (?, ?, ?, ?, ?)";
     private static final String INSERT_CHOICE_QUERY = "INSERT INTO choices (pollId, choice) values (?, ?)";
     private static final String INSERT_VOTE_QUERY = "INSERT INTO vote (PIN, choiceId, pollId) values (?, ?, ?)";
@@ -74,6 +74,7 @@ public class MysqlJDBC {
         statement.setString(1, user.fullName);
         statement.setString(2, user.emailAddress);
         statement.setString(3, user.hashedPassword);
+        statement.setString(4, user.token);
         statement.executeUpdate();
 
         // HOW TO GET ACCESS TO AUTO GENERATED ID

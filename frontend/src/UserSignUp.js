@@ -4,7 +4,7 @@ import axios from "axios";
 import {useHistory} from "react-router-dom";
 
 /**
- * Function responsible for displaying and handling Poll Manager requests.
+ * Function responsible for displaying and handling Sign Up requests.
  */
 const UserSignUp = () => {
     const history = useHistory();
@@ -27,8 +27,8 @@ const UserSignUp = () => {
 
         axios.post('http://localhost:8080/Assignment1_war/signup', obj).then((e) => {
             console.log(e);
-            localStorage.setItem("email", email);
-            history.push("/pollmanager");
+            //localStorage.setItem("email", email);
+            //history.push("/pollmanager");
         }).catch((error) => {
             console.log(error);
         });
