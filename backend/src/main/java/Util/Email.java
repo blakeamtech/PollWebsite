@@ -33,12 +33,6 @@ public class Email
         Session session = Session.getInstance(prop, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                try {
-                    throw new Exception();
-                } catch (Exception e) {
-                    System.out.println(EmailConfig.EMAIL.value + "  " + EmailConfig.PASSWORD.value);
-                }
-
                 return new PasswordAuthentication(EmailConfig.EMAIL.value, EmailConfig.PASSWORD.value);
             }
         });
@@ -69,8 +63,8 @@ public class Email
     private String getMessage()
     {
         if (type.equals("Verification"))
-            return "Hello, \n Please click on the following link to verify your email! " +
-                    "\n\n http://localhost:8080/Assignment1_war/verification/" + token;
+            return "Hello, <br> Please click on the following link to verify your email! " +
+                    "<br><br> http://localhost:3000/verification/" + token;
         else
             return "Hello, \n Please click on the following link to change your password!";
     }

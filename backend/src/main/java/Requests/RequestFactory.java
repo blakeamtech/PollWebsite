@@ -35,7 +35,7 @@ public class RequestFactory {
         POLLS,
         AUTHENTICATE,
         SIGNUP,
-        VERIFICATION
+        TOKEN
     }
 
     /**
@@ -81,8 +81,6 @@ public class RequestFactory {
                 return new LoginRequest(request);
             case SIGNUP:
                 return new SignUpRequest(request);
-            case VERIFICATION:
-                return new TokenRequest(request);
             default:
                 return new InvalidRequest(400);
         }
@@ -109,6 +107,8 @@ public class RequestFactory {
                 return new UpdateRequest(request);
             case RUN:
                 return new RunRequest(request);
+            case TOKEN:
+                return new TokenRequest(request);
             default:
                 return new InvalidRequest(400);
         }

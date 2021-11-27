@@ -7,7 +7,6 @@ import {useHistory} from "react-router-dom";
  * Function responsible for displaying and handling Sign Up requests.
  */
 const UserSignUp = () => {
-    const history = useHistory();
 
     const signUp = (e) => {
         e.preventDefault();
@@ -27,8 +26,7 @@ const UserSignUp = () => {
 
         axios.post('http://localhost:8080/Assignment1_war/signup', obj).then((e) => {
             console.log(e);
-            //localStorage.setItem("email", email);
-            //history.push("/pollmanager");
+            alert("An email has been sent to you, please click the link provided to verify your account!");
         }).catch((error) => {
             console.log(error);
         });

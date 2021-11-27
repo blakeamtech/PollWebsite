@@ -47,11 +47,11 @@ public class LoginRequest extends AbstractRequest implements Request {
 
             String pass = sha256(user.hashedPassword);
             User foundUser = MysqlJDBC.getInstance().selectUserFromEmail(user.emailAddress);
-            if (foundUser.hashedPassword.equals(pass)) {
+            if (foundUser.hashedPassword.equals(pass) && foundUser.verified) {
                 return new Response().ok();
             }
             else {
-                throw new Exception();
+                throw new Exception("Make sure your account is verified!");
             }
         } catch (Exception e) {
             return new Response().unauthorized().exceptionBody(e);

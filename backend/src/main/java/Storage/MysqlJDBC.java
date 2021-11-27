@@ -25,7 +25,8 @@ public class MysqlJDBC {
     private static final String INSERT_CHOICE_QUERY = "INSERT INTO choices (pollId, choice) values (?, ?)";
     private static final String INSERT_VOTE_QUERY = "INSERT INTO vote (PIN, choiceId, pollId) values (?, ?, ?)";
 
-    private static final String UPDATE_USER_QUERY = "UPDATE users SET name = ?, email = ?, password = ? WHERE userId = ?";
+    private static final String UPDATE_USER_QUERY = "UPDATE users SET name = ?, email = ?, password = ?, verified = ? WHERE userId = ?";
+    private static final String UPDATE_USERTOKEN_QUERY = "UPDATE users SET verified = ? WHERE token = ?";
     private static final String UPDATE_POLL_QUERY = "Update polls SET title = ?, question = ?, email = ?, pollStatus = ? WHERE pollId = ?";
     private static final String UPDATE_CHOICE_QUERY = "UPDATE choices SET pollId = ?, choice = ? WHERE choiceId = ?";
     private static final String UPDATE_VOTE_QUERY = "UPDATE vote SET choiceId = ? WHERE PIN = ? AND pollId = ?";
@@ -201,7 +202,22 @@ public class MysqlJDBC {
         statement.setString(1, user.fullName);
         statement.setString(2, user.emailAddress);
         statement.setString(3, user.hashedPassword);
-        statement.setString(4, user.userId);
+        statement.setBoolean(4, user.verified);
+        statement.setString(5, user.userId);
+        statement.executeUpdate();
+        statement.close();
+    }
+
+    /**
+     * Method responsible for updating a user in the database.
+     *
+     * @throws SQLException
+     */
+    public synchronized void updateUserToken(String token) throws SQLException {
+        //USE THIS IF YOU NEED TO ACCESS AN AUTO GENERATED ID
+        PreparedStatement statement = connection.prepareStatement(UPDATE_USERTOKEN_QUERY);
+        statement.setBoolean(1, true);
+        statement.setString(2, token);
         statement.executeUpdate();
         statement.close();
     }
@@ -590,6 +606,8 @@ public class MysqlJDBC {
         user.setFullName(rs.getString("name"));
         user.setEmailAddress(rs.getString("email"));
         user.setHashedPassword(rs.getString("password"));
+        user.setToken(rs.getString("token"));
+        user.setVerified(rs.getBoolean("verified"));
         return user;
     }
 
