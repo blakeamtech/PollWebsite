@@ -17,6 +17,7 @@ import java.io.IOException;
                 "/details",     //get
                 "/vote",        //post or put
                 "/authenticate", //post
+                "/signup",      //post
                 "/release",     //put, since we're updating the status of the poll to released
                 "/unrelease",   //put, status update
                 "/clear",       //put, status update + choice update

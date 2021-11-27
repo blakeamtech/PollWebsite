@@ -32,7 +32,8 @@ public class RequestFactory {
         STATE,
         ACCESS,
         POLLS,
-        AUTHENTICATE
+        AUTHENTICATE,
+        SIGNUP
     }
 
     /**
@@ -76,6 +77,8 @@ public class RequestFactory {
                 return new AccessRequest(request);
             case AUTHENTICATE:
                 return new LoginRequest(request);
+            case SIGNUP:
+                return new SignUpRequest(request);
             default:
                 return new InvalidRequest(400);
         }
