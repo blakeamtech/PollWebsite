@@ -21,7 +21,7 @@ public class RequestFactory {
     public enum REQUEST_TYPE{
         RESULTS,
         DETAILS,
-        VOTE,
+        VOTES,
         RELEASE,
         UNRELEASE,
         CLEAR,
@@ -32,7 +32,7 @@ public class RequestFactory {
         STATE,
         ACCESS,
         POLLS,
-        AUTHENTICATE
+        AUTHENTICATION
     }
 
     /**
@@ -66,15 +66,15 @@ public class RequestFactory {
      */
     public static Request valueOfPostRequest(HttpServletRequest request){
         switch (getRequestTypeFromServletRequest(request)) {
-            case VOTE:
+            case VOTES:
                 return new VoteRequest(request);
             case DETAILS:
                 return new DetailsRequest(request);
-            case CREATE:
+            case POLLS:
                 return new CreateRequest(request);
             case ACCESS:
                 return new AccessRequest(request);
-            case AUTHENTICATE:
+            case AUTHENTICATION:
                 return new LoginRequest(request);
             default:
                 return new InvalidRequest(400);
@@ -98,7 +98,7 @@ public class RequestFactory {
                 return new ClearRequest(request);
             case CLOSE:
                 return new CloseRequest(request);
-            case UPDATE:
+            case POLLS:
                 return new UpdateRequest(request);
             case RUN:
                 return new RunRequest(request);
