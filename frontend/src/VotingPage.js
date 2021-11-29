@@ -24,7 +24,7 @@ const VotingPage = (props) => {
     // Responsible for sending a request when user votes in the poll.
     // Will add the choice to the query string.
      const handleVotePoll = (answer, choiceId) => {
-        axios.post(`http://localhost:8080/Assignment1_war/vote?choice=${answer}&choiceId=${choiceId}&pollId=${props.id}&pin=${props.pin}`)
+        axios.post(`http://localhost:8080/Assignment1_war/votes?choice=${answer}&choiceId=${choiceId}&pollId=${props.id}&pin=${props.pin}`)
             .then(function (response) {
                 console.log(response);
             })

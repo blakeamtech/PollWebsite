@@ -8,23 +8,23 @@ const ManagerLogin = (props) => {
     const history = useHistory();
 
     // Check if the user entered the password "123" to confirm they are a poll manager.
-    const mockAuthenticate = (e) => {
-        e.preventDefault();
-        let elements = e.target.elements;
-        const email = elements[0].value;
-        const pass = elements[1].value;
+    // const mockAuthenticate = (e) => {
+    //     e.preventDefault();
+    //     let elements = e.target.elements;
+    //     const email = elements[0].value;
+    //     const pass = elements[1].value;
 
-        if ((email === "shadow@gmail.com" && pass === "123") || 
-             (email === "alex@gmail.com" && pass === "abc") ||
-             (email === "pan@gmail.com" && pass === "qwe")) {
-            history.push("/");
+    //     if ((email === "shadow@gmail.com" && pass === "123") || 
+    //          (email === "alex@gmail.com" && pass === "abc") ||
+    //          (email === "pan@gmail.com" && pass === "qwe")) {
+    //         history.push("/");
 
-            localStorage.setItem("email", email);
-        }
-        else {
-            alert("Wrong email/passcode!");
-        }
-    }
+    //         localStorage.setItem("email", email);
+    //     }
+    //     else {
+    //         alert("Wrong email/passcode!");
+    //     }
+    // }
 
     const authenticate = (e) => {
         e.preventDefault();
@@ -40,7 +40,7 @@ const ManagerLogin = (props) => {
 
         console.log("OBJECT HERE:", obj);
 
-        axios.post('http://localhost:8080/Assignment1_war/authenticate', obj).then((e) => {
+        axios.post('http://localhost:8080/Assignment1_war/authentication', obj).then((e) => {
             console.log(e);
             localStorage.setItem("email", email);
             history.push("/pollmanager");

@@ -22,7 +22,7 @@ const CreatePoll = () => {
 
     // Responsible for making a request to create a new poll.
     const handleCreate = (obj) => {
-        axios.post('http://localhost:8080/Assignment1_war/create', obj).then(function (response) {
+        axios.post('http://localhost:8080/Assignment1_war/polls', obj).then(function (response) {
             console.log(response);
             setId(response.data.id);
             alert("Poll Created Successfully.");

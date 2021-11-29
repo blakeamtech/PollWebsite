@@ -15,14 +15,12 @@ import java.io.IOException;
                 "/polls",       //get or delete
                 "/results",     //get
                 "/details",     //get
-                "/vote",        //post or put
-                "/authenticate", //post
+                "/votes",        //post or put
+                "/authentication", //post
                 "/release",     //put, since we're updating the status of the poll to released
                 "/unrelease",   //put, status update
                 "/clear",       //put, status update + choice update
                 "/close",       //put, status update
-                "/create",      //put, status update
-                "/update",      //put... update
                 "/run",          //put, update
                 "/state"
         }
