@@ -122,6 +122,10 @@ public class RequestFactory {
      * @return a Request_Type
      */
     public static REQUEST_TYPE getRequestTypeFromServletRequest(HttpServletRequest request){
-        return REQUEST_TYPE.valueOf(request.getServletPath().replace("/", "").strip().trim().toUpperCase());
+        String basePathString = request.getServletPath();
+        if(basePathString.contains("/polls/")){
+            return REQUEST_TYPE.valueOf(basePathString.replace("/polls/", "").strip().trim().toUpperCase());
+        }
+        return REQUEST_TYPE.valueOf(basePathString.replace("/", "").strip().trim().toUpperCase());
     }
 }

@@ -30,7 +30,6 @@ public class VoteRequest extends AbstractRequest implements Request {
          *
          */
         try {
-            HttpSession session = this.getHttpSession().orElseThrow(InvalidSessionException::new);
             String choice = this.getRequest().getParameter("choice");
             String choiceId = this.getRequest().getParameter("choiceId");
             String pin = this.getRequest().getParameter("pin");

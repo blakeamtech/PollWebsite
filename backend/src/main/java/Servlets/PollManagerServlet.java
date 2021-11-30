@@ -17,11 +17,11 @@ import java.io.IOException;
                 "/details",     //get
                 "/votes",        //post or put
                 "/authentication", //post
-                "/release",     //put, since we're updating the status of the poll to released
-                "/unrelease",   //put, status update
-                "/clear",       //put, status update + choice update
-                "/close",       //put, status update
-                "/run",          //put, update
+                "/polls/release",     //put, since we're updating the status of the poll to released
+                "/polls/unrelease",   //put, status update
+                "/polls/clear",       //put, status update + choice update
+                "/polls/close",       //put, status update
+                "/polls/run",          //put, update
                 "/state"
         }
 )
