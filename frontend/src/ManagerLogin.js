@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import './CreatePoll.css';
-import { useHistory } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import axios from "axios";
 import Header from "./Header";
 
@@ -66,6 +66,7 @@ const ManagerLogin = (props) => {
                 <input type="password" id="passcode"/><br/>
                 <button type="submit" style={{margin: '8px', padding: '10px'}}>Login</button>
             </form>
+            <Link to="/forgotpassword">Forgot Password</Link>
         </div>
     );
 }

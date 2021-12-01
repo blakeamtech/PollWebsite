@@ -25,7 +25,7 @@ public class MysqlJDBC {
     private static final String INSERT_CHOICE_QUERY = "INSERT INTO choices (pollId, choice) values (?, ?)";
     private static final String INSERT_VOTE_QUERY = "INSERT INTO vote (PIN, choiceId, pollId) values (?, ?, ?)";
 
-    private static final String UPDATE_USER_QUERY = "UPDATE users SET name = ?, email = ?, password = ?, verified = ? WHERE userId = ?";
+    private static final String UPDATE_USER_QUERY = "UPDATE users SET name = ?, email = ?, password = ?, verified = ?, token = ? WHERE userId = ?";
     private static final String UPDATE_USERTOKEN_QUERY = "UPDATE users SET verified = ? WHERE token = ?";
     private static final String UPDATE_POLL_QUERY = "Update polls SET title = ?, question = ?, email = ?, pollStatus = ? WHERE pollId = ?";
     private static final String UPDATE_CHOICE_QUERY = "UPDATE choices SET pollId = ?, choice = ? WHERE choiceId = ?";
@@ -39,6 +39,7 @@ public class MysqlJDBC {
 
     private static final String SELECT_VOTE_EXISTS_QUERY = "SELECT * FROM vote WHERE PIN = ? AND pollId = ?";
     private static final String SELECT_ALLUSER_QUERY = "SELECT * FROM users";
+    private static final String SELECT_USERTOKEN_QUERY = "SELECT * FROM users WHERE token = ?";
     private static final String SELECT_USER_QUERY = "SELECT * FROM users WHERE userId = ?";
     private static final String SELECT_ALLPOLL_QUERY = "SELECT * FROM polls";
     private static final String SELECT_POLL_QUERY = "SELECT * FROM polls WHERE pollId = ?";
@@ -203,7 +204,8 @@ public class MysqlJDBC {
         statement.setString(2, user.emailAddress);
         statement.setString(3, user.hashedPassword);
         statement.setBoolean(4, user.verified);
-        statement.setString(5, user.userId);
+        statement.setString(5, user.token);
+        statement.setString(6, user.userId);
         statement.executeUpdate();
         statement.close();
     }
@@ -405,6 +407,23 @@ public class MysqlJDBC {
         User user = null;
         PreparedStatement statement = connection.prepareStatement(SELECT_USER_FROM_USERNAME);
         statement.setString(1, email);
+        try (ResultSet resultSet = statement.executeQuery()) {
+            while (resultSet.next()) {
+                user = setupUser(resultSet);
+            }
+        }
+        catch (SQLException ex) {
+            System.out.println("Exception: " + ex);
+            throw ex;
+        }
+        statement.close();
+        return user;
+    }
+
+    public synchronized User selectUserFromToken(String token) throws SQLException {
+        User user = null;
+        PreparedStatement statement = connection.prepareStatement(SELECT_USERTOKEN_QUERY);
+        statement.setString(1, token);
         try (ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 user = setupUser(resultSet);

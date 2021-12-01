@@ -51,6 +51,7 @@ const UserSignUp = () => {
                 <input type="password" id="passcode"/><br/>
                 <button type="submit" style={{margin: '8px', padding: '10px'}}>Login</button>
             </form>
+
         </div>
     )
 }

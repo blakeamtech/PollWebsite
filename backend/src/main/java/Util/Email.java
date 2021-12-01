@@ -66,6 +66,7 @@ public class Email
             return "Hello, <br> Please click on the following link to verify your email! " +
                     "<br><br> http://localhost:3000/verification/" + token;
         else
-            return "Hello, \n Please click on the following link to change your password!";
+            return "Hello, <br> Please click on the following link to change your password!" +
+                    "<br><br> http://localhost:3000/changepassword/" + token;
     }
 }

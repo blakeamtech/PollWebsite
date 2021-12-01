@@ -19,10 +19,10 @@ const Header = (prop) => {
                 {localStorage.getItem("email") === "none" ? <Link to="/pollmanagerlogin">Login</Link>  : <Link to="/" onClick={logout}>Logout</Link>}
             </div>
             <div id="nav-bar-right">
-                {
-                 localStorage.getItem("email") === "none" ? <Link to="/usersignup">Sign Up</Link> :
-                                            <Link to="/pollmanager">Poll Management</Link>
-                }
+                {localStorage.getItem("email") === "none" ? <Link to="/usersignup">Sign Up</Link> : <Link to="/pollmanager">Poll Management</Link>}
+                &nbsp;
+                {localStorage.getItem("email") !== "none" ? <Link to="/changepassword">Change Password</Link>: <div/>}
+
                 <br />
             </div>
             <hr />

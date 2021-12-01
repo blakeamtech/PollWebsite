@@ -17,12 +17,11 @@ public class TokenRequest extends AbstractRequest implements Request
         try {
             String type = this.getRequest().getParameter("type");
 
-            if (type.equals("verify"))
+            if (type.equals("verify") || type.equals("forgot"))
             {
                 String token = this.getRequest().getParameter("token");
                 MysqlJDBC.getInstance().updateUserToken(token);
             }
-
 
             return new Response().ok();
         } catch (Exception e) {
