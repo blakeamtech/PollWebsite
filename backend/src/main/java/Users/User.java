@@ -21,6 +21,12 @@ public class User implements Serializable {
     @JsonProperty("hashedPassword")
     public String hashedPassword;
 
+    @JsonProperty("verified")
+    public boolean verified;
+
+    @JsonProperty("token")
+    public String token;
+
     private List<String> userPins = new ArrayList<>();
 
     private List<String> userPollIds = new ArrayList<>();
@@ -30,6 +36,14 @@ public class User implements Serializable {
     }
 
     public void addPollId(String pollId) { this.userPollIds.add(pollId); }
+
+    public boolean getVerified() {
+        return verified;
+    }
+
+    public String getToken() {
+        return token;
+    }
 
     public void setUserId(String userId) {
         this.userId = userId;
@@ -45,6 +59,14 @@ public class User implements Serializable {
 
     public void setHashedPassword(String hashedPassword) {
         this.hashedPassword = hashedPassword;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public JSONObject asJson(){

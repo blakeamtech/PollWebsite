@@ -12,17 +12,23 @@ import java.io.IOException;
 
 @WebServlet(
         urlPatterns = {
-                "/polls",       //get or delete
-                "/results",     //get
-                "/details",     //get
-                "/votes",        //post or put
-                "/authentication", //post
-                "/polls/release",     //put, since we're updating the status of the poll to released
-                "/polls/unrelease",   //put, status update
-                "/polls/clear",       //put, status update + choice update
-                "/polls/close",       //put, status update
-                "/polls/run",          //put, update
-                "/state"
+                "/polls",           //get or delete
+                "/results",         //get
+                "/details",         //get
+                "/token",           //get
+                "/votes",           //post or put
+                "/authentication",  //post
+                "/polls/release",   //put, since we're updating the status of the poll to released
+                "/polls/unrelease", //put, status update
+                "/polls/clear",     //put, status update + choice update
+                "/polls/close",     //put, status update
+                "/polls/run",       //put, update
+                "/signup",          //post
+                "/change",          //put
+                "/create",          //put, status update
+                "/update",          //put... update
+                "/state",
+                "/forgot",          //post
         }
 )
 public class PollManagerServlet extends HttpServlet {

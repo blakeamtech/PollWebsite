@@ -1,7 +1,8 @@
 import React, {useState} from "react";
 import './CreatePoll.css';
-import { useHistory } from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import axios from "axios";
+import Header from "./Header";
 
 // Responsible for handling the Manager Login page, where the poll manager must enter the correct password to enter.
 const ManagerLogin = (props) => {
@@ -56,6 +57,7 @@ const ManagerLogin = (props) => {
      */
     return (
         <div>
+            <Header />
             <h1>Login</h1>
             <form onSubmit={(e) => authenticate(e)}>
                 <label htmlFor="email">&nbsp;&nbsp; Email: </label>
@@ -64,6 +66,7 @@ const ManagerLogin = (props) => {
                 <input type="password" id="passcode"/><br/>
                 <button type="submit" style={{margin: '8px', padding: '10px'}}>Login</button>
             </form>
+            <Link to="/forgotpassword">Forgot Password</Link>
         </div>
     );
 }
