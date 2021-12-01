@@ -16,16 +16,16 @@ import java.io.IOException;
                 "/results",     //get
                 "/details",     //get
                 "/token", //get
-                "/vote",        //post or put
-                "/authenticate", //post
+                "/votes",        //post or put
+                "/authentication", //post
+                "/polls/release",     //put, since we're updating the status of the poll to released
+                "/polls/unrelease",   //put, status update
+                "/polls/clear",       //put, status update + choice update
+                "/polls/close",       //put, status update
+                "/polls/run",          //put, update				
                 "/signup",      //post
-                "/release",     //put, since we're updating the status of the poll to released
-                "/unrelease",   //put, status update
-                "/clear",       //put, status update + choice update
-                "/close",       //put, status update
                 "/create",      //put, status update
                 "/update",      //put... update
-                "/run",          //put, update
                 "/state"
         }
 )

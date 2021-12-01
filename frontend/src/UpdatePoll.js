@@ -29,7 +29,7 @@ const UpdatePoll = () => {
 
     // Responsible for making a request to update a poll.
     const handleUpdate = (obj) => {
-        axios.put('http://localhost:8080/Assignment1_war/update', obj)
+        axios.put(`http://localhost:8080/Assignment1_war/polls?id=${obj["id"]}`, obj)
             .then(function (response) {
                 console.log(response);
                 alert("Poll Updated Successfully.");

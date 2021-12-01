@@ -21,7 +21,7 @@ const PollManager = () => {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/Assignment1_war/clear?email=${email}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/Assignment1_war/polls/clear?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -41,7 +41,7 @@ const PollManager = () => {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/Assignment1_war/close?email=${email}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/Assignment1_war/polls/close?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -62,7 +62,7 @@ const PollManager = () => {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/Assignment1_war/run?email=${email}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/Assignment1_war/polls/run?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -83,7 +83,7 @@ const PollManager = () => {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/Assignment1_war/release?email=${email}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/Assignment1_war/polls/release?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
@@ -104,7 +104,7 @@ const PollManager = () => {
             alert("Choose a poll first!");
             return;
         }
-        axios.put(`http://localhost:8080/Assignment1_war/unrelease?email=${email}&id=${chosenPoll}`)
+        axios.put(`http://localhost:8080/Assignment1_war/polls/unrelease?email=${email}&id=${chosenPoll}`)
             .then(function (response) {
                 console.log(response);
 
