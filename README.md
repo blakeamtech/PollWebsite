@@ -43,3 +43,21 @@ Output for XML and JSON
 Updated front-end to include:
 - unimplemented features (sign in/register)
 - new user/poll manager options
+
+# Version 3.0:
+Updated business layer to include:
+- User Sign Up
+- User Forgot Password
+- Email Verification
+- Change Password
+
+Database fields added: 
+- token and verification for a user.
+
+Updated front-end to include:
+- User Sign Up
+- Forgot Password
+- Email Verification
+- Change Password
+
+Added Test Cases For business layer.

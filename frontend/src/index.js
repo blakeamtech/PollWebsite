@@ -10,6 +10,10 @@ import ManagerLogin from "./ManagerLogin";
 import ViewPollResults from "./ViewPollResults";
 import Home from "./Home";
 import UpdatePoll from "./UpdatePoll";
+import UserSignUp from "./UserSignUp";
+import TokenHandler from "./TokenHandler";
+import ChangePassword from "./ChangePassword";
+import ForgotPassword from "./ForgotPassword";
 
 // Render the nav bar which will be displayed on the top of every page.
 // Keep track of all routes to pages so when using "Link", it will find the specified page and display it.
@@ -23,6 +27,18 @@ ReactDOM.render(
                   </Route>
                   <Route path="/pollmanagerlogin">
                       <ManagerLogin />
+                  </Route>
+                  <Route path="/forgotpassword">
+                      <ForgotPassword />
+                  </Route>
+                  <Route path="/changepassword">
+                      <ChangePassword />
+                  </Route>
+                  <Route path="/verification">
+                      <TokenHandler />
+                  </Route>
+                  <Route path="/usersignup">
+                      <UserSignUp />
                   </Route>
                   <Route path="/pollmanager">
                       <PollManager />

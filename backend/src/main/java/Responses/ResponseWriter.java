@@ -32,6 +32,7 @@ public class ResponseWriter {
             httpServletResponse.setStatus(res.getStatusCode().get());
         } catch (IOException | InterruptedException | ExecutionException e) {
             httpServletResponse.setStatus(500);
+            httpServletResponse.setHeader("What", e.getMessage());
         }
     }
 
