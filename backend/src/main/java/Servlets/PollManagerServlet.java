@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet(
         urlPatterns = {
-                "/polls",           //get or delete
+                "/polls",           //get, put, post, delete
                 "/results",         //get
                 "/details",         //get
                 "/token",           //get

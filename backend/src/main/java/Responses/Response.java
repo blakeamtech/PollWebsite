@@ -54,6 +54,11 @@ public class Response {
         return this;
     }
 
+    public Response created() {
+        this.statusCode = 201;
+        return this;
+    }
+
     public Response badRequest(){
         this.statusCode = 400;
         return this;
