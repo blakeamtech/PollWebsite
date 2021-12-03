@@ -1,5 +1,6 @@
 package Requests.objects;
 
+import Interfaces.Request;
 import Responses.Response;
 import Users.PollManager;
 import org.json.JSONObject;
@@ -7,7 +8,7 @@ import org.json.JSONObject;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.SQLException;
 
-public class GetStateRequest extends AbstractRequest implements Request{
+public class GetStateRequest extends AbstractRequest implements Request {
 
     public GetStateRequest(HttpServletRequest request) {
         super(request);

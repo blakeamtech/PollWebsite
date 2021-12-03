@@ -1,6 +1,7 @@
 package Requests.objects;
 
 import Exceptions.AssignmentException;
+import Interfaces.Request;
 import Responses.Response;
 import Users.PollManager;
 import org.json.JSONObject;

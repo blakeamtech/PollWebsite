@@ -1,6 +1,7 @@
 package Requests.objects;
 
 import Exceptions.InvalidPollStateException;
+import Interfaces.Request;
 import Responses.Response;
 import Users.PollManager;
 

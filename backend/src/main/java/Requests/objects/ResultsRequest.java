@@ -1,11 +1,11 @@
 package Requests.objects;
 
+import Interfaces.Request;
 import Responses.Response;
 import Users.PollManager;
 import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.sql.SQLException;
 import java.util.Map;
 

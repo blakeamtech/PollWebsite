@@ -1,14 +1,12 @@
 package Requests.objects;
 
-import Polls.Poll;
+import Interfaces.Request;
 import Responses.Response;
 import Storage.MysqlJDBC;
 import Users.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.Reader;
 import java.security.MessageDigest;
 
 public class LoginRequest extends AbstractRequest implements Request {

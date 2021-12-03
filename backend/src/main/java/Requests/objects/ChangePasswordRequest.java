@@ -1,5 +1,6 @@
 package Requests.objects;
 
+import Interfaces.Request;
 import Responses.Response;
 import Storage.MysqlJDBC;
 import Users.User;

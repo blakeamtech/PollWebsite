@@ -1,12 +1,11 @@
 package Requests.objects;
 
 import Exceptions.AssignmentException;
-import Exceptions.InvalidSessionException;
+import Interfaces.Request;
 import Responses.Response;
 import Users.PollManager;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 
 public class VoteRequest extends AbstractRequest implements Request {

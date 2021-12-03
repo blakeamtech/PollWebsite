@@ -1,6 +1,6 @@
 package Util;
 
-import Requests.objects.Request;
+import Interfaces.Request;
 import Responses.Response;
 
 import java.util.concurrent.Executors;
