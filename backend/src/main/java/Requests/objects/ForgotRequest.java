@@ -1,16 +1,16 @@
 package Requests.objects;
 
+import Interfaces.Email;
+import Interfaces.Request;
+import Requests.PluginFactory;
 import Responses.Response;
-import Storage.Config;
 import Storage.MysqlJDBC;
 import Users.User;
-import Util.Email;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class ForgotRequest extends AbstractRequest implements Request
 {
@@ -24,29 +24,17 @@ public class ForgotRequest extends AbstractRequest implements Request
         try {
             User user = mapper.readValue(this.getRequest().getReader(), User.class);
             User found = MysqlJDBC.getInstance().selectUserFromEmail(user.emailAddress);
-            String token = getToken();
-            found.setToken(token);
 
-            MysqlJDBC.getInstance().updateUser(found);
-
-            Email email = new Email(user.emailAddress, "Change your Password", "Forgot", token);
+            Email email = (Email) PluginFactory.getEmailPlugin(user.emailAddress, "Change your Password", "Forgot");
             email.send();
+
+            // update user token
+            found.setToken(email.getToken());
+            MysqlJDBC.getInstance().updateUser(found);
 
             return new Response().ok();
         } catch (IOException | SQLException | ClassNotFoundException e) {
             return new Response().badRequest().exceptionBody(e);
         }
-    }
-
-    private String getToken()
-    {
-        StringBuilder str = new StringBuilder();
-        String allowedChars = Config.ID_ALLOWED_CHARACTERS.value.toString();
-        for(int i = 0 ; i < 16; i++){
-            int index = ThreadLocalRandom.current().nextInt(allowedChars.length());
-            str.append(allowedChars.charAt(index));
-        }
-
-        return str.toString();
     }
 }

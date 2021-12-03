@@ -1,4 +1,7 @@
-package Util;
+package UserManagement;
+
+import Interfaces.Email;
+import Storage.Config;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -6,19 +9,20 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
+import java.util.concurrent.ThreadLocalRandom;
 
-public class Email
+public class LocalGmail implements Email
 {
     private String destEmail = "";
     private String subject = "";
     private String type = "";
     private String token = "";
 
-    public Email(String destEmail, String subject, String type, String token){
+    public LocalGmail(String destEmail, String subject, String type){
         this.destEmail = destEmail;
         this.subject = subject;
         this.type = type;
-        this.token = token;
+        this.token = generateToken();
     }
 
     public void send()
@@ -68,5 +72,21 @@ public class Email
         else
             return "Hello, <br> Please click on the following link to change your password!" +
                     "<br><br> http://localhost:3000/changepassword/" + token;
+    }
+
+    private String generateToken()
+    {
+        StringBuilder str = new StringBuilder();
+        String allowedChars = Config.ID_ALLOWED_CHARACTERS.value.toString();
+        for(int i = 0 ; i < 16; i++){
+            int index = ThreadLocalRandom.current().nextInt(allowedChars.length());
+            str.append(allowedChars.charAt(index));
+        }
+
+        return str.toString();
+    }
+
+    public String getToken() {
+        return this.token;
     }
 }
