@@ -42,7 +42,7 @@ public class CreateRequest extends AbstractRequest implements Request {
             poll.verifyId();
             PollManager.createPoll(poll);
 
-            return new Response().ok().body(new JSONObject().put("id", poll.getPollId()));
+            return new Response().created().body(new JSONObject().put("id", poll.getPollId()));
         } catch (IOException | SQLException | ClassNotFoundException e) {
             return new Response().badRequest().exceptionBody(e);
         }
