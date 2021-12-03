@@ -1,4 +1,4 @@
-package Util;
+package UserManagement;
 
 public enum EmailConfig {
     EMAIL("email", "email to send emails", "alexalematt@gmail.com"),

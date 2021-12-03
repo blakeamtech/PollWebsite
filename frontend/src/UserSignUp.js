@@ -42,13 +42,13 @@ const UserSignUp = () => {
             <h1>Sign Up</h1>
             <form onSubmit={(e) => signUp(e)}>
                 <label htmlFor="email">&nbsp;&nbsp; Email: </label>
-                <input type="email" id="email"/><br/>
+                <input type="email" id="email" required/><br/>
 
                 <label htmlFor="name">Full Name: </label>
-                <input type="text" id="name"/><br/>
+                <input type="text" id="name" required/><br/>
 
                 <label htmlFor="passcode">Passcode: </label>
-                <input type="password" id="passcode"/><br/>
+                <input type="password" id="passcode" required/><br/>
                 <button type="submit" style={{margin: '8px', padding: '10px'}}>Login</button>
             </form>
 

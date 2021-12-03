@@ -1,6 +1,6 @@
 package Requests.objects;
 
-import Exceptions.AssignmentException;
+import Interfaces.Request;
 import Polls.Poll;
 import Responses.Response;
 import Users.PollManager;

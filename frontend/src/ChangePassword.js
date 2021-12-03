@@ -56,7 +56,7 @@ const ChangePassword = () => {
             <form onSubmit={(e) => change(e)}>
                 <label htmlFor="pass">&nbsp;&nbsp; New Password: </label>
                 <input type="password" id="pass"/><br/>
-                <button type="submit" style={{margin: '8px', padding: '10px'}}>Save Password</button>
+                <button type="submit" style={{margin: '8px', padding: '10px'}} required>Save Password</button>
             </form>
         </div>
     );

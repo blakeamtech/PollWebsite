@@ -1,5 +1,6 @@
 package Requests;
 
+import Interfaces.Request;
 import Requests.objects.*;
 import Requests.objects.TokenRequest;
 
