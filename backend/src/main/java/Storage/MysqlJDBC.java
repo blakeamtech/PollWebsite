@@ -37,20 +37,21 @@ public class MysqlJDBC {
     private static final String DELETE_ALL_VOTES_QUERY = "DELETE FROM vote WHERE pollId = ?";
     private static final String DELETE_VOTE_QUERY = "DELETE FROM vote WHERE voteId = ?";
 
-    private static final String SELECT_VOTE_EXISTS_QUERY = "SELECT * FROM vote WHERE PIN = ? AND pollId = ?";
+
     private static final String SELECT_ALLUSER_QUERY = "SELECT * FROM users";
+    private static final String SELECT_USER_FROM_USERNAME = "SELECT * FROM users WHERE email = ?";
     private static final String SELECT_USERTOKEN_QUERY = "SELECT * FROM users WHERE token = ?";
     private static final String SELECT_USER_QUERY = "SELECT * FROM users WHERE userId = ?";
     private static final String SELECT_ALLPOLL_QUERY = "SELECT * FROM polls";
     private static final String SELECT_POLL_QUERY = "SELECT * FROM polls WHERE pollId = ?";
+    private static final String SELECT_ALL_POLLS_FROM_USER = "SELECT * FROM polls WHERE email = ?";
     private static final String SELECT_ALLCHOICE_QUERY = "SELECT * FROM choices";
     private static final String SELECT_CHOICE_QUERY = "SELECT * FROM choices WHERE choiceId = ?";
     private static final String SELECT_POLLCHOICES_QUERY = "SELECT * FROM choices WHERE pollId = ?";
     private static final String SELECT_ALLVOTE_QUERY = "SELECT * FROM vote";
     private static final String SELECT_VOTE_QUERY = "SELECT * FROM vote WHERE voteId = ?";
+    private static final String SELECT_VOTE_EXISTS_QUERY = "SELECT * FROM vote WHERE PIN = ? AND pollId = ?";
     private static final String SELECT_ALL_VOTES_FROM_POLL = "SELECT * FROM vote WHERE pollId = ?";
-    private static final String SELECT_ALL_POLLS_FROM_USER = "SELECT * FROM polls WHERE email = ?";
-    private static final String SELECT_USER_FROM_USERNAME = "SELECT * FROM users WHERE email = ?";
 
     public static MysqlJDBC getInstance() throws ClassNotFoundException, SQLException {
         if(connection == null || INSTANCE == null) {
