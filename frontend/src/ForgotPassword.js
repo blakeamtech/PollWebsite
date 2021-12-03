@@ -34,7 +34,7 @@ const ForgotPassword = () => {
             <h1>Forgot Password</h1>
             <form onSubmit={(e) => forgot(e)}>
                 <label htmlFor="email">&nbsp;&nbsp; Email: </label>
-                <input type="email" id="email"/><br/>
+                <input type="email" id="email" required/><br/>
                 <button type="submit" style={{margin: '8px', padding: '10px'}}>Send Request</button>
             </form>
         </div>
