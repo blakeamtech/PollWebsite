@@ -1,8 +1,5 @@
 package Storage;
 
-import Polls.Poll;
-import Storage.Entities.Choice;
-import Storage.Entities.Vote;
 import Users.User;
 import org.junit.Test;
 
@@ -35,80 +32,6 @@ public class CreateTest
         catch (Exception e)
         {
             fail("The user has not been added to the database!");
-        }
-    }
-
-    /**
-     * Test responsible for checking if a poll is correctly added to the database.
-     */
-    @Test
-    public void createPollTest()
-    {
-        try
-        {
-            Poll poll = new Poll();
-            String id = getToken();
-            poll.setPollId(id);
-            poll.setPollTitle("Favorite Foods");
-            poll.setQuestionText("What is your favorite food?");
-            poll.setEmail("shadowalessandro@hotmail.com");
-            poll.setPollStatus("created");
-
-            MysqlJDBC.getInstance().insertPoll(poll);
-            Poll found = MysqlJDBC.getInstance().selectPoll(id);
-            assertEquals(poll.getQuestionText(), found.getQuestionText());
-        }
-        catch (Exception e)
-        {
-            fail("The poll has not been added to the database!");
-        }
-    }
-
-    /**
-     * Test responsible for checking if a choice is correctly added to the database.
-     */
-    @Test
-    public void createChoiceTest()
-    {
-        try
-        {
-            String pollId = MysqlJDBC.getInstance().selectAllPolls().get(0).getPollId();
-            Choice choice = new Choice();
-            choice.setChoice("Pizza");
-            choice.setPollId(pollId);
-
-            MysqlJDBC.getInstance().insertChoice(choice);
-            Choice found = MysqlJDBC.getInstance().selectPollChoices(pollId).get(0);
-            assertEquals(choice.getChoice(), found.getChoice());
-        }
-        catch (Exception e)
-        {
-            fail("The choice has not been added to the database!");
-        }
-    }
-
-    /**
-     * Test responsible for checking if a vote is correctly added to the database.
-     */
-    @Test
-    public void createVoteTest()
-    {
-        try
-        {
-            String pollId = MysqlJDBC.getInstance().selectAllPolls().get(0).getPollId();
-            Vote vote = new Vote();
-            vote.setPollId(pollId);
-            vote.setChoiceId("1");
-            String pin = getToken();
-            vote.setPIN(pin);
-
-            MysqlJDBC.getInstance().insertVote(vote);
-            Vote found = MysqlJDBC.getInstance().selectVote("1");
-            assertEquals(vote.getPIN(), found.getPIN());
-        }
-        catch (Exception e)
-        {
-            fail("The vote has not been added to the database!");
         }
     }
 
