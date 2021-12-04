@@ -47,7 +47,7 @@ public class LocalGmail
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destEmail));
             message.setSubject(subject);
 
-            String msg = getMessage();
+            String msg = TransformView.transformEmail(type, token);
 
             MimeBodyPart mimeBodyPart = new MimeBodyPart();
             mimeBodyPart.setContent(msg, "text/html; charset=utf-8");
@@ -61,16 +61,6 @@ public class LocalGmail
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-    }
-
-    private String getMessage()
-    {
-        if (type.equals("Verification"))
-            return "Hello, <br> Please click on the following link to verify your email! " +
-                    "<br><br> http://localhost:3000/verification/" + token;
-        else
-            return "Hello, <br> Please click on the following link to change your password!" +
-                    "<br><br> http://localhost:3000/changepassword/" + token;
     }
 
     private String generateToken()
