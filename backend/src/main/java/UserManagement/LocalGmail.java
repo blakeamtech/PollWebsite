@@ -1,6 +1,5 @@
 package UserManagement;
 
-import Interfaces.Email;
 import Storage.Config;
 
 import javax.mail.*;
@@ -11,7 +10,7 @@ import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class LocalGmail implements Email
+public class LocalGmail
 {
     private String destEmail = "";
     private String subject = "";
@@ -48,7 +47,7 @@ public class LocalGmail implements Email
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destEmail));
             message.setSubject(subject);
 
-            String msg = getMessage();
+            String msg = TransformView.transformEmail(type, token);
 
             MimeBodyPart mimeBodyPart = new MimeBodyPart();
             mimeBodyPart.setContent(msg, "text/html; charset=utf-8");
@@ -62,16 +61,6 @@ public class LocalGmail implements Email
         } catch (MessagingException e) {
             e.printStackTrace();
         }
-    }
-
-    private String getMessage()
-    {
-        if (type.equals("Verification"))
-            return "Hello, <br> Please click on the following link to verify your email! " +
-                    "<br><br> http://localhost:3000/verification/" + token;
-        else
-            return "Hello, <br> Please click on the following link to change your password!" +
-                    "<br><br> http://localhost:3000/changepassword/" + token;
     }
 
     private String generateToken()

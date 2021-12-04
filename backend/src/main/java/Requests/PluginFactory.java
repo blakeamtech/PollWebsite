@@ -9,18 +9,18 @@ import java.lang.reflect.InvocationTargetException;
 public class PluginFactory {
     private static String environment = EnvironmentConfig.LocalGmail.name();
 
-    public static Object getEmailPlugin(String destEmail, String subject, String type) {
+    public static Object getEmailPlugin() {
         // determine which class to use depending on environment; currently only has local
         String implementationName = null;
         if (environment == "LocalGmail") {
-            implementationName = "UserManagement.LocalGmail";
+            implementationName = "UserManagement.LocalGmailGateway";
         }
 
         try {
             // get constructor of given class
-            Constructor<?> constr = Class.forName(implementationName).getConstructor(String.class, String.class, String.class);
+            Constructor<?> constr = Class.forName(implementationName).getConstructor();
             // return dynamically instantiated instance of the class
-            return constr.newInstance(destEmail, subject, type);
+            return constr.newInstance();
 
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
