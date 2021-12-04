@@ -1,6 +1,6 @@
 package Requests.objects;
 
-import Interfaces.Email;
+import Interfaces.EmailGateway;
 import Interfaces.Request;
 import Requests.PluginFactory;
 import Responses.Response;
@@ -27,12 +27,12 @@ public class SignUpRequest extends AbstractRequest implements Request
             User user = mapper.readValue(this.getRequest().getReader(), User.class);
             user.setHashedPassword(sha256(user.hashedPassword));
 
-            // send email
-            Email email = (Email) PluginFactory.getEmailPlugin(user.emailAddress, "Verify Your Email", "Verification");
-            email.send();
+            // send email (returns generated token)
+            EmailGateway gateway = (EmailGateway) PluginFactory.getEmailPlugin();
+            String token = gateway.sendVerificationEmail(user.emailAddress);
 
             // store unverified user
-            user.setToken(email.getToken());
+            user.setToken(token);
             MysqlJDBC.getInstance().insertUser(user);
 
             return new Response().created();

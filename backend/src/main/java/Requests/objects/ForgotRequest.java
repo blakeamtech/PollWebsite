@@ -1,6 +1,6 @@
 package Requests.objects;
 
-import Interfaces.Email;
+import Interfaces.EmailGateway;
 import Interfaces.Request;
 import Requests.PluginFactory;
 import Responses.Response;
@@ -25,11 +25,12 @@ public class ForgotRequest extends AbstractRequest implements Request
             User user = mapper.readValue(this.getRequest().getReader(), User.class);
             User found = MysqlJDBC.getInstance().selectUserFromEmail(user.emailAddress);
 
-            Email email = (Email) PluginFactory.getEmailPlugin(user.emailAddress, "Change your Password", "Forgot");
-            email.send();
+            // send email (factory -> returns plugin (gateway) -> send -> returns generated token)
+            EmailGateway gateway = (EmailGateway) PluginFactory.getEmailPlugin();
+            String token = gateway.sendForgotPasswordEmail(user.emailAddress);
 
             // update user token
-            found.setToken(email.getToken());
+            found.setToken(token);
             MysqlJDBC.getInstance().updateUser(found);
 
             return new Response().ok();

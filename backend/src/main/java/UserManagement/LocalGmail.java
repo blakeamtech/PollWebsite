@@ -1,6 +1,5 @@
 package UserManagement;
 
-import Interfaces.Email;
 import Storage.Config;
 
 import javax.mail.*;
@@ -11,7 +10,7 @@ import javax.mail.internet.MimeMultipart;
 import java.util.Properties;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class LocalGmail implements Email
+public class LocalGmail
 {
     private String destEmail = "";
     private String subject = "";
