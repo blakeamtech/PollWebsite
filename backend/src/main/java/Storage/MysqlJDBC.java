@@ -366,20 +366,7 @@ public class MysqlJDBC {
      * @throws SQLException
      */
     public synchronized User selectUser(String userId) throws SQLException {
-        User user = null;
-        PreparedStatement statement = connection.prepareStatement(SELECT_USER_QUERY);
-        statement.setString(1, userId);
-        try (ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                user = setupUser(resultSet);
-            }
-        }
-        catch (SQLException ex) {
-            System.out.println("Exception: " + ex);
-            throw ex;
-        }
-        statement.close();
-        return user;
+        return selectUserFrom(userId,SELECT_USER_QUERY);
     }
 
     /**
@@ -409,26 +396,18 @@ public class MysqlJDBC {
     }
 
     public synchronized User selectUserFromEmail(String email) throws SQLException {
-        User user = null;
-        PreparedStatement statement = connection.prepareStatement(SELECT_USER_FROM_USERNAME);
-        statement.setString(1, email);
-        try (ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                user = setupUser(resultSet);
-            }
-        }
-        catch (SQLException ex) {
-            System.out.println("Exception: " + ex);
-            throw ex;
-        }
-        statement.close();
-        return user;
+        return selectUserFrom(email, SELECT_USER_FROM_USERNAME);
     }
 
     public synchronized User selectUserFromToken(String token) throws SQLException {
+        return selectUserFrom(token, SELECT_USERTOKEN_QUERY);
+    }
+
+
+    public synchronized User selectUserFrom(String key, String query) throws SQLException {
         User user = null;
-        PreparedStatement statement = connection.prepareStatement(SELECT_USERTOKEN_QUERY);
-        statement.setString(1, token);
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, key);
         try (ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 user = setupUser(resultSet);
@@ -441,7 +420,6 @@ public class MysqlJDBC {
         statement.close();
         return user;
     }
-
     /**
      * Method responsible for returning a list of all polls in the database.
      *
