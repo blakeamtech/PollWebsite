@@ -6,10 +6,11 @@ import Requests.PluginFactory;
 import Responses.Response;
 import Storage.MysqlJDBC;
 import Users.User;
+import Util.StringHelper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.http.HttpServletRequest;
-import java.security.MessageDigest;
+import java.util.Objects;
 
 public class SignUpRequest extends AbstractRequest implements Request
 {
@@ -25,11 +26,11 @@ public class SignUpRequest extends AbstractRequest implements Request
     {
         try {
             User user = mapper.readValue(this.getRequest().getReader(), User.class);
-            user.setHashedPassword(sha256(user.hashedPassword));
+            user.setHashedPassword(StringHelper.sha256(user.hashedPassword));
 
             // send email (returns generated token)
             EmailGateway gateway = (EmailGateway) PluginFactory.getEmailPlugin();
-            String token = gateway.sendVerificationEmail(user.emailAddress);
+            String token = Objects.requireNonNull(gateway).sendVerificationEmail(user.emailAddress);
 
             // store unverified user
             user.setToken(token);
@@ -41,24 +42,4 @@ public class SignUpRequest extends AbstractRequest implements Request
         }
     }
 
-    public static String sha256(final String base)
-    {
-        try{
-            final MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            final byte[] hash = digest.digest(base.getBytes("UTF-8"));
-            final StringBuilder hexString = new StringBuilder();
-
-            for (int i = 0; i < hash.length; i++) {
-                final String hex = Integer.toHexString(0xff & hash[i]);
-                if(hex.length() == 1)
-                    hexString.append('0');
-                hexString.append(hex);
-            }
-
-            return hexString.toString();
-        }
-        catch(Exception ex){
-            throw new RuntimeException(ex);
-        }
-    }
 }

@@ -76,4 +76,34 @@ public class User implements Serializable {
                .put("hashedPassword", this.hashedPassword)
                .put("fullName", this.fullName);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (verified != user.verified) return false;
+        if (!userId.equals(user.userId)) return false;
+        if (!fullName.equals(user.fullName)) return false;
+        if (!emailAddress.equals(user.emailAddress)) return false;
+        if (!hashedPassword.equals(user.hashedPassword)) return false;
+        if (!token.equals(user.token)) return false;
+        if (!userPins.equals(user.userPins)) return false;
+        return userPollIds.equals(user.userPollIds);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = userId.hashCode();
+        result = 31 * result + fullName.hashCode();
+        result = 31 * result + emailAddress.hashCode();
+        result = 31 * result + hashedPassword.hashCode();
+        result = 31 * result + (verified ? 1 : 0);
+        result = 31 * result + token.hashCode();
+        result = 31 * result + userPins.hashCode();
+        result = 31 * result + userPollIds.hashCode();
+        return result;
+    }
 }

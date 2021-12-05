@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Objects;
 
 public class ForgotRequest extends AbstractRequest implements Request
 {
@@ -27,7 +28,7 @@ public class ForgotRequest extends AbstractRequest implements Request
 
             // send email (factory -> returns plugin (gateway) -> send -> returns generated token)
             EmailGateway gateway = (EmailGateway) PluginFactory.getEmailPlugin();
-            String token = gateway.sendForgotPasswordEmail(user.emailAddress);
+            String token = Objects.requireNonNull(gateway).sendForgotPasswordEmail(user.emailAddress);
 
             // update user token
             found.setToken(token);

@@ -1,7 +1,7 @@
 package Storage;
 
 public enum Config {
-    DB_STRING("db_string", "The string to connect to the database", "jdbc:mysql://localhost:%s/pollsystem"),
+    DB_STRING("db_string", "The string to connect to the database", "jdbc:mysql://localhost:%s/PollSystem"),
 
     DB_PORT("db_port", "The port through which to connect to the database", "3306"),
 

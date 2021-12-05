@@ -1,12 +1,14 @@
 CREATE DATABASE IF NOT EXISTS PollSystem;
 USE PollSystem;
-DROP TABLE IF EXISTS Users, Polls, Choices, Vote, Config;
+DROP TABLE IF EXISTS users, polls, choices, vote;
 
 CREATE TABLE users(
     userId INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
+    token VARCHAR(255),
+    verified bool NOT NULL DEFAULT False,
     PRIMARY KEY (userId)
 );
 
@@ -16,24 +18,22 @@ CREATE TABLE polls(
     question VARCHAR(255) NOT NULL,
     pollStatus VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    PRIMARY KEY (pollId),
-); 
+    PRIMARY KEY (pollId)
+);
 
 CREATE TABLE choices(
     choiceId INT NOT NULL AUTO_INCREMENT,
     pollId VARCHAR(255) NOT NULL,
     choice VARCHAR(255) NOT NULL,
     PRIMARY KEY (choiceId),
-    FOREIGN KEY (pollId) REFERENCES Polls(pollId)
+    FOREIGN KEY (pollId) REFERENCES polls(pollId)
 );
 
-CREATE TABLE vote (
+CREATE TABLE vote(
     voteId INT NOT NULL AUTO_INCREMENT,
     PIN VARCHAR(255) NOT NULL,
     choiceId INT NOT NULL,
     pollId VARCHAR(255) NOT NULL,
     PRIMARY KEY (voteId),
-    FOREIGN KEY (choiceId)
-        REFERENCES Choices (choiceId)
-    FOREIGN KEY (pollId) REFERENCES polls (pollId)
+    FOREIGN KEY (choiceId) REFERENCES choices (choiceId)
 );

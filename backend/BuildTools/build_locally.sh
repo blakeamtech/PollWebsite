@@ -45,17 +45,3 @@ fi
 echo "====================="
 echo "VERIFYING MONGODB CONTAINER"
 echo "====================="
-
-if grep -q ${DB_CONTAINER_NAME} "${docker ps -a}"
-then
-  echo "mongoDB container doesn't exist. Building and running."
-
-  docker run --name mongodb -d -p 27017:27017 mongo
-
-  echo "====================="
-  echo "MONGODB CONTAINER IS UP"
-  echo "====================="
-
-else
-  echo "mongoDB container already exists. Leaving as is."
-fi
